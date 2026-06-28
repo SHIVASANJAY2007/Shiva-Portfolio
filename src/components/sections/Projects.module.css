@@ -1,0 +1,55 @@
+/* ══════════════════════════════════════════════
+   PROJECTS SECTION — BRUTALISM
+   Raw, bold, thick black borders, stark contrast,
+   no border-radius, asymmetric flat design.
+   ══════════════════════════════════════════════ */
+
+.brutalistSection {
+  --section-title-color: #000000;
+  --section-title-shadow: none;
+  --section-subtitle-color: #111827;
+  --section-subtitle-shadow: none;
+  --section-header-line: #000000;
+  --section-header-line-height: 5px;
+
+  position: relative;
+  width: 100%;
+  padding: 100px 0 120px;
+  background-color: #f3f4f6; /* stark light gray background */
+  overflow: hidden;
+  border-bottom: 5px solid #000000;
+}
+
+/* Diagonal stripe background pattern for a cool brutalist feel */
+.brutalistSection::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 20px,
+    rgba(0, 0, 0, 0.02) 20px,
+    rgba(0, 0, 0, 0.02) 40px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  .brutalistSection {
+    padding: 60px 0 80px;
+  }
+
+  .container {
+    gap: 20px;
+  }
+}

@@ -1,0 +1,223 @@
+.container {
+  width: 100%;
+}
+
+.section {
+  margin-bottom: var(--space-16);
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.sectionTitle {
+  font-size: var(--text-h5);
+  font-weight: 700;
+  margin-bottom: var(--space-8);
+  position: relative;
+  padding-bottom: var(--space-4);
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: var(--color-white);
+  }
+}
+
+.timeline {
+  position: relative;
+  padding-left: var(--space-6);
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 12px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(
+      180deg,
+      var(--color-white) 0%,
+      var(--color-gray-700) 100%
+    );
+  }
+}
+
+.timelineItem {
+  position: relative;
+  margin-bottom: var(--space-8);
+  padding: var(--space-6);
+  border: 1px solid var(--color-gray-800);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.02) 0%,
+    rgba(0, 0, 0, 0.05) 100%
+  );
+  backdrop-filter: blur(10px);
+  transition: all var(--duration-normal) var(--easing-ease-in-out);
+
+  &:hover {
+    border-color: var(--color-gray-600);
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(0, 0, 0, 0.1) 100%
+    );
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.timelineDot {
+  position: absolute;
+  left: -22px;
+  top: 24px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-white);
+  border: 3px solid var(--color-black);
+  z-index: 1;
+}
+
+.timelineContent {
+  h4 {
+    font-size: var(--text-h6);
+    font-weight: 700;
+    margin-bottom: var(--space-2);
+  }
+}
+
+.organization {
+  font-size: var(--text-body-sm);
+  color: var(--color-gray-400);
+  margin-bottom: var(--space-2);
+}
+
+.focus {
+  font-size: var(--text-body-sm);
+  color: var(--color-gray-300);
+  margin-bottom: var(--space-4);
+  font-style: italic;
+}
+
+.achievements {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+
+  li {
+    font-size: var(--text-body-sm);
+    color: var(--color-gray-400);
+    padding-left: var(--space-4);
+    position: relative;
+
+    &::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--color-white);
+    }
+  }
+}
+
+.awardsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-6);
+}
+
+.awardCard {
+  padding: var(--space-8);
+  border: 1px solid var(--color-gray-800);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.02) 0%,
+    rgba(0, 0, 0, 0.05) 100%
+  );
+  backdrop-filter: blur(10px);
+  text-align: center;
+  transition: all var(--duration-normal) var(--easing-ease-in-out);
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--color-gray-600);
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(0, 0, 0, 0.1) 100%
+    );
+    transform: translateY(-4px);
+  }
+
+  h4 {
+    font-size: var(--text-h6);
+    font-weight: 700;
+    margin-top: var(--space-4);
+    margin-bottom: var(--space-2);
+  }
+}
+
+.awardBadge {
+  font-size: 48px;
+  line-height: 1;
+}
+
+.awardOrg {
+  font-size: var(--text-body-sm);
+  color: var(--color-gray-400);
+  margin-bottom: var(--space-2);
+}
+
+.awardProject {
+  font-size: var(--text-body-sm);
+  color: var(--color-gray-300);
+  margin-bottom: var(--space-2);
+  font-weight: 500;
+}
+
+.awardAchievement {
+  font-size: var(--text-body-sm);
+  color: var(--color-gray-400);
+  margin-bottom: var(--space-2);
+}
+
+.awardDate {
+  font-size: var(--text-body-sm);
+  color: var(--color-gray-500);
+}
+
+@media (max-width: 768px) {
+  .timeline {
+    padding-left: var(--space-4);
+
+    &::before {
+      left: 6px;
+    }
+  }
+
+  .timelineDot {
+    left: -18px;
+  }
+
+  .timelineItem {
+    padding: var(--space-4);
+  }
+
+  .awardsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .awardCard {
+    padding: var(--space-6);
+  }
+}

@@ -1,0 +1,57 @@
+.siblingFocusNavRoot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.siblingFocusNavOpacityGroup:has(> a:hover) > a:not(:hover),
+.siblingFocusNavOpacityGroup:has(> a:focus-visible) > a:not(:focus-visible) {
+  opacity: 0.3;
+}
+
+.siblingFocusNavBlurGroup:has(> a:hover) > a:not(:hover),
+.siblingFocusNavBlurGroup:has(> a:focus-visible) > a:not(:focus-visible) {
+  filter: blur(4px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .siblingFocusNavBlurGroup:has(> a:hover) > a:not(:hover),
+  .siblingFocusNavBlurGroup:has(> a:focus-visible) > a:not(:focus-visible) {
+    filter: none;
+  }
+}
+
+.siblingFocusNavLinkBase {
+  display: inline-flex;
+  min-height: 2.75rem;
+  touch-action: manipulation;
+  align-items: center;
+  outline: none;
+}
+
+.siblingFocusNavLinkBase:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-white);
+}
+
+.siblingFocusNavLinkOpacity {
+  transition: opacity 200ms ease-out;
+}
+
+.siblingFocusNavLinkBlur {
+  filter: blur(0);
+  transition: filter 200ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .siblingFocusNavLinkOpacity, .siblingFocusNavLinkBlur {
+    transition: none;
+  }
+}
+
+.siblingFocusNavSpacingX > a:not(:last-child) {
+  padding-inline-end: 1.5rem;
+}
+
+.siblingFocusNavSpacingY > a:not(:last-child) {
+  padding-bottom: 0.625rem;
+}

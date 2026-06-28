@@ -1,0 +1,401 @@
+/* ══════════════════════════════════════════════
+   ABOUT SECTION — SKEUOMORPHISM
+   Realistic, tactile design with leather textures,
+   embossed text, stitched borders, inner shadows
+   ══════════════════════════════════════════════ */
+
+/* ── Section Background ───────────────────────── */
+.skeuSection {
+  position: relative;
+  width: 100%;
+  padding: 100px 0 120px;
+  background:
+    linear-gradient(180deg,
+      #000000 0%,
+      #1a1208 5%,
+      #2a1f10 15%,
+      #3d2b15 30%,
+      #4a341a 50%,
+      #3d2b15 70%,
+      #2a1f10 85%,
+      #1a1208 95%,
+      #000000 100%
+    );
+  overflow: hidden;
+}
+
+/* Leather texture overlay */
+.skeuSection::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.03) 2px,
+      rgba(0,0,0,0.03) 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.02) 2px,
+      rgba(0,0,0,0.02) 4px
+    );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Stitching top edge */
+.skeuSection::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 5%;
+  right: 5%;
+  height: 0;
+  border-top: 2px dashed rgba(210, 180, 140, 0.3);
+  z-index: 1;
+}
+
+.sectionInner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+  z-index: 2;
+}
+
+/* ── Section Header ───────────────────────────── */
+.sectionHeader {
+  margin-bottom: 60px;
+  text-align: center;
+}
+
+.sectionTitle {
+  font-size: 52px;
+  font-weight: 800;
+  color: #d4a574;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  /* Embossed / letterpress text effect */
+  text-shadow:
+    0 1px 0 #5a3d1a,
+    0 2px 0 #4a2e0f,
+    0 3px 6px rgba(0, 0, 0, 0.5),
+    0 0 30px rgba(212, 165, 116, 0.15);
+}
+
+.sectionSubtitle {
+  font-size: 16px;
+  color: #b89a78;
+  margin-top: 12px;
+  font-style: italic;
+  letter-spacing: 1px;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+}
+
+/* ── Summary Panel ────────────────────────────── */
+.summaryPanel {
+  position: relative;
+  padding: 32px 36px;
+  margin-bottom: 48px;
+  background:
+    linear-gradient(135deg, #3a2a16 0%, #2e2010 50%, #3a2a16 100%);
+  border-radius: 12px;
+  border: 1px solid rgba(210, 180, 140, 0.2);
+  /* Inset shadow for depth */
+  box-shadow:
+    inset 0 2px 8px rgba(0, 0, 0, 0.4),
+    inset 0 -1px 4px rgba(255, 255, 255, 0.03),
+    0 4px 16px rgba(0, 0, 0, 0.5),
+    0 1px 0 rgba(210, 180, 140, 0.1);
+}
+
+/* Stitching around summary */
+.summaryPanel::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 1px dashed rgba(210, 180, 140, 0.15);
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.summaryRibbon {
+  position: absolute;
+  top: -1px;
+  left: 28px;
+  padding: 4px 18px 6px;
+  background: linear-gradient(180deg, #6b4c2a, #5a3d1a);
+  color: #e8d5b8;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border-radius: 0 0 6px 6px;
+  box-shadow:
+    0 3px 8px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.summaryText {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #c4a882;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+/* ── Cards Grid ───────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+/* ── Skeuomorphic Card ────────────────────────── */
+.card {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  background:
+    linear-gradient(145deg, #3c2c18 0%, #2b1e0e 40%, #342616 100%);
+  border: 1px solid rgba(210, 180, 140, 0.15);
+  /* Multi-layer realistic shadow */
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.5),
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    inset 0 -2px 6px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.6),
+    0 4px 8px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Stitching inside cards */
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border: 1px dashed rgba(210, 180, 140, 0.1);
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+/* Card Header — embossed bar */
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 24px;
+  background:
+    linear-gradient(180deg, rgba(210, 180, 140, 0.08) 0%, transparent 100%);
+  border-bottom: 1px solid rgba(210, 180, 140, 0.12);
+  position: relative;
+}
+
+.cardHeader h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #d4a574;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  text-shadow:
+    0 1px 0 rgba(0,0,0,0.6),
+    0 0 10px rgba(212, 165, 116, 0.1);
+}
+
+.cardIcon {
+  font-size: 22px;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.4));
+}
+
+/* Card Body */
+.cardBody {
+  padding: 20px 24px 24px;
+}
+
+/* ── Item styles ──────────────────────────────── */
+.item {
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(210, 180, 140, 0.08);
+}
+
+.item:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.itemTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: #e0c9a8;
+  margin-bottom: 4px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+}
+
+.itemMeta {
+  font-size: 13px;
+  color: #a08a6e;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.itemDate {
+  font-size: 12px;
+  color: #8a7560;
+  margin-top: 2px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.badge {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 3px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #2a1f10;
+  background: linear-gradient(135deg, #d4a574 0%, #c49464 100%);
+  border-radius: 4px;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* ── Tags ─────────────────────────────────────── */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tag {
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #c4a882;
+  background:
+    linear-gradient(145deg, #3a2a16, #2b1e0e);
+  border: 1px solid rgba(210, 180, 140, 0.15);
+  border-radius: 8px;
+  cursor: default;
+  box-shadow:
+    0 3px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    inset 0 -1px 3px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+}
+
+.tag:hover {
+  border-color: rgba(210, 180, 140, 0.35);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* ── Languages Level Bar ──────────────────────── */
+.langItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.langItem:last-child {
+  margin-bottom: 0;
+}
+
+.levelBar {
+  display: flex;
+  gap: 6px;
+}
+
+.levelDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(210, 180, 140, 0.12);
+  border: 1px solid rgba(210, 180, 140, 0.2);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.levelDot.filled {
+  background: linear-gradient(135deg, #d4a574, #c49464);
+  border-color: rgba(210, 180, 140, 0.4);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 0 6px rgba(212, 165, 116, 0.3);
+}
+
+/* ── Stats ────────────────────────────────────── */
+.stats {
+  display: flex;
+  justify-content: space-around;
+  gap: 16px;
+}
+
+.stat {
+  text-align: center;
+}
+
+.statNumber {
+  display: block;
+  font-size: 32px;
+  font-weight: 800;
+  color: #d4a574;
+  text-shadow:
+    0 1px 0 #5a3d1a,
+    0 2px 0 #4a2e0f,
+    0 3px 8px rgba(0, 0, 0, 0.5);
+  line-height: 1.1;
+}
+
+.stat p {
+  font-size: 13px;
+  color: #a08a6e;
+  margin-top: 6px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+}
+
+/* ── Responsive ───────────────────────────────── */
+@media (max-width: 768px) {
+  .skeuSection {
+    padding: 60px 0 80px;
+  }
+
+  .sectionTitle {
+    font-size: 36px;
+    letter-spacing: 2px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .summaryPanel {
+    padding: 24px 20px;
+  }
+
+  .stats {
+    gap: 12px;
+  }
+
+  .statNumber {
+    font-size: 26px;
+  }
+}

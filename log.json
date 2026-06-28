@@ -1,0 +1,85 @@
+{
+  "b": [
+    {
+      "byteLength": 11208860,
+      "uri": "scene.bin"
+    }
+  ],
+  "i": [
+    {
+      "uri": "textures/aApollo_IntensaEmozione_2019_CallipersCalliperBadgeA_Material1_baseColor.png"
+    },
+    {
+      "uri": "textures/aApollo_IntensaEmozione_2019_CallipersCalliperA_Zone_Material1_baseColor.png"
+    },
+    {
+      "uri": "textures/aApollo_IntensaEmozione_2019_CallipersCalliperA_Zone_Material1_metallicRoughness.png"
+    },
+    {
+      "uri": "textures/aApollo_IntensaEmozione_2019_Wheel1A_3D_3DWheel1A_Material1_baseColor.png"
+    },
+    {
+      "uri": "textures/aApollo_IntensaEmozione_2019_Wheel1A_3D_3DWheel1A_Material1_metallicRoughness.png"
+    },
+    {
+      "uri": "textures/aApollo_IntensaEmozione_2019_Wheel1A_3D_3DWheel1A_Material1_normal.png"
+    },
+    {
+      "uri": "textures/aApollo_IntensaEmozione_2019_Wheel1A_3D_3DWheel1A_Material1_specularf0.png"
+    },
+    {
+      "uri": "textures/aApollo_IntensaEmozione_2019Carbon1M_Material1_baseColor.png"
+    },
+    {
+      "uri": "textures/aApollo_IntensaEmozione_2019Carbon1M_Material1_normal.png"
+    },
+    {
+      "uri": "textures/aApollo_IntensaEmozione_2019Grille1A_Material1_baseColor.png"
+    },
+    {
+      "uri": "textures/aApollo_IntensaEmozione_2019Grille1A_Material1_normal.png"
+    },
+    {
+      "uri": "textures/aApollo_IntensaEmozione_2019Paint_Material1_baseColor.png"
+    },
+    {
+      "uri": "textures/aApollo_IntensaEmozione_2019ManufacturerPlateA_Material1_baseColor.png"
+    },
+    {
+      "uri": "textures/aApollo_IntensaEmozione_2019Grille2A_Material1_baseColor.png"
+    },
+    {
+      "uri": "textures/aApollo_IntensaEmozione_2019Grille2A_Material1_normal.png"
+    },
+    {
+      "uri": "textures/aApollo_IntensaEmozione_2019Coloured_Material1_baseColor.png"
+    },
+    {
+      "uri": "textures/aApollo_IntensaEmozione_2019Coloured_Material1_metallicRoughness.png"
+    },
+    {
+      "uri": "textures/emissi_baseColor.png"
+    },
+    {
+      "uri": "textures/emissi_emissive.png"
+    },
+    {
+      "uri": "textures/aApollo_IntensaEmozione_2019InteriorA_Material1_baseColor.png"
+    },
+    {
+      "uri": "textures/aApollo_IntensaEmozione_2019InteriorA_Material1_normal.png"
+    },
+    {
+      "uri": "textures/aApollo_IntensaEmozione_2019LightA_Material1_baseColor.png"
+    },
+    {
+      "uri": "textures/aApollo_IntensaEmozione_2019LightA_Material1_metallicRoughness.png"
+    },
+    {
+      "uri": "textures/aApollo_IntensaEmozione_2019BadgeA_Material1_baseColor.png"
+    },
+    {
+      "uri": "textures/aApollo_IntensaEmozione_2019BadgeA_Material1_normal.png"
+    }
+  ]
+}
