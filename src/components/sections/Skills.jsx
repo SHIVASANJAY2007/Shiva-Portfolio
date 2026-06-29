@@ -1,57 +1,64 @@
-import React from 'react';
-import { Section, SkillCard, AnimeStagger, AnimeProgress } from '../common';
+import React, { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './Skills.module.css';
 import { resumeData } from '../../data/resume';
 
+gsap.registerPlugin(ScrollTrigger);
+
 export const Skills = () => {
+  const containerRef = useRef(null);
+  
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      
+
+      // Stagger in the skill runes
+      gsap.from('.rune', {
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top 60%',
+        },
+        y: 50,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: 'power3.out',
+      });
+    }, containerRef);
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <Section
-      id="skills"
-      title="Skills"
-      subtitle="Technologies and expertise"
-      className={styles.claySection}
-    >
-      <div className={styles.container}>
-        {/* Programming Languages */}
-        <div className={styles.category}>
-          <h3 className={styles.categoryTitle}>Programming Languages</h3>
-          <AnimeStagger className={styles.grid} stagger={50}>
-            {resumeData.skills.programming.map((skill, idx) => (
-              <div key={idx}>
-                <SkillCard
-                  name={skill.name}
-                  level={skill.level}
-                  category="programming"
+    <section id="skills" className={styles.arsenalSection} ref={containerRef}>
+      
+      
+      <div className={styles.content}>
+        <h2 className={styles.sectionTitle}>
+          <span className={styles.redSlash}>/</span> Skills & Expertise
+        </h2>
+        
+        <div className={styles.runeGrid}>
+          {resumeData.skills.programming.map((skill, index) => (
+            <div key={index} className={`${styles.rune} rune`}>
+              <span className={styles.runeName}>{skill.name}</span>
+              <div className={styles.masteryBar}>
+                <div 
+                  className={styles.masteryFill} 
+                  style={{ width: `${(skill.level / 5) * 100}%` }}
                 />
               </div>
-            ))}
-          </AnimeStagger>
-        </div>
-
-        {/* Other Skills */}
-        <div className={styles.category}>
-          <h3 className={styles.categoryTitle}>Other Expertise</h3>
-          <AnimeStagger className={styles.tags} stagger={30}>
-            {resumeData.skills.other.map((skill, idx) => (
-              <span key={idx} className={styles.tag}>
-                {skill}
-              </span>
-            ))}
-          </AnimeStagger>
-        </div>
-
-        {/* Proficiency Breakdown */}
-        <div className={styles.breakdown}>
-          <h3 className={styles.categoryTitle}>Proficiency Overview</h3>
-          <div className={styles.proficiencies}>
-            <AnimeProgress label="Backend Development" targetPercentage={65} />
-            <AnimeProgress label="Frontend Development" targetPercentage={70} />
-            <AnimeProgress label="Workflow Automation" targetPercentage={80} />
-            <AnimeProgress label="Problem Solving" targetPercentage={85} />
-          </div>
+            </div>
+          ))}
+          
+          {resumeData.skills.other.map((skill, index) => (
+            <div key={`other-${index}`} className={`${styles.rune} rune`}>
+              <span className={styles.runeName}>{skill}</span>
+            </div>
+          ))}
         </div>
       </div>
-    </Section>
+    </section>
   );
 };
 

@@ -37,7 +37,7 @@
   top: -var(--space-4);
   width: 60px;
   height: var(--section-header-line-height, 2px);
-  background: var(--section-header-line, linear-gradient(90deg, var(--color-white) 0%, transparent 100%));
+  background: var(--section-header-line, linear-gradient(90deg, var(--color-text) 0%, transparent 100%));
 }
 
 .title {
@@ -45,7 +45,7 @@
   font-weight: 800;
   margin-bottom: var(--space-4);
   text-transform: capitalize;
-  color: var(--section-title-color, var(--color-white));
+  color: var(--section-title-color, var(--color-text));
   /* Cinematic Text Aura */
   text-shadow: var(--section-title-shadow, 
     0 2px 10px rgba(0, 0, 0, 1),

@@ -3,15 +3,16 @@
  * Display individual skills with visual level indicators
  */
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import styles from './SkillCard.module.css';
 
 export const SkillCard = ({ name, level, category }) => {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <motion.div
       className={styles.card}
-      whileHover={{ scale: 1.05 }}
-      transition={{ duration: 0.2 }}
+      whileHover={shouldReduceMotion ? {} : { scale: 1.05, transition: { duration: 0.15, ease: "easeOut" } }}
     >
       <div className={styles.content}>
         <h4 className={styles.name}>{name}</h4>

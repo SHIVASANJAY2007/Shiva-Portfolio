@@ -108,11 +108,6 @@ export const resumeData = {
       date: '2025',
     },
     {
-      title: 'Department HOD Award',
-      organization: 'Kongu Engineering College',
-      date: '2025',
-    },
-    {
       title: 'Xackathon 2k25 Winner',
       organization: 'Xenovex Technologies',
       project: 'Zyvox AI',

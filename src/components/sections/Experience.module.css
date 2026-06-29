@@ -1,223 +1,130 @@
-.container {
-  width: 100%;
+.pathSection {
+  position: relative;
+  min-height: 100vh;
+  width: 100vw;
+  padding: 15vh 10vw;
+  background-color: #FFFFFF; /* Light Pink */ /* Cool Slate */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
 }
 
-.section {
-  margin-bottom: var(--space-16);
 
-  &:last-child {
-    margin-bottom: 0;
-  }
+
+.content {
+  position: relative;
+  z-index: 1;
 }
 
 .sectionTitle {
-  font-size: var(--text-h5);
-  font-weight: 700;
-  margin-bottom: var(--space-8);
-  position: relative;
-  padding-bottom: var(--space-4);
+  text-shadow: 3px 3px 0px #D500F9, -1px -1px 0px #D500F955;
+  font-size: 4vw;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #050505;
+  margin-bottom: 4rem;
+  letter-spacing: -0.02em;
+}
 
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 40px;
-    height: 2px;
-    background: var(--color-white);
-  }
+.redSlash {
+  color: #D500F9;
+  font-weight: 900;
+  margin-right: 1rem;
 }
 
 .timeline {
-  position: relative;
-  padding-left: var(--space-6);
-
-  &::before {
-    content: '';
-    position: absolute;
-    left: 12px;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: linear-gradient(
-      180deg,
-      var(--color-white) 0%,
-      var(--color-gray-700) 100%
-    );
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  border-left: 2px solid var(--color-gray-800);
+  padding-left: 2rem;
+  margin-left: 1rem;
 }
 
 .timelineItem {
   position: relative;
-  margin-bottom: var(--space-8);
-  padding: var(--space-6);
-  border: 1px solid var(--color-gray-800);
-  border-radius: var(--radius-lg);
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.02) 0%,
-    rgba(0, 0, 0, 0.05) 100%
-  );
-  backdrop-filter: blur(10px);
-  transition: all var(--duration-normal) var(--easing-ease-in-out);
-
-  &:hover {
-    border-color: var(--color-gray-600);
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.05) 0%,
-      rgba(0, 0, 0, 0.1) 100%
-    );
-  }
-
-  &:last-child {
-    margin-bottom: 0;
-  }
 }
 
-.timelineDot {
+.timelineMarker {
   position: absolute;
-  left: -22px;
-  top: 24px;
-  width: 14px;
-  height: 14px;
+  left: -2.65rem;
+  top: 0.5rem;
+  width: 1rem;
+  height: 1rem;
+  background: var(--color-bg);
+  border: 2px solid #D500F9;
   border-radius: 50%;
-  background: var(--color-white);
-  border: 3px solid var(--color-black);
-  z-index: 1;
+  transition: all 0.3s ease;
+}
+
+.timelineItem:hover .timelineMarker {
+  background: #D500F9;
+  border-color: #D500F9;
+  box-shadow: 0 0 15px #D500F9;
 }
 
 .timelineContent {
-  h4 {
-    font-size: var(--text-h6);
-    font-weight: 700;
-    margin-bottom: var(--space-2);
-  }
+  background: #FFFFFF;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(255, 109, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-.organization {
-  font-size: var(--text-body-sm);
-  color: var(--color-gray-400);
-  margin-bottom: var(--space-2);
+.expTitle {
+  text-shadow: 2px 2px 0px #D500F9;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #050505;
+  text-transform: uppercase;
+  margin: 0;
 }
 
-.focus {
-  font-size: var(--text-body-sm);
-  color: var(--color-gray-300);
-  margin-bottom: var(--space-4);
-  font-style: italic;
+.expOrg {
+  font-size: 1.1rem;
+  color: #D500F9;
+  font-family: var(--font-secondary);
+  font-weight: 600;
+  margin: 0;
+}
+
+.expFocus {
+  color: #050505;
+  font-size: 1rem;
+  margin: 0.5rem 0;
 }
 
 .achievements {
-  list-style: none;
   display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-
-  li {
-    font-size: var(--text-body-sm);
-    color: var(--color-gray-400);
-    padding-left: var(--space-4);
-    position: relative;
-
-    &::before {
-      content: '▸';
-      position: absolute;
-      left: 0;
-      color: var(--color-white);
-    }
-  }
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 0.5rem;
 }
 
-.awardsGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: var(--space-6);
+.achievement {
+  font-size: 0.8rem;
+  color: #050505;
+  background: rgba(0,0,0,0.05);
+  padding: 0.3rem 0.8rem;
+  border-radius: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-.awardCard {
-  padding: var(--space-8);
-  border: 1px solid var(--color-gray-800);
-  border-radius: var(--radius-lg);
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.02) 0%,
-    rgba(0, 0, 0, 0.05) 100%
-  );
-  backdrop-filter: blur(10px);
-  text-align: center;
-  transition: all var(--duration-normal) var(--easing-ease-in-out);
-  cursor: pointer;
-
-  &:hover {
-    border-color: var(--color-gray-600);
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.05) 0%,
-      rgba(0, 0, 0, 0.1) 100%
-    );
-    transform: translateY(-4px);
-  }
-
-  h4 {
-    font-size: var(--text-h6);
-    font-weight: 700;
-    margin-top: var(--space-4);
-    margin-bottom: var(--space-2);
-  }
+.timelineDivider {
+  position: relative;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  color: var(--color-gray-600);
+  font-size: 2rem;
+  margin-left: -2.8rem;
 }
 
-.awardBadge {
-  font-size: 48px;
-  line-height: 1;
-}
-
-.awardOrg {
-  font-size: var(--text-body-sm);
-  color: var(--color-gray-400);
-  margin-bottom: var(--space-2);
-}
-
-.awardProject {
-  font-size: var(--text-body-sm);
-  color: var(--color-gray-300);
-  margin-bottom: var(--space-2);
-  font-weight: 500;
-}
-
-.awardAchievement {
-  font-size: var(--text-body-sm);
-  color: var(--color-gray-400);
-  margin-bottom: var(--space-2);
-}
-
-.awardDate {
-  font-size: var(--text-body-sm);
-  color: var(--color-gray-500);
-}
-
-@media (max-width: 768px) {
-  .timeline {
-    padding-left: var(--space-4);
-
-    &::before {
-      left: 6px;
-    }
-  }
-
-  .timelineDot {
-    left: -18px;
-  }
-
-  .timelineItem {
-    padding: var(--space-4);
-  }
-
-  .awardsGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .awardCard {
-    padding: var(--space-6);
-  }
+.timelineDivider span {
+  background: var(--color-bg);
+  padding: 0.5rem;
 }

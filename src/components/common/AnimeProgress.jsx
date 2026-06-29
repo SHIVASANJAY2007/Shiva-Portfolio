@@ -9,23 +9,31 @@ export const AnimeProgress = ({ label, targetPercentage }) => {
   useEffect(() => {
     if (!containerRef.current) return;
 
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (prefersReducedMotion) {
+      barRef.current.style.width = `${targetPercentage}%`;
+      setPercent(targetPercentage);
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          // Animate the bar width with a spring/elastic feel
+          // Animate the bar width with snappier feel
           animate(barRef.current, {
             width: ['0%', `${targetPercentage}%`],
-            duration: 2000,
-            ease: 'easeOutElastic(1, 0.75)',
+            duration: 800,
+            easing: 'cubicBezier(0.165, 0.84, 0.44, 1)', // easeOutQuart
           });
 
           // Animate the text percentage value counter
           const counter = { val: 0 };
           animate(counter, {
             val: targetPercentage,
-            duration: 1800,
-            ease: 'easeOutExpo',
-            onUpdate: () => {
+            duration: 800,
+            easing: 'cubicBezier(0.165, 0.84, 0.44, 1)',
+            update: () => {
               setPercent(Math.round(counter.val));
             },
           });

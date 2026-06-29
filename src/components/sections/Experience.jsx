@@ -1,94 +1,77 @@
-/**
- * Experience Section
- * Professional experience and awards
- */
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Section } from '../common';
+import React, { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './Experience.module.css';
 import { resumeData } from '../../data/resume';
 
-export const Experience = () => {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.1,
-      },
-    },
-  };
+gsap.registerPlugin(ScrollTrigger);
 
-  const itemVariants = {
-    hidden: { opacity: 0, x: -20 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.6 } },
-  };
+export const Experience = () => {
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      
+
+      const timelineItems = gsap.utils.toArray('.timelineItem');
+      timelineItems.forEach((item, i) => {
+        gsap.from(item, {
+          scrollTrigger: {
+            trigger: item,
+            start: 'top 80%',
+          },
+          y: 50,
+          opacity: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+        });
+      });
+    }, containerRef);
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <Section id="experience" title="Experience & Awards" subtitle="Achievements and recognition">
-      <motion.div
-        className={styles.container}
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: '-100px' }}
-      >
-        {/* Experience Timeline */}
-        <div className={styles.section}>
-          <h3 className={styles.sectionTitle}>Professional Experience</h3>
-          <div className={styles.timeline}>
-            {resumeData.experience.map((exp, idx) => (
-              <motion.div key={idx} variants={itemVariants} className={styles.timelineItem}>
-                <div className={styles.timelineDot} />
-                <div className={styles.timelineContent}>
-                  <h4>{exp.title}</h4>
-                  <p className={styles.organization}>{exp.organization}</p>
-                  <p className={styles.focus}>{exp.focus}</p>
-                  {exp.achievements && (
-                    <ul className={styles.achievements}>
-                      {exp.achievements.map((achievement, aidx) => (
-                        <li key={aidx}>{achievement}</li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
+    <section id="experience" className={styles.pathSection} ref={containerRef}>
+      
 
-        {/* Awards Grid */}
-        <div className={styles.section}>
-          <h3 className={styles.sectionTitle}>Awards & Recognition</h3>
-          <motion.div
-            className={styles.awardsGrid}
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            {resumeData.awards.map((award, idx) => (
-              <motion.div
-                key={idx}
-                variants={itemVariants}
-                className={styles.awardCard}
-                whileHover={{ scale: 1.03 }}
-              >
-                <div className={styles.awardBadge}>🏆</div>
-                <h4>{award.title}</h4>
-                <p className={styles.awardOrg}>{award.organization}</p>
-                {award.project && <p className={styles.awardProject}>{award.project}</p>}
-                {award.achievement && (
-                  <p className={styles.awardAchievement}>{award.achievement}</p>
-                )}
-                {award.date && <p className={styles.awardDate}>{award.date}</p>}
-              </motion.div>
-            ))}
-          </motion.div>
+      <div className={styles.content}>
+        <h2 className={styles.sectionTitle}>
+          <span className={styles.redSlash}>/</span> Experience
+        </h2>
+
+        <div className={styles.timeline}>
+          {resumeData.experience.map((exp, index) => (
+            <div key={index} className={`${styles.timelineItem} timelineItem`}>
+              <div className={styles.timelineMarker}></div>
+              <div className={styles.timelineContent}>
+                <h3 className={styles.expTitle}>{exp.title}</h3>
+                <h4 className={styles.expOrg}>{exp.organization}</h4>
+                <p className={styles.expFocus}>{exp.focus}</p>
+                <div className={styles.achievements}>
+                  {exp.achievements.map((ach, i) => (
+                    <span key={i} className={styles.achievement}>{ach}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+
+          {/* Awards integrated into the timeline visually */}
+          <div className={styles.timelineDivider}><span>Awards</span></div>
+          
+          {resumeData.awards.map((award, index) => (
+            <div key={`award-${index}`} className={`${styles.timelineItem} timelineItem`}>
+              <div className={styles.timelineMarker} style={{ borderColor: 'var(--color-primary)' }}></div>
+              <div className={styles.timelineContent}>
+                <h3 className={styles.expTitle}>{award.title}</h3>
+                {award.organization && <h4 className={styles.expOrg}>{award.organization}</h4>}
+                <p className={styles.expFocus}>{award.project || award.achievement}</p>
+              </div>
+            </div>
+          ))}
         </div>
-      </motion.div>
-    </Section>
+      </div>
+    </section>
   );
 };
 

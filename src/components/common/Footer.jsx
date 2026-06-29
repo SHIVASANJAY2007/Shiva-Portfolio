@@ -3,11 +3,15 @@
  * Professional footer with contact and social links
  */
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import styles from './Footer.module.css';
 import { resumeData } from '../../data/resume';
 
+// ease-out-quart
+const easeOutQuart = [0.165, 0.84, 0.44, 1];
+
 export const Footer = () => {
+  const shouldReduceMotion = useReducedMotion();
   const currentYear = new Date().getFullYear();
 
   return (
@@ -15,9 +19,9 @@ export const Footer = () => {
       <div className={styles.container}>
         <motion.div
           className={styles.content}
-          initial={{ opacity: 0, y: 20 }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.25, ease: easeOutQuart }}
           viewport={{ once: true }}
         >
           <div className={styles.section}>
