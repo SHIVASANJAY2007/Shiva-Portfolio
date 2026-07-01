@@ -12,7 +12,5 @@ export { Magnetic } from './Magnetic';
 export { ScrambleHeader } from './ScrambleHeader';
 export { CustomCursor } from './CustomCursor';
 export { AbstractBackground } from './AbstractBackground';
-export { AnimeTextReveal } from './AnimeTextReveal';
-export { AnimeStagger } from './AnimeStagger';
-export { AnimeProgress } from './AnimeProgress';
+
 export { TextFlippingBoard } from './TextFlippingBoard';

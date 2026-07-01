@@ -1,10 +1,305 @@
-Implement Sticky section layout
+# Sticky Scroll Section with Synchronized Content & Video Transitions
 
-### CODING : 
+## Overview
 
-HTML : 
+This implementation creates a modern **sticky scrolling experience** where:
 
-<!-- <header style="height:50px;"></header> -->
+* An introductory section remains pinned while the user begins scrolling.
+* A two-column sticky layout follows.
+* The **left panel** displays descriptive content.
+* The **right panel** displays synchronized videos.
+* As the user scrolls, both the text and corresponding video transition smoothly.
+* The entire interaction is powered using **GSAP ScrollTrigger**.
+
+---
+
+# Project Structure
+
+```
+HTML
+├── Intro Section
+│   └── Sticky Heading
+│
+└── Sticky Tabs Section
+    ├── Left Content
+    │   ├── Feature 1
+    │   ├── Feature 2
+    │   └── Feature 3
+    │
+    └── Right Media
+        ├── Video 1
+        ├── Video 2
+        └── Video 3
+
+CSS
+├── Global Variables
+├── Layout
+├── Responsive Design
+├── Sticky Positioning
+├── Animations
+└── Component Styling
+
+JavaScript
+├── GSAP ScrollTrigger
+├── Intro Pinning
+├── Scroll Detection
+└── Text & Video Synchronization
+```
+
+---
+
+# Features
+
+### Sticky Intro Section
+
+* Pins the introductory content while scrolling.
+* Creates a smooth transition into the main sticky section.
+* Uses GSAP `ScrollTrigger`.
+
+---
+
+### Sticky Tabs Layout
+
+* Two-column responsive design.
+* Left column contains feature descriptions.
+* Right column contains synchronized videos.
+* Entire component remains sticky while the page scrolls.
+
+---
+
+### Scroll-Based Content Switching
+
+During scrolling:
+
+* Current text fades in.
+* Previous text fades out.
+* Matching video becomes visible.
+* Previous video disappears.
+
+The transition occurs automatically based on the user's scroll position.
+
+---
+
+### Smooth Video Transitions
+
+Videos transition using:
+
+* Opacity animation
+* Vertical translate animation
+* CSS transitions
+* Hardware acceleration (`translate3d`) for improved performance
+
+---
+
+### Responsive Design
+
+Optimized for:
+
+* Desktop
+* Tablet
+* Mobile
+
+Includes responsive adjustments for:
+
+* Layout
+* Typography
+* Section height
+* Padding
+* Video containers
+
+---
+
+# Technologies Used
+
+* HTML5
+* CSS3
+* JavaScript (ES6)
+* GSAP
+* GSAP ScrollTrigger
+* Google Fonts (Poppins)
+
+---
+
+# Folder Contents
+
+## HTML
+
+Contains:
+
+* Intro wrapper
+* Sticky tabs layout
+* Left-side feature content
+* Right-side videos
+* CTA button
+* Award badge
+
+---
+
+## CSS
+
+Responsible for:
+
+* Theme variables
+* Responsive layouts
+* Sticky positioning
+* Typography
+* Button animations
+* Video styling
+* Scroll effects
+* Component appearance
+
+---
+
+## JavaScript
+
+Responsible for:
+
+### 1. Registering ScrollTrigger
+
+Initializes the GSAP plugin.
+
+### 2. Pinning the Intro Section
+
+Keeps the intro heading fixed until the next section reaches the viewport.
+
+### 3. Detecting Scroll Progress
+
+Continuously tracks the user's scroll position.
+
+### 4. Synchronizing Content
+
+Automatically switches:
+
+* Active text block
+* Active video
+
+based on the current scroll position.
+
+### 5. Handling the Final Section
+
+Ensures the last content block remains visible until the user scrolls beyond the section.
+
+---
+
+# Animation Flow
+
+```
+User Starts Scrolling
+        │
+        ▼
+Intro Section Pins
+        │
+        ▼
+Sticky Tabs Section Begins
+        │
+        ▼
+Scroll Progress Detected
+        │
+        ▼
+Current Section Calculated
+        │
+        ▼
+Previous Content Hidden
+        │
+        ▼
+New Content Displayed
+        │
+        ▼
+Matching Video Activated
+        │
+        ▼
+Continue Until Final Section
+```
+
+---
+
+# Visual Behaviour
+
+```
+Scroll ↓
+
+Feature 1  ─────────► Video 1
+
+Scroll ↓
+
+Feature 2  ─────────► Video 2
+
+Scroll ↓
+
+Feature 3  ─────────► Video 3
+```
+
+Only one text block and one video are visible at any given time.
+
+---
+
+# Performance Optimizations
+
+This implementation includes:
+
+* CSS hardware acceleration
+* Sticky positioning instead of frequent DOM manipulation
+* Lightweight JavaScript logic
+* Opacity-based transitions
+* GPU-friendly transforms
+* Responsive media rendering
+
+---
+
+# Dependencies
+
+Include the following libraries before the JavaScript code:
+
+```html
+GSAP
+GSAP ScrollTrigger
+```
+
+Google Font:
+
+```text
+Poppins
+```
+
+---
+
+# Files Included
+
+```
+HTML
+CSS
+JavaScript
+```
+
+Each section should be placed in its respective file:
+
+```
+index.html
+style.css
+script.js
+```
+
+---
+
+# Expected Result
+
+The final output provides a polished landing-page interaction where:
+
+* The introduction remains pinned while entering the experience.
+* A sticky feature section occupies the viewport.
+* Text and videos transition seamlessly based on scroll position.
+* The interface feels smooth, modern, and engaging.
+* The layout remains fully responsive across desktop and mobile devices.
+
+---
+
+# Source Code
+
+The following sections contain the complete implementation:
+
+* **HTML** – Structure and markup
+
+
   <div class="intro-wrapper">
     <div class="intro" style="display: flex; justify-content: center; align-items: center; position: relative; z-index: 1;">
       <div class="text-align-center" id="js-pin">
@@ -95,7 +390,7 @@ HTML :
 </section>
 <div style="height:50vh;"></div>
 
-CSS : 
+* **CSS** – Styling, layout, responsiveness, and animations
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 :root {
@@ -558,7 +853,7 @@ img {
 	transform: translateY(0);
 }
 
-JS : 
+* **JavaScript** – GSAP configuration, sticky behavior, and synchronized scroll interactions
 
 gsap.registerPlugin(ScrollTrigger);
 

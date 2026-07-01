@@ -10,7 +10,7 @@ import { resumeData } from '../../data/resume';
 gsap.registerPlugin(ScrollTrigger);
 
 // ── Step 1: Load GLB correctly (preload outside component per skill)
-const MODEL_URL = '/models/the_forgotten_knight.glb';
+const MODEL_URL = '/models/the_forgotten_knight_optimized.glb';
 
 function KnightModel({ scaleRef }) {
   const { scene } = useGLTF(MODEL_URL);
@@ -39,6 +39,7 @@ function KnightModel({ scaleRef }) {
   }, [scene]);
 
   // Track global mouse position across the whole window
+  const { invalidate } = useThree();
   useEffect(() => {
     const onMouseMove = (e) => {
       isPointerActive.current = true;
@@ -46,10 +47,12 @@ function KnightModel({ scaleRef }) {
       globalMouse.current.x = (e.clientX / window.innerWidth) * 2 - 1;
       // Y is inverted: +1 at top, -1 at bottom
       globalMouse.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
+      invalidate(); // Trigger a render frame on demand
     };
     
     const onMouseLeave = () => {
       isPointerActive.current = false;
+      invalidate(); // Render one last frame so the head stays where it left off
     };
 
     window.addEventListener('mousemove', onMouseMove);
@@ -61,7 +64,7 @@ function KnightModel({ scaleRef }) {
       window.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseleave', onMouseLeave);
     };
-  }, []);
+  }, [invalidate]);
 
   // Smoothly interpolate head bone
   useFrame(() => {
@@ -83,8 +86,16 @@ function KnightModel({ scaleRef }) {
     const finalPitch = initial.x + targetPitch;
 
     // Use smooth lerp to animate towards target rotation
-    head.rotation.y = THREE.MathUtils.lerp(head.rotation.y, finalYaw, 0.05);
-    head.rotation.x = THREE.MathUtils.lerp(head.rotation.x, finalPitch, 0.05);
+    // Increased speed from 0.05 to 0.15 for faster head movement
+    head.rotation.y = THREE.MathUtils.lerp(head.rotation.y, finalYaw, 0.15);
+    head.rotation.x = THREE.MathUtils.lerp(head.rotation.x, finalPitch, 0.15);
+    
+    // In frameloop="demand", useFrame doesn't run continuously unless invalidated.
+    // If we want the smooth lerp to finish its interpolation even after the mouse stops,
+    // we must keep invalidating until it reaches the target.
+    if (Math.abs(head.rotation.y - finalYaw) > 0.001 || Math.abs(head.rotation.x - finalPitch) > 0.001) {
+      invalidate();
+    }
   });
 
   // ── Step 4: GSAP entrance animation (Opacity only to prevent position bugs on huge models)
@@ -279,12 +290,12 @@ export const Hero = () => {
       <div ref={blobRightRef} className={styles.blobRight} aria-hidden="true" />
 
       {/* ── Step 2: 3D canvas — behind everything, transparent, no pointer interception on wrapper */}
-      {/* ── Step 6: dpr capped, frameloop=always for continuous spin */}
+      {/* ── Step 6: dpr capped, frameloop=demand for massive performance win */}
       <div ref={canvasWrapRef} className={styles.canvasContainer} aria-hidden="true">
         <Canvas
           gl={{ alpha: true, antialias: false, powerPreference: "high-performance" }}
-          dpr={1}
-          frameloop="always"
+          dpr={[1, 2]}
+          frameloop="demand"
         >
           <PerspectiveCamera 
             makeDefault 

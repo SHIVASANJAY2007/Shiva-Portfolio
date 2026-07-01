@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react';
 import Lenis from 'lenis';
 import { Navigation, Footer, Loader } from './components/common';
-import {
-  Hero,
-  About,
-  Skills,
-  Projects,
-  Experience,
-  Contact,
-} from './components/sections';
+import { lazy, Suspense } from 'react';
+const Hero = lazy(() => import('./components/sections/Hero').then(m => ({ default: m.Hero || m.default })));
+const About = lazy(() => import('./components/sections/About').then(m => ({ default: m.About || m.default })));
+const Skills = lazy(() => import('./components/sections/Skills').then(m => ({ default: m.Skills || m.default })));
+const Projects = lazy(() => import('./components/sections/Projects').then(m => ({ default: m.Projects || m.default })));
+const Experience = lazy(() => import('./components/sections/Experience').then(m => ({ default: m.Experience || m.default })));
+const Contact = lazy(() => import('./components/sections/Contact').then(m => ({ default: m.Contact || m.default })));
 import useScrollScene from './hooks/useScrollScene';
 import './styles/globals.css';
 import ModuleScroller from './components/sections/ModuleScroller';
@@ -40,14 +39,16 @@ export default function App() {
       <Navigation />
 
       <main>
-        <ModuleScroller>
-          <Hero />
-          <About />
-          <Skills />
-          <Projects />
-          <Experience />
-          <Contact />
-        </ModuleScroller>
+        <Suspense fallback={<div style={{height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>Loading...</div>}>
+          <ModuleScroller>
+            <Hero />
+            <About />
+            <Skills />
+            <Projects />
+            <Experience />
+            <Contact />
+          </ModuleScroller>
+        </Suspense>
       </main>
 
       <Footer />
