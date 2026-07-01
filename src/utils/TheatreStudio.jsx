@@ -10,7 +10,8 @@ export const TheatreStudio = () => {
       (async () => {
         const studioModule = await import('@theatre/studio');
         const studio = studioModule.default;
-        // studio.initialize(); // <-- UI REMOVED HERE
+        studio.initialize();
+        studio.ui.hide();
         studioInitialized = true;
         
         const project = getProject('SHIVA_Portfolio');

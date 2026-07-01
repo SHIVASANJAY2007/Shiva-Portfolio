@@ -10,12 +10,12 @@ import { resumeData } from '../../data/resume';
 gsap.registerPlugin(ScrollTrigger);
 
 // ── Step 1: Load GLB correctly (preload outside component per skill)
-const MODEL_URL = '/models/the_forgotten_knight_optimized.glb';
+const MODEL_URL = '/models/knight.glb';
 
 function KnightModel({ scaleRef }) {
   const { scene } = useGLTF(MODEL_URL);
   const meshRef = useRef();
-  
+
   // ── HEAD TRACKING IMPLEMENTATION ──
   const headBoneRef = useRef(null);
   const initialHeadRotation = useRef(new THREE.Euler());
@@ -49,15 +49,15 @@ function KnightModel({ scaleRef }) {
       globalMouse.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
       invalidate(); // Trigger a render frame on demand
     };
-    
+
     const onMouseLeave = () => {
       isPointerActive.current = false;
       invalidate(); // Render one last frame so the head stays where it left off
     };
 
     window.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseleave', onMouseLeave); 
-    
+    document.addEventListener('mouseleave', onMouseLeave);
+
     if (navigator.maxTouchPoints === 0) isPointerActive.current = true;
 
     return () => {
@@ -69,7 +69,7 @@ function KnightModel({ scaleRef }) {
   // Smoothly interpolate head bone
   useFrame(() => {
     if (!headBoneRef.current) return;
-    
+
     let targetYaw = 0;
     let targetPitch = 0;
 
@@ -78,10 +78,10 @@ function KnightModel({ scaleRef }) {
       targetYaw = globalMouse.current.x * (20 * Math.PI / 180);
       targetPitch = -globalMouse.current.y * (10 * Math.PI / 180);
     }
-    
+
     const head = headBoneRef.current;
     const initial = initialHeadRotation.current;
-    
+
     const finalYaw = initial.y + targetYaw;
     const finalPitch = initial.x + targetPitch;
 
@@ -89,7 +89,7 @@ function KnightModel({ scaleRef }) {
     // Decreased speed slightly from 0.15 to 0.10
     head.rotation.y = THREE.MathUtils.lerp(head.rotation.y, finalYaw, 0.05);
     head.rotation.x = THREE.MathUtils.lerp(head.rotation.x, finalPitch, 0.05);
-    
+
     // In frameloop="demand", useFrame doesn't run continuously unless invalidated.
     // If we want the smooth lerp to finish its interpolation even after the mouse stops,
     // we must keep invalidating until it reaches the target.
@@ -130,17 +130,17 @@ function KnightModel({ scaleRef }) {
 // Component to handle exact camera positioning
 function CameraRig() {
   const { camera } = useThree();
-  
+
   useEffect(() => {
     const target = new THREE.Vector3(0.026311563721417866, 1.9530481113475282, 0.41684588599902234);
-    
+
     const radius = 3.6397344714996964;
     const phi = 1.6859880574265205;
     const theta = 7.225663103256566;
-    
+
     const spherical = new THREE.Spherical(radius, phi, theta);
     const position = new THREE.Vector3().setFromSpherical(spherical).add(target);
-    
+
     camera.position.copy(position);
     camera.lookAt(target);
     camera.updateProjectionMatrix();
@@ -297,9 +297,9 @@ export const Hero = () => {
           dpr={[1, 2]}
           frameloop="demand"
         >
-          <PerspectiveCamera 
-            makeDefault 
-            fov={20.793308254689492} 
+          <PerspectiveCamera
+            makeDefault
+            fov={20.793308254689492}
             near={0.1}
             far={1000}
           />

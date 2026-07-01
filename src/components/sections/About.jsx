@@ -11,17 +11,6 @@ export const About = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.to('.kanjiBgAbout', {
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top 80%',
-          end: 'bottom 20%',
-          scrub: 1,
-        },
-        opacity: 0.05,
-        x: -50,
-      });
-
       gsap.from('.aboutText span', {
         scrollTrigger: {
           trigger: containerRef.current,
