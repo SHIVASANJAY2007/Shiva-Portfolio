@@ -1,336 +1,216 @@
 ---
-name: web-animation-design
-description: "Design and implement web animations that feel natural and purposeful. Use this skill proactively whenever the user asks questions about animations, motion, easing, timing, duration, springs, transitions, or animation performance. This includes questions about how to animate specific UI elements, which easing to use, animation best practices, or accessibility considerations for motion. Triggers on: easing, ease-out, ease-in, ease-in-out, cubic-bezier, bounce, spring physics, keyframes, transform, opacity, fade, slide, scale, hover effects, microinteractions, Framer Motion, React Spring, GSAP, CSS transitions, entrance/exit animations, page transitions, stagger, will-change, GPU acceleration, prefers-reduced-motion, modal/dropdown/tooltip/popover/drawer animations, gesture animations, drag interactions, button press feel, feels janky, make it smooth."
-metadata:
-  short-description: Design and implement web animations that feel natural and purposeful
+name: glb-3d-web-integration
+description: Use this skill whenever the user wants to import a .glb or .gltf 3D model into a website, place it within a page layout, control its size with casual terms like "small/medium/large/full-screen", or add animations, transitions, scroll effects, hover interactions, or camera movement to it. Trigger this for any request involving 3D assets, Three.js, React Three Fiber, model-viewer, or "put this 3D model in my hero/section/background", even if the user only gives loose, informal instructions (e.g. "make it medium sized in the top right, spinning slowly"). This skill translates vague placement/size/animation language into concrete code and handles loading, performance, and responsiveness for 3D-on-the-web work.
 ---
 
-# Web Animation Design
+# GLB 3D Model Web Integration
 
-A comprehensive guide for creating animations that feel right, based on Emil Kowalski's "Animations on the Web" course.
+A skill for taking a `.glb`/`.gltf` 3D asset and a casual, informal instruction ("put it in the hero, medium size, slowly spinning, fade in on scroll") and turning it into working, performant website code.
 
-## Initial Response
+The user will usually describe things loosely — placement in plain English ("top right", "behind the text", "full screen background"), size in t-shirt terms ("small", "large"), and behavior in everyday words ("spin", "float", "zoom in when you scroll"). Your job is to interpret that intent, pick sane concrete values, and implement it — not to ask the user to specify pixel sizes or rotation speeds in radians/sec.
 
-When this skill is first invoked without a specific question, respond only with:
+## Step 0: Pick the stack
 
-> I'm ready to help you with animations based on Emil Kowalski's animations.dev course.
+Default to **React Three Fiber (R3F) + @react-three/drei** for React projects (matches a typical Vite + React + GSAP/Framer Motion stack). Use **`<model-viewer>`** (Google's web component) only when the project is plain HTML/no React, or the ask is genuinely simple (single static product viewer, no custom scene).
 
-Do not provide any other information until the user asks a question.
+| Situation | Use |
+|---|---|
+| React/Vite/Next project, custom scene, multiple effects, scroll-tied animation | React Three Fiber + drei |
+| Plain HTML/vanilla JS site, simple "show this model, let user rotate it" | `<model-viewer>` |
+| Need physically-based camera fly-throughs, particles, postprocessing | R3F + `@react-three/postprocessing` |
 
-## Review Format (Required)
+R3F packages to install: `three @react-three/fiber @react-three/drei`. Add `gsap` (with `ScrollTrigger`) or `framer-motion` if scroll/timeline animation is requested — both are fine, don't mix them in the same component.
 
-When reviewing animations, you MUST use a markdown table. Do NOT use a list with "Before:" and "After:" on separate lines. Always output an actual markdown table like this:
+## Step 1: Load the GLB correctly
 
-| Before                            | After                                           |
-| --------------------------------- | ----------------------------------------------- |
-| `transform: scale(0)`             | `transform: scale(0.95)`                        |
-| `animation: fadeIn 400ms ease-in` | `animation: fadeIn 200ms ease-out`              |
-| No reduced motion support         | `@media (prefers-reduced-motion: reduce) {...}` |
-
-Wrong format (never do this):
-
-```
-Before: transform: scale(0)
-After: transform: scale(0.95)
-────────────────────────────
-Before: 400ms duration
-After: 200ms
-```
-
-Correct format: A single markdown table with | Before | After | columns, one row per issue.
-
-## Quick Start
-
-Every animation decision starts with these questions:
-
-1. **Is this element entering or exiting?** → Use `ease-out`
-2. **Is an on-screen element moving?** → Use `ease-in-out`
-3. **Is this a hover/color transition?** → Use `ease`
-4. **Will users see this 100+ times daily?** → Don't animate it
-
-## The Easing Blueprint
-
-### ease-out (Most Common)
-
-Use for **user-initiated interactions**: dropdowns, modals, tooltips, any element entering or exiting the screen.
-
-```css
-/* Sorted weak to strong */
---ease-out-quad: cubic-bezier(0.25, 0.46, 0.45, 0.94);
---ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);
---ease-out-quart: cubic-bezier(0.165, 0.84, 0.44, 1);
---ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
---ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
---ease-out-circ: cubic-bezier(0.075, 0.82, 0.165, 1);
-```
-
-Why it works: Acceleration at the start creates an instant, responsive feeling. The element "jumps" toward its destination then settles in.
-
-### ease-in-out (For Movement)
-
-Use when **elements already on screen need to move or morph**. Mimics natural motion like a car accelerating then braking.
-
-```css
-/* Sorted weak to strong */
---ease-in-out-quad: cubic-bezier(0.455, 0.03, 0.515, 0.955);
---ease-in-out-cubic: cubic-bezier(0.645, 0.045, 0.355, 1);
---ease-in-out-quart: cubic-bezier(0.77, 0, 0.175, 1);
---ease-in-out-quint: cubic-bezier(0.86, 0, 0.07, 1);
---ease-in-out-expo: cubic-bezier(1, 0, 0, 1);
---ease-in-out-circ: cubic-bezier(0.785, 0.135, 0.15, 0.86);
-```
-
-### ease (For Hover Effects)
-
-Use for **hover states and color transitions**. The asymmetrical curve (faster start, slower end) feels elegant for gentle animations.
-
-```css
-transition: background-color 150ms ease;
-```
-
-### linear (Avoid in UI)
-
-Only use for:
-
-- Constant-speed animations (marquees, tickers)
-- Time visualization (hold-to-delete progress indicators)
-
-Linear feels robotic and unnatural for interactive elements.
-
-### ease-in (Almost Never)
-
-**Avoid for UI animations.** Makes interfaces feel sluggish because the slow start delays visual feedback.
-
-### Paired Elements Rule
-
-Elements that animate together must use the same easing and duration. Modal + overlay, tooltip + arrow, drawer + backdrop—if they move as a unit, they should feel like a unit.
-
-```css
-/* Both use the same timing */
-.modal {
-  transition: transform 200ms ease-out;
-}
-.overlay {
-  transition: opacity 200ms ease-out;
-}
-```
-
-## Timing and Duration
-
-## Duration Guidelines
-
-| Element Type                      | Duration  |
-| --------------------------------- | --------- |
-| Micro-interactions                | 100-150ms |
-| Standard UI (tooltips, dropdowns) | 150-250ms |
-| Modals, drawers                   | 200-300ms |
-
-**Rules:**
-- UI animations should stay under 300ms
-- Larger elements animate slower than smaller ones
-- Exit animations can be ~20% faster than entrance
-- Match duration to distance - longer travel = longer duration
-
-### The Frequency
-
-Determine how often users will see the animation:
-
-- **100+ times/day** → No animation (or drastically reduced)
-- **Occasional use** → Standard animation
-- **Rare/first-time** → Can be more special
-
-**Example:** Raycast never animates because users open it hundreds of times a day.
-
-## When to Animate
-
-**Do animate:**
-
-- Enter/exit transitions for spatial consistency
-- State changes that benefit from visual continuity
-- Responses to user actions (feedback)
-- Rarely-used interactions where delight adds value
-
-**Don't animate:**
-
-- Keyboard-initiated actions
-- Hover effects on frequently-used elements
-- Anything users interact with 100+ times daily
-- When speed matters more than smoothness
-
-**Marketing vs. Product:**
-
-- Marketing: More elaborate, longer durations allowed
-- Product: Fast, purposeful, never frivolous
-
-## Spring Animations
-
-Springs feel more natural because they don't have fixed durations—they simulate real physics.
-
-### When to Use Springs
-
-- Drag interactions with momentum
-- Elements that should feel "alive" (Dynamic Island)
-- Gestures that can be interrupted mid-animation
-- Organic, playful interfaces
-
-### Configuration
-
-**Apple's approach (recommended):**
-
-```js
-// Duration + bounce (easier to understand)
-{ type: "spring", duration: 0.5, bounce: 0.2 }
-```
-
-**Traditional physics:**
-
-```js
-// Mass, stiffness, damping (more complex)
-{ type: "spring", mass: 1, stiffness: 100, damping: 10 }
-```
-
-### Bounce Guidelines
-
-- **Avoid bounce** in most UI contexts
-- **Use bounce** for drag-to-dismiss, playful interactions
-- Keep bounce subtle (0.1-0.3) when used
-
-### Interruptibility
-
-Springs maintain velocity when interrupted—CSS animations restart from zero. This makes springs ideal for gestures users might change mid-motion.
-
-## Performance
-
-### The Golden Rule
-
-Only animate `transform` and `opacity`. These skip layout and paint stages, running entirely on the GPU.
-
-**Avoid animating:**
-
-- `padding`, `margin`, `height`, `width` (trigger layout)
-- `blur` filters above 20px (expensive, especially Safari)
-- CSS variables in deep component trees
-
-### Optimization Techniques
-
-```css
-/* Force GPU acceleration */
-.animated-element {
-  will-change: transform;
-}
-```
-
-**React-specific:**
-
-- Animate outside React's render cycle when possible
-- Use refs to update styles directly instead of state
-- Re-renders on every frame = dropped frames
-
-**Framer Motion:**
+Always wrap the model in `<Suspense>` with a fallback, and preload:
 
 ```jsx
-// Hardware accelerated (transform as string)
-<motion.div animate={{ transform: "translateX(100px)" }} />
+import { useGLTF } from '@react-three/drei'
+import { Suspense } from 'react'
 
-// NOT hardware accelerated (more readable)
-<motion.div animate={{ x: 100 }} />
+function Model({ url, ...props }) {
+  const { scene } = useGLTF(url)
+  return <primitive object={scene} {...props} />
+}
+useGLTF.preload('/models/asset.glb')
+
+// usage
+<Canvas>
+  <Suspense fallback={<ModelFallback />}>
+    <Model url="/models/asset.glb" />
+  </Suspense>
+</Canvas>
 ```
 
-### CSS vs. JavaScript
+- Put GLB files in `public/models/` (Vite/CRA) so they're served as static assets — never `import` a `.glb` like a JS module.
+- If the file is large (>5-10MB) or the user mentions slow load, recommend/run Draco or Meshopt compression (`gltf-transform optimize input.glb output.glb`) before wiring it up. Mention this proactively rather than waiting for a complaint.
+- `<ModelFallback>` should be a lightweight placeholder (a simple wireframe box, low-res poster image, or skeleton shimmer) — never block the whole page on the 3D asset; the rest of the layout should render immediately.
+- For `<model-viewer>`: `<model-viewer src="/models/asset.glb" poster="/models/poster.webp" loading="lazy" reveal="auto">`.
 
-- CSS animations run off main thread (smoother under load)
-- JS animations (Framer Motion, React Spring) use `requestAnimationFrame`
-- CSS better for simple, predetermined animations
-- JS better for dynamic, interruptible animations
+## Step 2: Placement vocabulary → layout
 
-## Accessibility
+Map the user's plain-English placement to one of these patterns. Ask only if genuinely ambiguous (e.g. "in the design" with no section named) — otherwise pick the closest match and proceed.
 
-Animations can cause motion sickness or distraction for some users.
+| User says | Pattern |
+|---|---|
+| "hero", "main banner", "top of the page" | Full-bleed `<Canvas>` as hero background or hero-right column, model centered, page content overlaid or beside it |
+| "background", "behind everything" | `<Canvas>` as `position: fixed/absolute; inset:0; z-index:-1`, `pointer-events: none` unless interaction requested, content in normal flow on top |
+| "corner", "floating badge", "bottom right" | Small fixed/sticky `<Canvas>` (e.g. `position: fixed; bottom: 24px; right: 24px`), transparent background |
+| "next to the text", "side by side", "split section" | Two-column flex/grid section: text column + `<Canvas>` column, model framed to fill its column |
+| "inline with content", "in a card" | `<Canvas>` inside a normal block element with defined height (e.g. `height: 400px`), `border-radius` matching the card if desired |
+| "full screen", "takes over the page" | `<Canvas>` at `100vw / 100vh`, scroll-jacking or pinned section if combined with scroll animation |
 
-### prefers-reduced-motion
+Implementation notes:
+- `<Canvas>` needs an ancestor with an explicit height (`%`, `vh`, or `px`) — it won't auto-size from content.
+- For "behind the text" specifically, set `gl={{ alpha: true }}` on `<Canvas>` and keep the scene background transparent so the page's own background shows through.
+- If the model should NOT intercept clicks/scroll meant for the page, set `pointer-events: none` on the canvas wrapper, and re-enable (`pointer-events: auto`) only on the model itself if hover/drag interaction is also requested.
 
-Whenever you add an animation, also add a media query to disable it:
+## Step 3: Size vocabulary → concrete values
 
-```css
-.modal {
-  animation: fadeIn 200ms ease-out;
-}
+Size means two things at once: the **container** the Canvas sits in, and the **scale**/**camera framing** of the model within it. Translate t-shirt sizes using this table as a default, then adjust to the model's actual bounding box (a model loaded at scale `1` may be tiny or huge depending on how it was exported — always fit-to-frame rather than trusting a fixed scale number blindly):
 
-@media (prefers-reduced-motion: reduce) {
-  .modal {
-    animation: none;
-  }
-}
-```
+| Size word | Container (desktop) | Typical use |
+|---|---|---|
+| tiny / icon | 80–120px | inline badge, cursor follower, nav logo |
+| small | 200–320px | card accent, sidebar |
+| medium | 400–600px | half-hero, section illustration |
+| large | 70–90vh or full column | hero centerpiece |
+| full / fullscreen | 100vw × 100vh | immersive landing, takeover section |
 
-### Reduced Motion Guidelines
-
-- Every animated element needs its own `prefers-reduced-motion` media query
-- Set `animation: none` or `transition: none` (no `!important`)
-- No exceptions for opacity or color - disable all animations
-- Show play buttons instead of autoplay videos
-
-### Framer Motion Implementation
+To fit a model to its frame regardless of its native scale, compute its bounding box and auto-fit rather than hardcoding scale:
 
 ```jsx
-import { useReducedMotion } from "framer-motion";
+import { Center, Bounds } from '@react-three/drei'
 
-function Component() {
-  const shouldReduceMotion = useReducedMotion();
+<Bounds fit clip observe margin={1.2}>
+  <Center>
+    <Model url={url} />
+  </Center>
+</Bounds>
+```
 
-  return (
-    <motion.div
-      initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-    />
-  );
+`Bounds` auto-frames the camera to the model regardless of size word — then you only need to change the *container* dimensions per the table above, and `Bounds` handles the rest. This avoids the common bug of "I set scale to 'large' but the model still looks tiny/huge."
+
+Always make the container responsive: define mobile sizes (usually one tier down — "large" on desktop → "medium" container on mobile, or hide entirely behind a static poster image if performance is a concern on mobile).
+
+## Step 4: Animation vocabulary → implementation
+
+Distinguish **ambient/looping** animation (runs continuously, no user trigger) from **triggered** animation (scroll, hover, load-in).
+
+### Ambient (use `useFrame`, not GSAP, for continuous loops — it's cheaper and frame-synced)
+
+```jsx
+import { useFrame } from '@react-three/fiber'
+import { useRef } from 'react'
+
+function Model({ url }) {
+  const ref = useRef()
+  useFrame((state, delta) => {
+    ref.current.rotation.y += delta * 0.3 // "slowly spinning"
+    ref.current.position.y = Math.sin(state.clock.elapsedTime) * 0.1 // "gentle float"
+  })
+  return <primitive ref={ref} object={scene} />
 }
 ```
 
-### Touch Device Considerations
+| User says | Implementation |
+|---|---|
+| "spin / rotate slowly" | `rotation.y += delta * 0.2–0.4` |
+| "spin fast" | `rotation.y += delta * 1–2` |
+| "float / bob / hover in place" | sine wave on `position.y`, amplitude ~0.1–0.2 units, or use `<Float>` from drei (wraps this automatically: `<Float speed={1} rotationIntensity={0.4} floatIntensity={0.6}>`) |
+| "breathe / pulse" | sine wave on uniform `scale`, small amplitude (1 ± 0.03) |
+| "follow the cursor / look at mouse" | lerp rotation toward `state.pointer` in `useFrame` |
+| "auto-rotate camera around it" | `<OrbitControls autoRotate autoRotateSpeed={...} enableZoom={false} />` from drei |
 
-```css
-/* Disable hover animations on touch devices */
-@media (hover: hover) and (pointer: fine) {
-  .element:hover {
-    transform: scale(1.05);
-  }
-}
+### Triggered — entrance / load-in
+
+```jsx
+// Using GSAP
+useGSAP(() => {
+  gsap.from(ref.current.scale, { x: 0, y: 0, z: 0, duration: 1.2, ease: 'back.out(1.7)' })
+  gsap.from(ref.current.position, { y: -2, duration: 1, ease: 'power3.out' })
+})
+```
+"Fade in" for 3D means animating opacity on the material(s) (requires `transparent: true` on the material) or animating scale/position — pure CSS opacity on the Canvas also works and is simpler if no other 3D motion is needed simultaneously.
+
+### Triggered — scroll
+
+Two solid approaches; pick one per project, don't mix:
+
+1. **GSAP ScrollTrigger driving Three.js object transforms** (most control):
+```jsx
+gsap.registerPlugin(ScrollTrigger)
+useGSAP(() => {
+  gsap.to(modelRef.current.rotation, {
+    y: Math.PI * 2,
+    scrollTrigger: { trigger: '#section', start: 'top bottom', end: 'bottom top', scrub: true }
+  })
+})
+```
+2. **`@react-three/drei`'s `ScrollControls` + `useScroll`** for scroll-tied scenes fully inside the Canvas (good for pinned/immersive sections):
+```jsx
+<ScrollControls pages={3} damping={0.2}>
+  <Scroll><ModelThatReactsToScrollOffset /></Scroll>
+  <Scroll html><div>Normal page content</div></Scroll>
+</ScrollControls>
 ```
 
-Touch devices trigger hover on tap, causing false positives.
+| User says | Pattern |
+|---|---|
+| "rotates as you scroll" | ScrollTrigger `scrub: true` on rotation |
+| "zooms in / camera moves in on scroll" | animate `camera.position.z` or `<Bounds>` margin via scroll progress |
+| "appears/reveals on scroll" | IntersectionObserver or ScrollTrigger `start`/`once: true` triggering the entrance animation from above |
+| "stays pinned while scrolling through a section" | ScrollTrigger `pin: true`, or drei `ScrollControls` |
 
-## Practical Tips
+### Triggered — hover / interaction
 
-Quick reference for common scenarios. See [PRACTICAL-TIPS.md](PRACTICAL-TIPS.md) for detailed implementations.
+```jsx
+const [hovered, setHovered] = useState(false)
+<primitive
+  object={scene}
+  onPointerOver={() => setHovered(true)}
+  onPointerOut={() => setHovered(false)}
+  scale={hovered ? 1.1 : 1}
+/>
+```
+Wrap scale/rotation changes in a `useFrame` lerp (`THREE.MathUtils.lerp`) rather than snapping directly, so hover feels smooth, not jumpy. Set `document.body.style.cursor = 'pointer'` on hover if the model is meant to feel clickable.
 
-| Scenario                        | Solution                                        |
-| ------------------------------- | ----------------------------------------------- |
-| Make buttons feel responsive    | Add `transform: scale(0.97)` on `:active`       |
-| Element appears from nowhere    | Start from `scale(0.95)`, not `scale(0)`        |
-| Shaky/jittery animations        | Add `will-change: transform`                    |
-| Hover causes flicker            | Animate child element, not parent               |
-| Popover scales from wrong point | Set `transform-origin` to trigger location      |
-| Sequential tooltips feel slow   | Skip delay/animation after first tooltip        |
-| Small buttons hard to tap       | Use 44px minimum hit area (pseudo-element)      |
-| Something still feels off       | Add subtle blur (under 20px) to mask it         |
-| Hover triggers on mobile        | Use `@media (hover: hover) and (pointer: fine)` |
+### Transitions between models / scenes
 
-## Easing Decision Flowchart
+"Crossfade", "swap model", "transition to next" → fade out (opacity/scale to 0 or `AnimatePresence` if using `framer-motion-3d`) the old model, unmount, mount + fade in the new one. For full-page 3D-to-3D transitions tied to route changes, animate a shared camera/Canvas rather than unmounting the whole `<Canvas>`, to avoid a visible flash/reload.
 
-Is the element entering or exiting the viewport?
-├── Yes → ease-out
-└── No
-├── Is it moving/morphing on screen?
-│ └── Yes → ease-in-out
-└── Is it a hover change?
-├── Yes → ease
-└── Is it constant motion?
-├── Yes → linear
-└── Default → ease-out
+## Step 5: Lighting & camera defaults
 
-## Reference Files
+Don't leave the user with a flat/dark model. Default scene setup unless the design calls for something specific:
 
-- [PRACTICAL-TIPS.md](PRACTICAL-TIPS.md) - Detailed implementations for common animation scenarios
+```jsx
+<Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
+  <ambientLight intensity={0.6} />
+  <directionalLight position={[5, 5, 5]} intensity={1.2} castShadow />
+  <Environment preset="city" /> {/* drei — quick realistic reflections, swap preset to match mood: "studio", "sunset", "night", "warehouse" */}
+  ...
+</Canvas>
+```
+Match `Environment` preset to the aesthetic if the user has a stated visual direction (e.g. a moody/dark theme → `"night"` or `"warehouse"`; a clean product showcase → `"studio"`).
 
----
+## Step 6: Performance & responsiveness checklist
+
+Run through this before calling the integration done:
+- [ ] GLB is Draco/Meshopt-compressed if >5MB
+- [ ] `<Suspense>` fallback in place; page doesn't block on 3D load
+- [ ] `useGLTF.preload()` called outside the component for instant reuse if the model appears in multiple places
+- [ ] `dpr` capped on `<Canvas dpr={[1, 2]}>` to avoid melting low-end/mobile GPUs
+- [ ] Heavy scenes (postprocessing, many lights, `autoRotate` + `ScrollTrigger` together) get a simplified or static-image fallback on mobile/`prefers-reduced-motion`
+- [ ] `<Canvas frameloop="demand">` considered for static/rarely-animated scenes to save battery — switch to `"always"` only where continuous animation is actually needed
+- [ ] Dispose of geometries/textures on unmount if models are swapped frequently (R3F handles most of this automatically via its reconciler, but verify no leaks in dev tools if testing reveals issues)
+
+## Quick request → action cheat sheet
+
+Use this to move fast on casual one-line instructions:
+
+> "Put the dragon model medium-sized in the hero, slowly spinning, fade in when the page loads, and let it rotate faster on hover"
+
+→ Hero section pattern (Step 2) + medium container/Bounds fit (Step 3) + ambient slow `rotation.y` spin (Step 4) + GSAP scale-in entrance (Step 4) + hover state lerping rotation speed up (Step 4) + standard lighting (Step 5).
+
+Don't ask for clarification on numeric specifics the table above already covers — only ask if the *section/page location itself* is unclear (e.g. multiple plausible "hero" candidates) or if the user references a model/section that doesn't exist yet in the codebase.
