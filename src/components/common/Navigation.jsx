@@ -1,27 +1,19 @@
-/**
- * Navigation Component
- * Sticky navigation bar with section links
- */
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import styles from './Navigation.module.css';
-import { Magnetic } from './Magnetic';
 
 export const Navigation = () => {
   const [activeSection, setActiveSection] = useState('hero');
-  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-
-      // Update active section
       const sections = ['hero', 'about', 'skills', 'projects', 'experience', 'contact'];
       for (const section of sections) {
         const element = document.getElementById(section);
         if (element) {
           const rect = element.getBoundingClientRect();
-          if (rect.top <= 200) {
+          // If top of section is near the middle of viewport
+          if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
             setActiveSection(section);
           }
         }
@@ -33,67 +25,35 @@ export const Navigation = () => {
   }, []);
 
   const links = [
-    { href: '#about', label: 'About' },
-    { href: '#skills', label: 'Skills' },
-    { href: '#projects', label: 'Projects' },
-    { href: '#experience', label: 'Experience' },
-    { href: '#contact', label: 'Contact' },
+    { href: '#hero', kanji: '序', text: 'HERO' },
+    { href: '#about', kanji: '', text: 'ABOUT' },
+    { href: '#skills', kanji: '', text: 'SKILLS' },
+    { href: '#projects', kanji: '', text: 'PROJECTS' },
+    { href: '#experience', kanji: '', text: 'EXPERIENCE' },
+    { href: '#contact', kanji: '', text: 'CONTACT' },
   ];
 
   return (
-    <motion.nav
-      className={`${styles.nav} ${isScrolled ? styles.scrolled : ''}`}
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.5 }}
-    >
-      <div className={styles.container}>
-        <Magnetic strength={0.8}>
-          <motion.a href="#hero" className={styles.logo} whileHover={{ scale: 1.05 }}>
-            <span className={styles.logoText}>S.</span>
-          </motion.a>
-        </Magnetic>
-
-        <div className={styles.links}>
-          {links.map((link) => (
-            <Magnetic key={link.href} strength={0.4}>
-              <motion.a
-                href={link.href}
-                className={`${styles.link} ${
-                  activeSection === link.href.slice(1) ? styles.active : ''
-                }`}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                {link.label}
-                {activeSection === link.href.slice(1) && (
-                  <motion.span
-                    className={styles.underline}
-                    layoutId="underline"
-                    initial={false}
-                    transition={{
-                      duration: 0.3,
-                    }}
-                  />
-                )}
-              </motion.a>
-            </Magnetic>
-          ))}
-        </div>
-
-        <Magnetic strength={0.6}>
-          <motion.a
-            href="https://github.com/Shiva_Sanjay"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.social}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
+    <nav className={styles.sideNav}>
+      <div className={styles.navLine}></div>
+      {links.map((link) => {
+        const isActive = activeSection === link.href.slice(1);
+        return (
+          <a
+            key={link.href}
+            href={link.href}
+            className={`${styles.navItem} ${isActive ? styles.active : ''}`}
           >
-            GitHub
-          </motion.a>
-        </Magnetic>
-      </div>
-    </motion.nav>
+            <div className={styles.navContent}>
+              <span className={styles.navText}>{link.text}</span>
+              <span className={styles.navKanji}>{link.kanji}</span>
+            </div>
+            <div className={styles.navIndicator}></div>
+          </a>
+        );
+      })}
+    </nav>
   );
 };
+
+export default Navigation;

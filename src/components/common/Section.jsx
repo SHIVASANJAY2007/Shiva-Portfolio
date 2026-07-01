@@ -3,9 +3,12 @@
  * Provides consistent spacing and layout for portfolio sections
  */
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { ScrambleHeader } from './ScrambleHeader';
 import styles from './Section.module.css';
+
+// ease-out-cubic (same curve as previous but documented)
+const easeOutCubic = [0.215, 0.61, 0.355, 1];
 
 export const Section = ({
   children,
@@ -15,15 +18,17 @@ export const Section = ({
   fullHeight = false,
   className = '',
 }) => {
+  const shouldReduceMotion = useReducedMotion();
+
   const containerVariants = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, y: 20 },
     visible: { 
       opacity: 1, 
       y: 0,
       transition: { 
-        duration: 0.8,
-        staggerChildren: 0.2,
-        ease: [0.215, 0.61, 0.355, 1] // Dogstudio-like easing
+        duration: 0.3,
+        staggerChildren: 0.1,
+        ease: easeOutCubic 
       } 
     }
   };
@@ -39,9 +44,9 @@ export const Section = ({
             <ScrambleHeader text={title} className={styles.title} />
             {subtitle && (
               <motion.p 
-                initial={{ opacity: 0 }}
+                initial={shouldReduceMotion ? false : { opacity: 0 }}
                 whileInView={{ opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.5 }}
+                transition={{ duration: 0.3, delay: 0.2, ease: easeOutCubic }}
                 className={styles.subtitle}
               >
                 {subtitle}
@@ -50,10 +55,10 @@ export const Section = ({
           </div>
         )}
         <motion.div
-           variants={containerVariants}
-           initial="hidden"
+           variants={shouldReduceMotion ? {} : containerVariants}
+           initial={shouldReduceMotion ? false : "hidden"}
            whileInView="visible"
-           viewport={{ once: true, margin: "-100px" }}
+           viewport={{ once: true, margin: "-50px" }}
         >
           {children}
         </motion.div>

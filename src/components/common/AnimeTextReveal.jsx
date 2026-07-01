@@ -7,13 +7,20 @@ export const AnimeTextReveal = ({ text, className, delay = 0 }) => {
   useEffect(() => {
     if (!containerRef.current) return;
 
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     // Split text into characters wrapped in spans
     const chars = text.split('').map((char) => {
       const span = document.createElement('span');
       span.style.display = char === ' ' ? 'inline' : 'inline-block';
-      span.style.opacity = '0';
-      span.style.transform = 'translateY(1.2em)';
-      span.style.transformOrigin = 'bottom center';
+      if (prefersReducedMotion) {
+        span.style.opacity = '1';
+        span.style.transform = 'none';
+      } else {
+        span.style.opacity = '0';
+        span.style.transform = 'translateY(1em)';
+        span.style.transformOrigin = 'bottom center';
+      }
       span.textContent = char === ' ' ? '\u00A0' : char;
       return span;
     });
@@ -21,16 +28,17 @@ export const AnimeTextReveal = ({ text, className, delay = 0 }) => {
     containerRef.current.innerHTML = '';
     chars.forEach((span) => containerRef.current.appendChild(span));
 
+    if (prefersReducedMotion) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           animate(containerRef.current.children, {
-            y: [40, 0],
-            rotate: [5, 0],
+            y: ['1em', 0],
             opacity: [0, 1],
-            delay: stagger(20, { start: delay }),
-            duration: 1000,
-            ease: 'easeOutElastic(1, 0.75)',
+            delay: stagger(10, { start: delay }),
+            duration: 300,
+            easing: 'cubicBezier(0.165, 0.84, 0.44, 1)', // easeOutQuart
           });
           observer.unobserve(containerRef.current);
         }

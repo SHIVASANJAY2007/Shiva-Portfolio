@@ -3,7 +3,7 @@
  * Premium, accessible button with hover/focus states
  */
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import styles from './Button.module.css';
 
 export const Button = ({
@@ -16,6 +16,7 @@ export const Button = ({
   className = '',
   ...props
 }) => {
+  const shouldReduceMotion = useReducedMotion();
   const buttonClass = `${styles.button} ${styles[`variant-${variant}`]} ${styles[`size-${size}`]} ${className}`;
 
   if (href) {
@@ -23,8 +24,8 @@ export const Button = ({
       <motion.a
         href={href}
         className={buttonClass}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
+        whileHover={shouldReduceMotion ? {} : { scale: 1.02, transition: { duration: 0.15, ease: "easeOut" } }}
+        whileTap={shouldReduceMotion ? {} : { scale: 0.98, transition: { duration: 0.1, ease: "easeOut" } }}
         {...props}
       >
         {children}
@@ -37,8 +38,8 @@ export const Button = ({
       className={buttonClass}
       onClick={onClick}
       disabled={disabled}
-      whileHover={!disabled ? { scale: 1.02 } : {}}
-      whileTap={!disabled ? { scale: 0.98 } : {}}
+      whileHover={(!disabled && !shouldReduceMotion) ? { scale: 1.02, transition: { duration: 0.15, ease: "easeOut" } } : {}}
+      whileTap={(!disabled && !shouldReduceMotion) ? { scale: 0.98, transition: { duration: 0.1, ease: "easeOut" } } : {}}
       {...props}
     >
       {children}

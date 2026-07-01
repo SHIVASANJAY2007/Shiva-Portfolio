@@ -3,18 +3,22 @@
  * Showcase individual projects with descriptions and highlights
  */
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import styles from './ProjectCard.module.css';
+
+// ease-out-quart
+const easeOutQuart = [0.165, 0.84, 0.44, 1];
 
 export const ProjectCard = ({ name, year, description, highlights }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
 
   return (
     <motion.div
       className={styles.card}
       onClick={() => setIsExpanded(!isExpanded)}
-      whileHover={{ scale: 1.02 }}
-      transition={{ duration: 0.3 }}
+      whileHover={shouldReduceMotion ? {} : { scale: 1.02, transition: { duration: 0.15, ease: "easeOut" } }}
+      transition={{ duration: 0.2, ease: easeOutQuart }}
     >
       <div className={styles.header}>
         <div>
@@ -24,7 +28,7 @@ export const ProjectCard = ({ name, year, description, highlights }) => {
         <motion.span
           className={styles.toggle}
           animate={{ rotate: isExpanded ? 180 : 0 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.2, ease: easeOutQuart }}
         >
           ↓
         </motion.span>
@@ -39,7 +43,7 @@ export const ProjectCard = ({ name, year, description, highlights }) => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.25, ease: easeOutQuart }}
           >
             <div className={styles.highlightsList}>
               {highlights.map((highlight, idx) => (

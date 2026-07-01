@@ -1,137 +1,338 @@
-import React, { useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
-import { Button, Magnetic, AnimeTextReveal } from '../common';
+import React, { useEffect, useRef, Suspense, useState } from 'react';
+import * as THREE from 'three';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { useGLTF, Environment, PerspectiveCamera } from '@react-three/drei';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './Hero.module.css';
 import { resumeData } from '../../data/resume';
-import { useScramble } from '../../hooks/useScramble';
-import vantaBirds from '../../utils/vanta/vanta.birds.js';
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.15, delayChildren: 0.3 },
-  },
-};
+gsap.registerPlugin(ScrollTrigger);
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.8, ease: 'easeOut' },
-  },
-};
+// ── Step 1: Load GLB correctly (preload outside component per skill)
+const MODEL_URL = '/models/the_forgotten_knight.glb';
 
-export const Hero = () => {
-  const { output: displayedText } = useScramble(resumeData.personal.name, 500, 1500);
-  const vantaRef = useRef(null);
+function KnightModel({ scaleRef }) {
+  const { scene } = useGLTF(MODEL_URL);
+  const meshRef = useRef();
+  
+  // ── HEAD TRACKING IMPLEMENTATION ──
+  const headBoneRef = useRef(null);
+  const initialHeadRotation = useRef(new THREE.Euler());
+  const isPointerActive = useRef(false);
+  const globalMouse = useRef({ x: 0, y: 0 });
 
+  // Traverse scene to find the head bone
   useEffect(() => {
-    let effect = null;
-    if (vantaRef.current && window.THREE) {
-      try {
-        effect = vantaBirds({
-          el: vantaRef.current,
-          THREE: window.THREE,
-          mouseControls: true,
-          touchControls: true,
-          gyroControls: false,
-          minHeight: 200.0,
-          minWidth: 200.0,
-          scale: 1.0,
-          scaleMobile: 1.0,
-          backgroundColor: 0x0,
-          backgroundAlpha: 0.0, // transparent canvas to show gradient behind
-          color1: 0xffe500, // yellow
-          color2: 0xff0d00, // pink
-          colorMode: "lerp",
-          birdSize: 1.50,
-          wingSpan: 25.0,
-          separation: 30.0,
-          alignment: 30.0,
-          cohesion: 30.0,
-          quantity: 4.0,
-        });
-      } catch (err) {
-        console.error("Vanta Birds initialization error:", err);
+    if (!scene) return;
+    let found = false;
+    scene.traverse((child) => {
+      if (!found && child.isBone) {
+        const name = child.name.toLowerCase();
+        if (name.includes('head') || name.includes('neck')) {
+          headBoneRef.current = child;
+          initialHeadRotation.current.copy(child.rotation);
+          found = true;
+        }
       }
-    } else {
-      console.warn("Vanta Birds could not initialize: vantaRef.current or window.THREE is missing", {
-        vantaRef: vantaRef.current,
-        THREE: window.THREE
-      });
-    }
+    });
+  }, [scene]);
+
+  // Track global mouse position across the whole window
+  useEffect(() => {
+    const onMouseMove = (e) => {
+      isPointerActive.current = true;
+      // Normalize to -1 to +1 relative to window
+      globalMouse.current.x = (e.clientX / window.innerWidth) * 2 - 1;
+      // Y is inverted: +1 at top, -1 at bottom
+      globalMouse.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    };
+    
+    const onMouseLeave = () => {
+      isPointerActive.current = false;
+    };
+
+    window.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseleave', onMouseLeave); 
+    
+    if (navigator.maxTouchPoints === 0) isPointerActive.current = true;
+
     return () => {
-      if (effect) effect.destroy();
+      window.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseleave', onMouseLeave);
     };
   }, []);
 
+  // Smoothly interpolate head bone
+  useFrame(() => {
+    if (!headBoneRef.current) return;
+    
+    let targetYaw = 0;
+    let targetPitch = 0;
+
+    if (isPointerActive.current) {
+      // If head rotates opposite, invert the mapping multipliers
+      targetYaw = globalMouse.current.x * (20 * Math.PI / 180);
+      targetPitch = -globalMouse.current.y * (10 * Math.PI / 180);
+    }
+    
+    const head = headBoneRef.current;
+    const initial = initialHeadRotation.current;
+    
+    const finalYaw = initial.y + targetYaw;
+    const finalPitch = initial.x + targetPitch;
+
+    // Use smooth lerp to animate towards target rotation
+    head.rotation.y = THREE.MathUtils.lerp(head.rotation.y, finalYaw, 0.05);
+    head.rotation.x = THREE.MathUtils.lerp(head.rotation.x, finalPitch, 0.05);
+  });
+
+  // ── Step 4: GSAP entrance animation (Opacity only to prevent position bugs on huge models)
+  useEffect(() => {
+    if (!meshRef.current) return;
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) return;
+
+    // Fade in from 0
+    meshRef.current.traverse((child) => {
+      if (child.isMesh) {
+        child.material.transparent = true;
+        child.material.opacity = 0;
+        gsap.to(child.material, {
+          opacity: 1,
+          duration: 1.4,
+          ease: 'power2.out',
+          delay: 0.4,
+        });
+      }
+    });
+  }, []);
+
   return (
-    <section id="hero" className={styles.hero}>
-      <div ref={vantaRef} className={styles.heroVanta} aria-hidden="true" />
-      {/* Left — text content */}
+    <primitive
+      ref={meshRef}
+      object={scene}
+    />
+  );
+}
 
-      <motion.div
-        className={styles.text}
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
+// Component to handle exact camera positioning
+function CameraRig() {
+  const { camera } = useThree();
+  
+  useEffect(() => {
+    const target = new THREE.Vector3(0.026311563721417866, 1.9530481113475282, 0.41684588599902234);
+    
+    const radius = 3.6397344714996964;
+    const phi = 1.6859880574265205;
+    const theta = 7.225663103256566;
+    
+    const spherical = new THREE.Spherical(radius, phi, theta);
+    const position = new THREE.Vector3().setFromSpherical(spherical).add(target);
+    
+    camera.position.copy(position);
+    camera.lookAt(target);
+    camera.updateProjectionMatrix();
+  }, [camera]);
+
+  return null;
+}
+
+// ── Step 1: Call preload outside component so it starts immediately on import
+useGLTF.preload(MODEL_URL);
+
+// Lightweight fallback (wireframe box) while GLB loads — page never blocks
+function ModelFallback() {
+  return (
+    <mesh>
+      <boxGeometry args={[1, 1, 1]} />
+      <meshBasicMaterial color="#ff005522" wireframe />
+    </mesh>
+  );
+}
+
+export const Hero = () => {
+  const containerRef = useRef(null);
+  const subtitleRef = useRef(null);
+  const ctaRef = useRef(null);
+  const titleCharsRef = useRef([]);
+  const lineRef = useRef(null);
+  const taglineRef = useRef(null);
+  const blobLeftRef = useRef(null);
+  const blobRightRef = useRef(null);
+  const gridRef = useRef(null);
+  const canvasWrapRef = useRef(null);
+
+  useEffect(() => {
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) return;
+
+    const ctx = gsap.context(() => {
+      // ── UI entrance timeline
+      const tl = gsap.timeline({
+        defaults: { ease: 'cubic-bezier(0.215, 0.61, 0.355, 1)' },
+      });
+
+      tl.from(taglineRef.current, { opacity: 0, y: 16, duration: 0.6 })
+        .from(
+          titleCharsRef.current,
+          { y: '105%', opacity: 0, duration: 0.75, stagger: 0.035 },
+          '-=0.2'
+        )
+        .from(
+          lineRef.current,
+          {
+            scaleX: 0,
+            transformOrigin: 'left center',
+            duration: 0.5,
+            ease: 'cubic-bezier(0.165, 0.84, 0.44, 1)',
+          },
+          '-=0.3'
+        )
+        .from(subtitleRef.current, { opacity: 0, y: 20, duration: 0.6 }, '-=0.2')
+        .from(ctaRef.current, { opacity: 0, y: 16, duration: 0.5 }, '-=0.3');
+
+      // ── Step 4: ScrollTrigger — canvas fades as hero exits
+      gsap.to(canvasWrapRef.current, {
+        opacity: 0,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1.2,
+        },
+      });
+
+      // Blob parallax
+      gsap.to(blobLeftRef.current, {
+        y: -80,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1.2,
+        },
+      });
+
+      gsap.to(blobRightRef.current, {
+        y: -50,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1.8,
+        },
+      });
+
+      // Grid fade on scroll
+      gsap.to(gridRef.current, {
+        opacity: 0,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top top',
+          end: '40% top',
+          scrub: true,
+        },
+      });
+
+      // Content drifts up on exit
+      gsap.to(containerRef.current.querySelector(`.${styles.content}`), {
+        y: -60,
+        opacity: 0,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: '20% top',
+          end: 'bottom top',
+          scrub: 1,
+        },
+      });
+    }, containerRef);
+
+    return () => {
+      ctx.revert();
+      ScrollTrigger.getAll().forEach((st) => st.kill());
+    };
+  }, []);
+
+  const nameChars = resumeData.personal.name.split('').map((char, i) => (
+    <span key={i} className={styles.charWrap}>
+      <span
+        className={styles.char}
+        ref={(el) => (titleCharsRef.current[i] = el)}
       >
-        <motion.div variants={itemVariants} className={styles.greeting}>
-          <span className={styles.wave}>👋</span>
-          <AnimeTextReveal text="Welcome" />
-        </motion.div>
+        {char === ' ' ? '\u00A0' : char}
+      </span>
+    </span>
+  ));
 
-        <motion.h1 variants={itemVariants} className={styles.title}>
-          <span className={styles.name}>{displayedText}</span>
-          <span className={styles.cursor}>|</span>
-        </motion.h1>
+  return (
+    <section id="hero" className={styles.heroSection} ref={containerRef}>
 
-        <motion.p variants={itemVariants} className={styles.subtitle}>
-          <AnimeTextReveal text={`${resumeData.personal.title} · Full-Stack Developer & Creative Technologist`} delay={100} />
-        </motion.p>
+      {/* ── Background decorative layers */}
+      <div ref={gridRef} className={styles.grid} aria-hidden="true" />
+      <div ref={blobLeftRef} className={styles.blobLeft} aria-hidden="true" />
+      <div ref={blobRightRef} className={styles.blobRight} aria-hidden="true" />
 
-        <motion.p variants={itemVariants} className={styles.description}>
-          Crafting elite digital experiences with React, 3D technologies, and precision
-          design. Merging innovation with tradition through Japanese aesthetic principles.
-        </motion.p>
+      {/* ── Step 2: 3D canvas — behind everything, transparent, no pointer interception on wrapper */}
+      {/* ── Step 6: dpr capped, frameloop=always for continuous spin */}
+      <div ref={canvasWrapRef} className={styles.canvasContainer} aria-hidden="true">
+        <Canvas
+          gl={{ alpha: true, antialias: false, powerPreference: "high-performance" }}
+          dpr={1}
+          frameloop="always"
+        >
+          <PerspectiveCamera 
+            makeDefault 
+            fov={20.793308254689492} 
+            near={0.1}
+            far={1000}
+          />
+          <CameraRig />
 
-        <motion.div variants={itemVariants} className={styles.cta}>
-          <Magnetic>
-            <Button onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}>
-              Explore My Work
-            </Button>
-          </Magnetic>
-          <Magnetic>
-            <Button variant="secondary" href={resumeData.profiles.github} target="_blank">
-              GitHub Profile
-            </Button>
-          </Magnetic>
-        </motion.div>
+          {/* ── Step 5: Standard lighting + Environment */}
+          <ambientLight intensity={0.6} />
+          <directionalLight position={[5, 5, 5]} intensity={1.2} castShadow />
+          <directionalLight position={[-5, 3, -5]} intensity={0.5} />
+          <Environment preset="city" />
 
-        <motion.div variants={itemVariants} className={styles.contact}>
-          <a href={`mailto:${resumeData.personal.email}`} className={styles.email}>
-            {resumeData.personal.email}
-          </a>
-          <span className={styles.divider}>•</span>
-          <span className={styles.location}>{resumeData.personal.location}</span>
-        </motion.div>
-      </motion.div>
+          <Suspense fallback={<ModelFallback />}>
+            <KnightModel />
+          </Suspense>
+        </Canvas>
+      </div>
 
+      {/* ── UI content sits on top (z-index: 1) */}
+      <div className={styles.content}>
 
-      {/* Scroll indicator */}
-      <motion.div
-        className={styles.scroll}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 0.8 }}
-      >
-        <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 2, repeat: Infinity }} className={styles.scrollIcon}>
-          ↓
-        </motion.div>
-        <p>Scroll to explore</p>
-      </motion.div>
+        <span ref={taglineRef} className={styles.tagline}>
+          <span className={styles.taglineDot} />
+          Portfolio
+        </span>
+
+        <h1 className={styles.brutalistTitle}>
+          {nameChars}
+        </h1>
+
+        <div ref={lineRef} className={styles.accentLine} />
+
+        <p ref={subtitleRef} className={styles.subtitle}>
+          <span className={styles.pill}>{resumeData.personal.title}</span>
+          <span className={styles.pill}>Developer</span>
+          <span className={styles.pill}>Leader</span>
+        </p>
+
+        <a ref={ctaRef} href="#projects" className={styles.cta} id="hero-cta">
+          View Work
+          <span className={styles.ctaArrow}>↓</span>
+        </a>
+
+      </div>
+
     </section>
   );
 };

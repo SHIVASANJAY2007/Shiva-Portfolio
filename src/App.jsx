@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Lenis from 'lenis';
-import { Navigation, Footer, Loader, AbstractBackground } from './components/common';
+import { Navigation, Footer, Loader } from './components/common';
 import {
   Hero,
   About,
@@ -11,6 +11,8 @@ import {
 } from './components/sections';
 import useScrollScene from './hooks/useScrollScene';
 import './styles/globals.css';
+import ModuleScroller from './components/sections/ModuleScroller';
+import TheatreStudio from './utils/TheatreStudio';
 
 export default function App() {
   useScrollScene();
@@ -33,17 +35,19 @@ export default function App() {
 
   return (
     <div className="app">
-      <AbstractBackground />
+      <TheatreStudio />
       <Loader />
       <Navigation />
 
       <main>
-        <Hero />
-        <About />
-        <Skills />
-        <Projects />
-        <Experience />
-        <Contact />
+        <ModuleScroller>
+          <Hero />
+          <About />
+          <Skills />
+          <Projects />
+          <Experience />
+          <Contact />
+        </ModuleScroller>
       </main>
 
       <Footer />
