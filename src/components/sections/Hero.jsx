@@ -86,9 +86,9 @@ function KnightModel({ scaleRef }) {
     const finalPitch = initial.x + targetPitch;
 
     // Use smooth lerp to animate towards target rotation
-    // Increased speed from 0.05 to 0.15 for faster head movement
-    head.rotation.y = THREE.MathUtils.lerp(head.rotation.y, finalYaw, 0.15);
-    head.rotation.x = THREE.MathUtils.lerp(head.rotation.x, finalPitch, 0.15);
+    // Decreased speed slightly from 0.15 to 0.10
+    head.rotation.y = THREE.MathUtils.lerp(head.rotation.y, finalYaw, 0.05);
+    head.rotation.x = THREE.MathUtils.lerp(head.rotation.x, finalPitch, 0.05);
     
     // In frameloop="demand", useFrame doesn't run continuously unless invalidated.
     // If we want the smooth lerp to finish its interpolation even after the mouse stops,
