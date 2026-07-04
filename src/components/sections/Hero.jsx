@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, Suspense } from 'react';
 import * as THREE from 'three';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Environment, PerspectiveCamera, Float, Html } from '@react-three/drei';
+import { Environment, PerspectiveCamera, Html } from '@react-three/drei';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import styles from './Hero.module.css';
@@ -318,9 +318,7 @@ export const Hero = () => {
             <Environment preset="city" />
 
             <Suspense fallback={<ModelFallback />}>
-              <Float speed={0.8} rotationIntensity={0.08} floatIntensity={0.4}>
-                <KnightModel />
-              </Float>
+              <KnightModel />
             </Suspense>
           </Canvas>
         </HeroErrorBoundary>
