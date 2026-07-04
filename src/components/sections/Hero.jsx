@@ -272,10 +272,10 @@ export const Hero = () => {
           dpr={[1, 2]}
           frameloop="demand"
         >
-          {/* Increased FOV from 20 to 28 to zoom the model out a little */}
+          {/* Increased FOV to 45 to zoom the model out more */}
           <PerspectiveCamera
             makeDefault
-            fov={28}
+            fov={45}
             near={0.1}
             far={1000}
           />
