@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, Suspense } from 'react';
 import * as THREE from 'three';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { useGLTF, Environment, PerspectiveCamera, Float } from '@react-three/drei';
+import { useGLTF, Environment, Bounds, Center, Float } from '@react-three/drei';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import styles from './Hero.module.css';
@@ -31,16 +31,6 @@ function KnightModel() {
   const initialHeadRotation = useRef(new THREE.Euler());
   const isPointerActive = useRef(false);
   const globalMouse = useRef({ x: 0, y: 0 });
-
-  // ── Step 1: Position model exactly where CameraRig expects it ──────────────
-  // The spherical camera was calibrated with the knight at position [0, -1.5, 0]
-  // and scale 1.8. These are NOT magic numbers — they come from the Theatre.js
-  // session where the camera was saved.
-  useEffect(() => {
-    if (!scene) return;
-    scene.position.set(0, -1.5, 0);
-    scene.scale.setScalar(1.8);
-  }, [scene]);
 
   // ── Step 2: Find head/neck bone — never hardcode a single name ────────────
   useEffect(() => {
@@ -138,37 +128,6 @@ function KnightModel() {
   );
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// CameraRig
-// Restores the exact camera position saved from the Theatre.js session.
-// The target point is the knight's upper torso/head area.
-// The spherical coordinates place the camera slightly to the right and above.
-// These numbers ARE justified: they came from scene.camera.position in the
-// Theatre.js inspector when the shot looked correct.
-// ─────────────────────────────────────────────────────────────────────────────
-function CameraRig() {
-  const { camera } = useThree();
-  useEffect(() => {
-    const target = new THREE.Vector3(
-      0.026311563721417866,
-      1.9530481113475282,
-      0.41684588599902234
-    );
-    const spherical = new THREE.Spherical(
-      3.6397344714996964,   // radius
-      1.6859880574265205,   // phi   (polar angle from +Y)
-      7.225663103256566     // theta (azimuthal from +Z)
-    );
-    const position = new THREE.Vector3()
-      .setFromSpherical(spherical)
-      .add(target);
-    camera.position.copy(position);
-    camera.lookAt(target);
-    camera.updateProjectionMatrix();
-  }, [camera]);
-  return null;
-}
-
 // Lightweight wireframe — shown while the remote GLB is being downloaded
 function ModelFallback() {
   return (
@@ -263,30 +222,27 @@ export const Hero = () => {
 
       {/* 3D canvas — absolute, right-aligned, transparent bg, no pointer blocking
           frameloop="demand" + invalidate() = only renders when something changes
-          PerspectiveCamera makeDefault = CameraRig can set it imperatively     */}
+          Bounds + Center automatically computes the correct transform and camera */}
       <div ref={canvasWrapRef} className={styles.canvasContainer} aria-hidden="true">
         <Canvas
           gl={{ alpha: true, antialias: false, powerPreference: 'high-performance' }}
           dpr={[1, 2]}
           frameloop="demand"
+          camera={{ position: [0, 0, 5], fov: 45, near: 0.1, far: 1000 }}
         >
-          <PerspectiveCamera
-            makeDefault
-            fov={20.793308254689492}
-            near={0.1}
-            far={1000}
-          />
-          <CameraRig />
-
           <ambientLight intensity={0.6} />
           <directionalLight position={[5, 5, 5]} intensity={1.2} castShadow />
           <directionalLight position={[-5, 3, -5]} intensity={0.5} />
           <Environment preset="city" />
 
           <Suspense fallback={<ModelFallback />}>
-            <Float speed={0.8} rotationIntensity={0.08} floatIntensity={0.4}>
-              <KnightModel />
-            </Float>
+            <Bounds fit clip observe margin={1.1}>
+              <Center>
+                <Float speed={0.8} rotationIntensity={0.08} floatIntensity={0.4}>
+                  <KnightModel />
+                </Float>
+              </Center>
+            </Bounds>
           </Suspense>
         </Canvas>
       </div>
