@@ -10,7 +10,8 @@ import { resumeData } from '../../data/resume';
 gsap.registerPlugin(ScrollTrigger);
 
 // ── Step 1: Load GLB correctly (preload outside component per skill)
-const MODEL_URL = '/models/knight.glb';
+import { MODEL_URLS } from '../../constants/models';
+const MODEL_URL = MODEL_URLS.knight;
 
 function KnightModel({ scaleRef }) {
   const { scene } = useGLTF(MODEL_URL);

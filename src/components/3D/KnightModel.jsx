@@ -3,9 +3,10 @@ import { Canvas } from '@react-three/fiber';
 import { useGLTF, Environment, Float } from '@react-three/drei';
 import { SheetProvider, editable as e } from '@theatre/r3f';
 import { knightSheet } from '../../utils/theatreSetup';
+import { MODEL_URLS } from '../../constants/models';
 
 const Model = () => {
-  const { scene } = useGLTF('/models/knight.glb');
+  const { scene } = useGLTF(MODEL_URLS.knight);
 
   return (
     <e.primitive
@@ -69,5 +70,5 @@ export const KnightModel = () => {
   );
 };
 
-useGLTF.preload('/models/knight.glb');
+useGLTF.preload(MODEL_URLS.knight);
 export default KnightModel;
