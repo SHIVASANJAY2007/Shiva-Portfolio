@@ -39,7 +39,7 @@ function KnightModel() {
   const isPointerActive = useRef(false);
   const globalMouse = useRef({ x: 0, y: 0 });
 
-  // ── Step 2: Traverse to find head bone, set shadows, and register disposal ─
+  // ── Step 2: Traverse to find head bone and set shadows ─────────────────────
   useEffect(() => {
     if (!scene) return;
     let found = false;
@@ -57,20 +57,9 @@ function KnightModel() {
         }
       }
     });
-
-    // Memory Disposal on Unmount (3D_optimize.md Step 6)
-    return () => {
-      scene.traverse((obj) => {
-        if (obj.geometry) obj.geometry.dispose();
-        if (obj.material) {
-          const materials = Array.isArray(obj.material) ? obj.material : [obj.material];
-          materials.forEach((m) => {
-            Object.values(m).forEach((val) => val?.isTexture && val.dispose());
-            m.dispose();
-          });
-        }
-      });
-    };
+    // We intentionally removed the aggressive disposal here because useGLTF caches 
+    // the scene globally. Disposing it here corrupts the cache on React strict-mode 
+    // re-mounts or page reloads.
   }, [scene]);
 
   // ── Step 3: Single global mouse/leave listener — no per-frame allocations ──
@@ -102,7 +91,7 @@ function KnightModel() {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReduced) return;
     meshRef.current.traverse((child) => {
-      if (child.isMesh) {
+      if (child.isMesh && child.material) {
         child.material.transparent = true;
         child.material.opacity = 0;
         gsap.to(child.material, {
@@ -110,10 +99,11 @@ function KnightModel() {
           duration: 1.4,
           ease: 'power2.out',
           delay: 0.4,
+          onUpdate: invalidate, // Trigger R3F to render the frame during animation!
         });
       }
     });
-  }, []);
+  }, [invalidate]);
 
   // ── Step 5: Per-frame head lerp — ±20° yaw, ±10° pitch ───────────────────
   useFrame(() => {
@@ -282,9 +272,10 @@ export const Hero = () => {
           dpr={[1, 2]}
           frameloop="demand"
         >
+          {/* Increased FOV from 20 to 28 to zoom the model out a little */}
           <PerspectiveCamera
             makeDefault
-            fov={20.793308254689492}
+            fov={28}
             near={0.1}
             far={1000}
           />
