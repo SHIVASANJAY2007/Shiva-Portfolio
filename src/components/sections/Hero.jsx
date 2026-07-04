@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, Suspense } from 'react';
 import * as THREE from 'three';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Environment, PerspectiveCamera, Float } from '@react-three/drei';
+import { Environment, PerspectiveCamera, Float, Html } from '@react-three/drei';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import styles from './Hero.module.css';
 import { resumeData } from '../../data/resume';
-import { useModelLoader, preloadModel } from '../../hooks/useModelLoader';
+import { useModelLoader, preloadModel, useModelProgress } from '../../hooks/useModelLoader';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -196,10 +196,16 @@ function CameraRig() {
 
 // Lightweight wireframe — shown while the remote GLB is being downloaded
 function ModelFallback() {
+  const { progress } = useModelProgress();
   return (
     <mesh>
       <boxGeometry args={[1, 1, 1]} />
       <meshBasicMaterial color="#ff005522" wireframe />
+      <Html center>
+        <div style={{ color: '#FF0055', fontFamily: 'monospace', fontWeight: 'bold' }}>
+          {progress.toFixed(0)}%
+        </div>
+      </Html>
     </mesh>
   );
 }
