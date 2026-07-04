@@ -5,7 +5,7 @@ import { SheetProvider, editable as e } from '@theatre/r3f';
 import { knightSheet } from '../../utils/theatreSetup';
 
 const Model = () => {
-  const { scene } = useGLTF('/models/the_forgotten_knight.glb');
+  const { scene } = useGLTF('/models/3D Models/knight.glb');
 
   return (
     <e.primitive
@@ -69,5 +69,5 @@ export const KnightModel = () => {
   );
 };
 
-useGLTF.preload('/models/the_forgotten_knight.glb');
+useGLTF.preload('/models/3D Models/knight.glb');
 export default KnightModel;
