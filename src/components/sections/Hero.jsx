@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, Suspense } from 'react';
 import * as THREE from 'three';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Environment, Bounds, Center, Float, Html } from '@react-three/drei';
+import { Environment, PerspectiveCamera, Float } from '@react-three/drei';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import styles from './Hero.module.css';
 import { resumeData } from '../../data/resume';
-import { useModelLoader, preloadModel, useModelProgress } from '../../hooks/useModelLoader';
+import { useModelLoader, preloadModel } from '../../hooks/useModelLoader';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -25,17 +25,29 @@ function KnightModel() {
   const scene = gltf.scene;
   const meshRef = useRef();
 
+  // ── Position model exactly where CameraRig expects it ──────────────
+  // (Bounds/Center components fail on SkinnedMeshes due to GPU bone transforms)
+  useEffect(() => {
+    if (!scene) return;
+    scene.position.set(0, -1.5, 0);
+    scene.scale.setScalar(1.8);
+  }, [scene]);
+
   // ── HEAD TRACKING refs ─────────────────────────────────────────────────────
   const headBoneRef = useRef(null);
   const initialHeadRotation = useRef(new THREE.Euler());
   const isPointerActive = useRef(false);
   const globalMouse = useRef({ x: 0, y: 0 });
 
-  // ── Step 2: Find head/neck bone — never hardcode a single name ────────────
+  // ── Step 2: Traverse to find head bone, set shadows, and register disposal ─
   useEffect(() => {
     if (!scene) return;
     let found = false;
     scene.traverse((child) => {
+      if (child.isMesh) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+      }
       if (!found && child.isBone) {
         const name = child.name.toLowerCase();
         if (name.includes('head') || name.includes('neck')) {
@@ -45,6 +57,20 @@ function KnightModel() {
         }
       }
     });
+
+    // Memory Disposal on Unmount (3D_optimize.md Step 6)
+    return () => {
+      scene.traverse((obj) => {
+        if (obj.geometry) obj.geometry.dispose();
+        if (obj.material) {
+          const materials = Array.isArray(obj.material) ? obj.material : [obj.material];
+          materials.forEach((m) => {
+            Object.values(m).forEach((val) => val?.isTexture && val.dispose());
+            m.dispose();
+          });
+        }
+      });
+    };
   }, [scene]);
 
   // ── Step 3: Single global mouse/leave listener — no per-frame allocations ──
@@ -127,26 +153,41 @@ function KnightModel() {
   );
 }
 
-// ─── Loading Overlay with Progress ───────────────────────────────────────────
-// Fulfills Step 5 of glb-3d-web-integration.md (never leave screen blank)
+// ─────────────────────────────────────────────────────────────────────────────
+// CameraRig
+// Restores the exact camera position saved from the Theatre.js session.
+// The target point is the knight's upper torso/head area.
+// ─────────────────────────────────────────────────────────────────────────────
+function CameraRig() {
+  const { camera } = useThree();
+  useEffect(() => {
+    const target = new THREE.Vector3(
+      0.026311563721417866,
+      1.9530481113475282,
+      0.41684588599902234
+    );
+    const spherical = new THREE.Spherical(
+      3.6397344714996964,   // radius
+      1.6859880574265205,   // phi
+      7.225663103256566     // theta
+    );
+    const position = new THREE.Vector3()
+      .setFromSpherical(spherical)
+      .add(target);
+    camera.position.copy(position);
+    camera.lookAt(target);
+    camera.updateProjectionMatrix();
+  }, [camera]);
+  return null;
+}
+
+// Lightweight wireframe — shown while the remote GLB is being downloaded
 function ModelFallback() {
-  const { progress } = useModelProgress();
   return (
-    <Html center>
-      <div style={{
-        color: '#FF0055',
-        fontFamily: 'monospace',
-        fontWeight: 'bold',
-        background: 'rgba(255,255,255,0.9)',
-        padding: '10px 20px',
-        borderRadius: '20px',
-        border: '1px solid #FF0055',
-        boxShadow: '0 4px 12px rgba(255,0,85,0.2)',
-        whiteSpace: 'nowrap'
-      }}>
-        Loading model… {Math.round(progress)}%
-      </div>
-    </Html>
+    <mesh>
+      <boxGeometry args={[1, 1, 1]} />
+      <meshBasicMaterial color="#ff005522" wireframe />
+    </mesh>
   );
 }
 
@@ -234,27 +275,30 @@ export const Hero = () => {
 
       {/* 3D canvas — absolute, right-aligned, transparent bg, no pointer blocking
           frameloop="demand" + invalidate() = only renders when something changes
-          Bounds + Center automatically computes the correct transform and camera */}
+          PerspectiveCamera makeDefault = CameraRig can set it imperatively     */}
       <div ref={canvasWrapRef} className={styles.canvasContainer} aria-hidden="true">
         <Canvas
           gl={{ alpha: true, antialias: false, powerPreference: 'high-performance' }}
           dpr={[1, 2]}
           frameloop="demand"
-          camera={{ position: [0, 0, 5], fov: 45, near: 0.1, far: 1000 }}
         >
+          <PerspectiveCamera
+            makeDefault
+            fov={20.793308254689492}
+            near={0.1}
+            far={1000}
+          />
+          <CameraRig />
+
           <ambientLight intensity={0.6} />
-          <directionalLight position={[5, 5, 5]} intensity={1.2} castShadow />
+          <directionalLight position={[5, 5, 5]} intensity={1.2} castShadow shadow-mapSize={[1024, 1024]} />
           <directionalLight position={[-5, 3, -5]} intensity={0.5} />
           <Environment preset="city" />
 
           <Suspense fallback={<ModelFallback />}>
-            <Bounds fit clip observe margin={1.1}>
-              <Center>
-                <Float speed={0.8} rotationIntensity={0.08} floatIntensity={0.4}>
-                  <KnightModel />
-                </Float>
-              </Center>
-            </Bounds>
+            <Float speed={0.8} rotationIntensity={0.08} floatIntensity={0.4}>
+              <KnightModel />
+            </Float>
           </Suspense>
         </Canvas>
       </div>
