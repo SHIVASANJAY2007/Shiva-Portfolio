@@ -29,7 +29,8 @@ function KnightModel() {
   // (Bounds/Center components fail on SkinnedMeshes due to GPU bone transforms)
   useEffect(() => {
     if (!scene) return;
-    scene.position.set(0, -1.5, 0);
+    // Shifted x to 1.2 to push it right, shifted y to -1.8 to lower it slightly
+    scene.position.set(1.2, -1.8, 0);
     scene.scale.setScalar(1.8);
   }, [scene]);
 
@@ -180,7 +181,7 @@ function CameraRig() {
       0.41684588599902234
     );
     const spherical = new THREE.Spherical(
-      5.8,   // Increased radius to zoom out significantly (originally 3.63)
+      3.8,   // Zoomed in
       1.6859880574265205,   // phi
       7.225663103256566     // theta
     );
@@ -302,10 +303,10 @@ export const Hero = () => {
             dpr={[1, 2]}
             frameloop="demand"
           >
-            {/* Keeping FOV at 45 combined with the larger radius pushes it way back */}
+            {/* Restored FOV to 25 to zoom the model in */}
             <PerspectiveCamera
               makeDefault
-              fov={45}
+              fov={25}
               near={0.1}
               far={1000}
             />
