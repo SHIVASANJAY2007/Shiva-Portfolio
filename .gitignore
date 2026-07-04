@@ -5,3 +5,8 @@ dist
 .env
 .env.local
 .cache
+.vercel
+.env*
+# 3D models
+*.glb
+*.gltf

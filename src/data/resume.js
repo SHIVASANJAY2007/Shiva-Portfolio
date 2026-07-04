@@ -22,7 +22,7 @@ export const resumeData = {
       institution: 'Kongu engineering college, Perundurai',
       degree: 'B.Sc Information Systems',
       status: 'Pursuing',
-      score: '8.74 CGPA',
+      score: '8.54 CGPA',
     },
     {
       institution: 'Kongu vellaler matriculation higher secondary school, Perundurai',
