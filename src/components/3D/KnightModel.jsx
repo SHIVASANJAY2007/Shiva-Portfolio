@@ -1,12 +1,69 @@
-import React, { Suspense, useEffect } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { useGLTF, Environment, Float } from '@react-three/drei';
+import React, { useEffect, useRef } from 'react';
+import * as THREE from 'three';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { useGLTF, Environment, Float, Suspense } from '@react-three/drei';
 import { SheetProvider, editable as e } from '@theatre/r3f';
 import { knightSheet } from '../../utils/theatreSetup';
 import { MODEL_URLS } from '../../constants/models';
 
+const MODEL_URL = MODEL_URLS.knight;
+
+// ─── Inner mesh with head tracking ────────────────────
 const Model = () => {
-  const { scene } = useGLTF(MODEL_URLS.knight);
+  const { scene } = useGLTF(MODEL_URL);
+
+  const headBoneRef = useRef(null);
+  const initialHeadRot = useRef(new THREE.Euler());
+  const mouse = useRef({ x: 0, y: 0 });
+  const isPointerActive = useRef(false);
+
+  useEffect(() => {
+    if (!scene) return;
+    let found = false;
+    scene.traverse((child) => {
+      if (!found && child.isBone) {
+        const name = child.name.toLowerCase();
+        if (name.includes('head') || name.includes('neck')) {
+          headBoneRef.current = child;
+          initialHeadRot.current.copy(child.rotation);
+          found = true;
+        }
+      }
+    });
+  }, [scene]);
+
+  useEffect(() => {
+    const onMove = (e) => {
+      isPointerActive.current = true;
+      mouse.current.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mouse.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    };
+    const onLeave = () => { isPointerActive.current = false; };
+
+    window.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseleave', onLeave);
+    return () => {
+      window.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseleave', onLeave);
+    };
+  }, []);
+
+  useFrame(() => {
+    if (!headBoneRef.current) return;
+
+    const targetYaw = isPointerActive.current
+      ? mouse.current.x * (20 * Math.PI / 180)
+      : 0;
+    const targetPitch = isPointerActive.current
+      ? -mouse.current.y * (10 * Math.PI / 180)
+      : 0;
+
+    const head = headBoneRef.current;
+    const init = initialHeadRot.current;
+
+    head.rotation.y = THREE.MathUtils.lerp(head.rotation.y, init.y + targetYaw, 0.05);
+    head.rotation.x = THREE.MathUtils.lerp(head.rotation.x, init.x + targetPitch, 0.05);
+  });
 
   return (
     <e.primitive
@@ -19,35 +76,30 @@ const Model = () => {
   );
 };
 
+// ─── Public wrapper (scroll-driven Theatre.js animation) ──
 export const KnightModel = () => {
   useEffect(() => {
     const handleScroll = () => {
       const el = document.getElementById('about');
       if (!el) return;
-      
+
       const rect = el.getBoundingClientRect();
       const viewHeight = window.innerHeight;
-      
-      // Calculate scroll progress through the About section
-      // 0.0: when section top enters bottom of viewport
-      // 1.0: when section bottom leaves top of viewport
+
       const start = rect.top - viewHeight;
       const end = rect.bottom;
       const total = end - start;
-      const current = -start; // How far scrolled past start
-      
+      const current = -start;
+
       const progress = Math.max(0, Math.min(1, current / total));
-      
-      // Map progress (0 to 1) to Theatre.js timeline (0s to 5s)
+
       if (knightSheet && knightSheet.sequence) {
         knightSheet.sequence.position = progress * 5;
       }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    // Run initial sizing / placement
-    setTimeout(handleScroll, 100); 
-
+    setTimeout(handleScroll, 100);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -70,5 +122,5 @@ export const KnightModel = () => {
   );
 };
 
-useGLTF.preload(MODEL_URLS.knight);
+useGLTF.preload(MODEL_URL);
 export default KnightModel;
