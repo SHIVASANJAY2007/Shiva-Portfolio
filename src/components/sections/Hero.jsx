@@ -1,20 +1,17 @@
 import React, { useEffect, useRef, Suspense } from 'react';
 import * as THREE from 'three';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { useGLTF, Environment, Bounds, Center, Float } from '@react-three/drei';
+import { Environment, Bounds, Center, Float, Html } from '@react-three/drei';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import styles from './Hero.module.css';
 import { resumeData } from '../../data/resume';
-import { MODEL_URLS } from '../../constants/models';
+import { useModelLoader, preloadModel, useModelProgress } from '../../hooks/useModelLoader';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// ── Model URL — remote HuggingFace (local file removed from repo, too large for GitHub)
-const MODEL_URL = MODEL_URLS.knight;
-
 // ── Preload immediately on module import so the model is ready by the time Hero mounts
-useGLTF.preload(MODEL_URL);
+preloadModel('knight');
 
 // ─────────────────────────────────────────────────────────────────────────────
 // KnightModel
@@ -23,7 +20,9 @@ useGLTF.preload(MODEL_URL);
 // GSAP material fade-in.
 // ─────────────────────────────────────────────────────────────────────────────
 function KnightModel() {
-  const { scene } = useGLTF(MODEL_URL);
+  // Use the shared architecture hook to load the model (handles Draco, caching, etc.)
+  const { gltf } = useModelLoader('knight');
+  const scene = gltf.scene;
   const meshRef = useRef();
 
   // ── HEAD TRACKING refs ─────────────────────────────────────────────────────
@@ -128,13 +127,26 @@ function KnightModel() {
   );
 }
 
-// Lightweight wireframe — shown while the remote GLB is being downloaded
+// ─── Loading Overlay with Progress ───────────────────────────────────────────
+// Fulfills Step 5 of glb-3d-web-integration.md (never leave screen blank)
 function ModelFallback() {
+  const { progress } = useModelProgress();
   return (
-    <mesh>
-      <boxGeometry args={[1, 1, 1]} />
-      <meshBasicMaterial color="#ff005522" wireframe />
-    </mesh>
+    <Html center>
+      <div style={{
+        color: '#FF0055',
+        fontFamily: 'monospace',
+        fontWeight: 'bold',
+        background: 'rgba(255,255,255,0.9)',
+        padding: '10px 20px',
+        borderRadius: '20px',
+        border: '1px solid #FF0055',
+        boxShadow: '0 4px 12px rgba(255,0,85,0.2)',
+        whiteSpace: 'nowrap'
+      }}>
+        Loading model… {Math.round(progress)}%
+      </div>
+    </Html>
   );
 }
 
