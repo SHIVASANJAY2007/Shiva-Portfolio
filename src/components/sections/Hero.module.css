@@ -230,3 +230,21 @@
     transition: none;
   }
 }
+
+/* ─── Mobile: hide 3D canvas on small screens ───────── */
+/* per glb-3d-web-integration.md Step 6 performance checklist */
+@media (max-width: 768px) {
+  .canvasContainer {
+    display: none;
+  }
+
+  .content {
+    padding-left: 6%;
+    padding-right: 6%;
+  }
+
+  .brutalistTitle {
+    font-size: clamp(1.8rem, 8vw, 3rem);
+    white-space: normal;
+  }
+}
