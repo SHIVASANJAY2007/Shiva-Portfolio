@@ -30,7 +30,7 @@ function KnightModel() {
   useEffect(() => {
     if (!scene) return;
     // Shifted x to 1.2 to push it right, shifted y to -1.8 to lower it slightly
-    scene.position.set(1.2, -1.8, 0);
+    scene.position.set(-0.15, -1.6, 0);
     scene.scale.setScalar(1.8);
   }, [scene]);
 
@@ -181,9 +181,9 @@ function CameraRig() {
       0.41684588599902234
     );
     const spherical = new THREE.Spherical(
-      3.8,   // Zoomed in
-      1.6859880574265205,   // phi
-      7.225663103256566     // theta
+      4.6,   // Zoomed in
+      1.68,   // phi
+      7.22     // theta
     );
     const position = new THREE.Vector3()
       .setFromSpherical(spherical)
