@@ -143,6 +143,29 @@ function KnightModel() {
   );
 }
 
+class HeroErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+  componentDidCatch(error, errorInfo) {
+    console.error("Hero 3D Canvas Error:", error, errorInfo);
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{ position: 'absolute', top: '50%', right: '10%', color: '#FF0055', fontFamily: 'monospace' }}>
+          Failed to load 3D model. Please refresh.
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // CameraRig
 // Restores the exact camera position saved from the Theatre.js session.
@@ -157,7 +180,7 @@ function CameraRig() {
       0.41684588599902234
     );
     const spherical = new THREE.Spherical(
-      3.6397344714996964,   // radius
+      5.8,   // Increased radius to zoom out significantly (originally 3.63)
       1.6859880574265205,   // phi
       7.225663103256566     // theta
     );
@@ -267,31 +290,33 @@ export const Hero = () => {
           frameloop="demand" + invalidate() = only renders when something changes
           PerspectiveCamera makeDefault = CameraRig can set it imperatively     */}
       <div ref={canvasWrapRef} className={styles.canvasContainer} aria-hidden="true">
-        <Canvas
-          gl={{ alpha: true, antialias: false, powerPreference: 'high-performance' }}
-          dpr={[1, 2]}
-          frameloop="demand"
-        >
-          {/* Increased FOV to 45 to zoom the model out more */}
-          <PerspectiveCamera
-            makeDefault
-            fov={45}
-            near={0.1}
-            far={1000}
-          />
-          <CameraRig />
+        <HeroErrorBoundary>
+          <Canvas
+            gl={{ alpha: true, antialias: false, powerPreference: 'high-performance' }}
+            dpr={[1, 2]}
+            frameloop="demand"
+          >
+            {/* Keeping FOV at 45 combined with the larger radius pushes it way back */}
+            <PerspectiveCamera
+              makeDefault
+              fov={45}
+              near={0.1}
+              far={1000}
+            />
+            <CameraRig />
 
-          <ambientLight intensity={0.6} />
-          <directionalLight position={[5, 5, 5]} intensity={1.2} castShadow shadow-mapSize={[1024, 1024]} />
-          <directionalLight position={[-5, 3, -5]} intensity={0.5} />
-          <Environment preset="city" />
+            <ambientLight intensity={0.6} />
+            <directionalLight position={[5, 5, 5]} intensity={1.2} castShadow shadow-mapSize={[1024, 1024]} />
+            <directionalLight position={[-5, 3, -5]} intensity={0.5} />
+            <Environment preset="city" />
 
-          <Suspense fallback={<ModelFallback />}>
-            <Float speed={0.8} rotationIntensity={0.08} floatIntensity={0.4}>
-              <KnightModel />
-            </Float>
-          </Suspense>
-        </Canvas>
+            <Suspense fallback={<ModelFallback />}>
+              <Float speed={0.8} rotationIntensity={0.08} floatIntensity={0.4}>
+                <KnightModel />
+              </Float>
+            </Suspense>
+          </Canvas>
+        </HeroErrorBoundary>
       </div>
 
       {/* UI content — left-side, above canvas via z-index */}
