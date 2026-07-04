@@ -48,26 +48,31 @@
   will-change: transform;
 }
 
-/* Right-aligned for split layout, spans full height to eliminate gaps */
+/* Right half of hero — contained within section, never extends beyond it */
 .canvasContainer {
   position: absolute;
   top: 0;
   right: 0;
-  width: min(1000px, 55vw);
-  height: 100vh;
+  bottom: 0;               /* bounded by hero's overflow: hidden */
+  width: 50%;              /* occupies right half of hero */
+  height: 100%;            /* fill hero height, not viewport height */
   z-index: 0;
-  /* Wrapper has pointer-events: none so page scroll/clicks pass through */
-  /* The model itself re-enables pointer-events via R3F event system */
-  pointer-events: none;
-  will-change: transform, opacity;
+  pointer-events: none;    /* clicks pass through to page */
+  will-change: opacity;
+  display: flex;
+  align-items: center;     /* vertically center the canvas in the column */
+  justify-content: flex-end;
 }
 
-/* Give Canvas inside the wrapper pointer-events so hover on model works */
+/* Re-enable pointer-events on the canvas itself for R3F hover events */
 .canvasContainer canvas {
   pointer-events: auto;
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
 }
 
-/* ─── Content ───────────────────────────────────────── */
+/* ─── Content — left half only, never overlaps model ── */
 .content {
   position: relative;
   z-index: 1;
@@ -76,8 +81,8 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 0;
-  width: 100%;
-  max-width: 1400px;
+  width: 50%;              /* left half, model sits right half */
+  max-width: 700px;
   padding-left: 5%;
 }
 
@@ -232,13 +237,15 @@
 }
 
 /* ─── Mobile: hide 3D canvas on small screens ───────── */
-/* per glb-3d-web-integration.md Step 6 performance checklist */
 @media (max-width: 768px) {
   .canvasContainer {
     display: none;
   }
 
+  /* Restore full width when model is hidden */
   .content {
+    width: 100%;
+    max-width: none;
     padding-left: 6%;
     padding-right: 6%;
   }
