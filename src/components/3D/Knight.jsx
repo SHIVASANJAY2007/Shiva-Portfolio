@@ -6,11 +6,6 @@ import gsap from 'gsap';
 
 function KnightModel({ scene, invalidate }) {
   const meshRef = useRef();
-  
-  if (scene.userData && scene.userData.isFallback) {
-    return <primitive object={scene} />;
-  }
-
   const { nodes, materials } = useGraph(scene);
 
   // ── HEAD TRACKING refs ─────────────────────────────────────────────────────
@@ -110,6 +105,10 @@ function KnightModel({ scene, invalidate }) {
       invalidate();
     }
   });
+
+  if (scene.userData && scene.userData.isFallback) {
+    return <primitive object={scene} />;
+  }
 
   return (
     <group ref={meshRef} position={[-0.155, -1.74, 0]} scale={1.8} dispose={null}>
