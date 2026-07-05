@@ -119,7 +119,7 @@ export function EnergyEffects({ progress, opacity = 1 }) {
   });
 
   return (
-    <group position={[1.2, -1.36, 0]}>
+    <group position={[-0.155, -1.3, 0]}>
       <points geometry={particles} material={particleMaterial} />
       <group ref={ringsRef} rotation={[-Math.PI / 2, 0, 0]}>
         {rings.map((_, i) => (

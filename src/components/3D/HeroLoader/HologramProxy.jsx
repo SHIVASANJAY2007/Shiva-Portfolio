@@ -125,6 +125,6 @@ export function HologramProxy({ progress, opacity = 1 }) {
   });
 
   return (
-    <points geometry={pointGeometry} material={material} position={[1.2, -1.8, 0]} scale={1.8} />
+    <points geometry={pointGeometry} material={material} position={[-0.155, -1.74, 0]} scale={1.8} />
   );
 }
