@@ -279,6 +279,13 @@ export const Hero = () => {
 
   const { progress } = useModelProgress();
   const [modelReady, setModelReady] = useState(false);
+  const [mountModel, setMountModel] = useState(false);
+
+  useEffect(() => {
+    // Defer the mounting of KnightModel to the next tick.
+    // This prevents React 18 Suspense from blocking the initial Canvas WebGL commit!
+    setMountModel(true);
+  }, []);
 
   useEffect(() => {
     if (progress === 100) {
@@ -326,9 +333,12 @@ export const Hero = () => {
             <directionalLight position={[-5, 3, -5]} intensity={0.5} />
             <Environment preset="city" />
 
-            <Suspense fallback={<ModelFallback />}>
-              <KnightModel />
-            </Suspense>
+            <HeroLoader />
+            {mountModel && (
+              <Suspense fallback={null}>
+                <KnightModel />
+              </Suspense>
+            )}
           </Canvas>
         </HeroErrorBoundary>
       </div>
