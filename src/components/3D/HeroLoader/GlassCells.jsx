@@ -115,7 +115,7 @@ export function GlassCells({ progress, opacity = 1 }) {
   });
 
   return (
-    <group position={[-0.155, -1.74, 0]} scale={1.8}>
+    <group position={[1.2, -1.8, 0]} scale={1.8}>
       <instancedMesh ref={meshRef} args={[null, null, count]} material={material}>
         <octahedronGeometry args={[1, 0]} />
       </instancedMesh>

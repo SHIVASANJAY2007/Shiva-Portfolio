@@ -58,7 +58,7 @@ export function Knight() {
     <primitive 
       ref={meshRef} 
       object={scene} 
-      position={[-0.155, -1.74, 0]} 
+      position={[1.2, -1.8, 0]} 
       scale={1.8} 
     />
   );
