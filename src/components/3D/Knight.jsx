@@ -1,15 +1,12 @@
 import React, { useRef, useEffect } from 'react';
-import { useFrame, useThree } from '@react-three/fiber';
+import * as THREE from 'three';
+import { useFrame, useThree, useGraph } from '@react-three/fiber';
 import { useKnightModel } from '../../hooks/useKnightModel';
 import gsap from 'gsap';
 
-export function Knight() {
+function KnightModel({ scene, invalidate }) {
   const meshRef = useRef();
-  const { invalidate } = useThree();
-  
-  // Here we explicitly request the model. If it's already in the Memory Cache
-  // (thanks to the ModelProvider prefetching), this will return INSTANTLY!
-  const { scene, loading, error } = useKnightModel(false);
+  const { nodes, materials } = useGraph(scene);
 
   // ── HEAD TRACKING refs ─────────────────────────────────────────────────────
   const headBoneRef = useRef(null);
@@ -17,25 +14,22 @@ export function Knight() {
   const isPointerActive = useRef(false);
   const globalMouse = useRef({ x: 0, y: 0 });
 
-  // ── Step 2: Traverse to find head bone and set shadows ─────────────────────
+  // ── Step 2: Traverse to find head bone ─────────────────────
   useEffect(() => {
-    if (!scene) return;
     let found = false;
-    scene.traverse((child) => {
-      if (child.isMesh) {
-        child.castShadow = true;
-        child.receiveShadow = true;
-      }
-      if (!found && child.isBone) {
-        const name = child.name.toLowerCase();
-        if (name.includes('head') || name.includes('neck')) {
-          headBoneRef.current = child;
-          initialHeadRotation.current.copy(child.rotation);
-          found = true;
+    if (nodes && nodes.GLTF_created_0_rootJoint) {
+      nodes.GLTF_created_0_rootJoint.traverse((child) => {
+        if (!found && child.isBone) {
+          const name = child.name.toLowerCase();
+          if (name.includes('head') || name.includes('neck')) {
+            headBoneRef.current = child;
+            initialHeadRotation.current.copy(child.rotation);
+            found = true;
+          }
         }
-      }
-    });
-  }, [scene]);
+      });
+    }
+  }, [nodes]);
 
   // ── Step 3: Single global mouse/leave listener ─────────────────────────────
   useEffect(() => {
@@ -63,11 +57,9 @@ export function Knight() {
   useEffect(() => {
     if (!meshRef.current) return;
     
-    // Honor accessibility settings
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReduced) return;
     
-    // Animate the model's appearance
     meshRef.current.traverse((child) => {
       if (child.isMesh && child.material) {
         child.material = child.material.clone();
@@ -79,17 +71,15 @@ export function Knight() {
           duration: 1.4,
           ease: 'power2.out',
           delay: 0.4,
-          onUpdate: invalidate, // Trigger R3F to render the frame during animation!
+          onUpdate: invalidate,
         });
       }
     });
-  }, [scene, invalidate]);
+  }, [invalidate]);
 
   // ── Step 5: Per-frame head lerp & idle float ───────────────────────────────
   useFrame((state) => {
     if (!meshRef.current) return;
-    
-    // Head tracking
     if (!headBoneRef.current) return;
 
     let targetYaw   = 0;
@@ -105,7 +95,6 @@ export function Knight() {
     const finalYaw   = init.y + targetYaw;
     const finalPitch = init.x + targetPitch;
 
-    // 0.05 lerp → heavy armour inertia, no snapping
     head.rotation.y = THREE.MathUtils.lerp(head.rotation.y, finalYaw,   0.05);
     head.rotation.x = THREE.MathUtils.lerp(head.rotation.x, finalPitch, 0.05);
 
@@ -117,6 +106,35 @@ export function Knight() {
     }
   });
 
+  return (
+    <group ref={meshRef} position={[-0.155, -1.74, 0]} scale={1.8} dispose={null}>
+      <group position={[0.248, 1.783, 0.363]} rotation={[2.443, -1.393, -0.88]} scale={0.496}>
+        <mesh castShadow receiveShadow geometry={nodes.Object_4.geometry} material={materials.roses_mat} />
+        <mesh castShadow receiveShadow geometry={nodes.Object_5.geometry} material={materials.roses_mat} />
+      </group>
+      <primitive object={nodes.GLTF_created_0_rootJoint} />
+      <skinnedMesh castShadow receiveShadow geometry={nodes.Object_10.geometry} material={materials.cloak_mat} skeleton={nodes.Object_10.skeleton} />
+      <skinnedMesh castShadow receiveShadow geometry={nodes.Object_12.geometry} material={materials.center_armor_mat} skeleton={nodes.Object_12.skeleton} />
+      <skinnedMesh castShadow receiveShadow geometry={nodes.Object_14.geometry} material={materials.center_armor_mat} skeleton={nodes.Object_14.skeleton} />
+      <skinnedMesh castShadow receiveShadow geometry={nodes.Object_16.geometry} material={materials.eye_plug_mat} skeleton={nodes.Object_16.skeleton} />
+      <skinnedMesh castShadow receiveShadow geometry={nodes.Object_18.geometry} material={materials.top_armor_mat} skeleton={nodes.Object_18.skeleton} />
+      <skinnedMesh castShadow receiveShadow geometry={nodes.Object_20.geometry} material={materials.top_armor_mat} skeleton={nodes.Object_20.skeleton} />
+      <skinnedMesh castShadow receiveShadow geometry={nodes.Object_22.geometry} material={materials.bottom_armor_mat} skeleton={nodes.Object_22.skeleton} />
+      <skinnedMesh castShadow receiveShadow geometry={nodes.Object_24.geometry} material={materials.center_armor_mat} skeleton={nodes.Object_24.skeleton} />
+      <skinnedMesh castShadow receiveShadow geometry={nodes.Object_25.geometry} material={materials.details_mat} skeleton={nodes.Object_25.skeleton} />
+      <skinnedMesh castShadow receiveShadow geometry={nodes.Object_27.geometry} material={materials.center_armor_mat} skeleton={nodes.Object_27.skeleton} />
+      <skinnedMesh castShadow receiveShadow geometry={nodes.Object_28.geometry} material={materials.details_mat} skeleton={nodes.Object_28.skeleton} />
+      <skinnedMesh castShadow receiveShadow geometry={nodes.Object_29.geometry} material={materials.top_armor_mat} skeleton={nodes.Object_29.skeleton} />
+      <skinnedMesh castShadow receiveShadow geometry={nodes.Object_31.geometry} material={materials.details_mat} skeleton={nodes.Object_31.skeleton} />
+      <mesh castShadow receiveShadow geometry={nodes.Object_103.geometry} material={materials.sword_mat} position={[0, 1.844, 0.392]} />
+    </group>
+  );
+}
+
+export function Knight() {
+  const { invalidate } = useThree();
+  const { scene, loading, error } = useKnightModel(false);
+
   if (error) {
     console.error("Failed to render Knight:", error);
     return null;
@@ -126,12 +144,5 @@ export function Knight() {
     return null; 
   }
 
-  return (
-    <primitive 
-      ref={meshRef} 
-      object={scene} 
-      position={[-0.155, -1.74, 0]} 
-      scale={1.8} 
-    />
-  );
+  return <KnightModel scene={scene} invalidate={invalidate} />;
 }
