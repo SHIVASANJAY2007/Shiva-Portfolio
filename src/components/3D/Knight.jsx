@@ -89,8 +89,8 @@ export function Knight() {
   useFrame((state) => {
     if (!meshRef.current) return;
     
-    // Idle float animation
-    meshRef.current.position.y = Math.sin(state.clock.elapsedTime) * 0.03;
+    // Idle float animation (base Y is -1.74)
+    meshRef.current.position.y = -1.74 + Math.sin(state.clock.elapsedTime) * 0.03;
 
     // Head tracking
     if (!headBoneRef.current) return;
