@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, Suspense } from 'react';
+import React, { useEffect, useRef, Suspense, useState } from 'react';
 import * as THREE from 'three';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Environment, PerspectiveCamera, Html } from '@react-three/drei';
@@ -277,6 +277,15 @@ export const Hero = () => {
     };
   }, []);
 
+  const { progress } = useModelProgress();
+  const [modelReady, setModelReady] = useState(false);
+
+  useEffect(() => {
+    if (progress === 100) {
+      setTimeout(() => setModelReady(true), 1500); // Wait for fade-in animation
+    }
+  }, [progress]);
+
   const nameChars = resumeData.personal.name.split('').map((char, i) => (
     <span key={i} className={styles.charWrap}>
       <span className={styles.char} ref={(el) => (titleCharsRef.current[i] = el)}>
@@ -294,14 +303,14 @@ export const Hero = () => {
       <div ref={blobRightRef} className={styles.blobRight} aria-hidden="true" />
 
       {/* 3D canvas — absolute, right-aligned, transparent bg, no pointer blocking
-          frameloop="demand" + invalidate() = only renders when something changes
+          frameloop="always" during load to prevent R3F suspense freeze, then "demand" to save battery
           PerspectiveCamera makeDefault = CameraRig can set it imperatively     */}
       <div ref={canvasWrapRef} className={styles.canvasContainer} aria-hidden="true">
         <HeroErrorBoundary>
           <Canvas
             gl={{ alpha: true, antialias: false, powerPreference: 'high-performance' }}
             dpr={[1, 2]}
-            frameloop="demand"
+            frameloop={modelReady ? "demand" : "always"}
           >
             {/* Restored FOV to 25 to zoom the model in */}
             <PerspectiveCamera
