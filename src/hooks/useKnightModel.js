@@ -9,7 +9,7 @@ import { cloneScene } from '../utils/cloneScene';
 // Single global instance to prevent parsing conflicts
 const gltfLoader = new GLTFLoader();
 const dracoLoader = new DRACOLoader();
-dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/');
+dracoLoader.setDecoderPath('/draco/');
 gltfLoader.setDRACOLoader(dracoLoader);
 
 /**
@@ -38,13 +38,21 @@ export function useKnightModel(prefetchOnly = false) {
       // 1. Check Level 2: Memory Cache
       if (memoryCache.has(MODEL_CACHE_KEY)) {
         const cachedGltf = memoryCache.get(MODEL_CACHE_KEY);
-        setProgress(100);
         
         if (!prefetchOnly) {
           setScene(cloneScene(cachedGltf.scene));
         }
+
+        // If it is the real model, we are completely done.
+        if (!cachedGltf.scene.userData.isFallback) {
+          setProgress(100);
+          setLoading(false);
+          return;
+        }
+        
+        // If it's just the fallback proxy, we continue executing the download!
+        // We set loading to false so the UI can render the proxy.
         setLoading(false);
-        return;
       }
 
       // 2 & 3. Orchestrated by getModelBlob (IndexedDB -> Network)
