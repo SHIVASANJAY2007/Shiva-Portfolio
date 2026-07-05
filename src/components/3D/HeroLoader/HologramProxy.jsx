@@ -4,41 +4,53 @@ import { useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
 export function HologramProxy({ progress, opacity = 1 }) {
-  const { scene } = useGLTF('/models/knight.glb');
+  const { invalidate } = useThree();
 
-  // Extract all vertices from the loaded scene into a single point cloud
+  // Generate a generic Knight-like silhouette using math instead of a proxy file!
+  // This guarantees the loader appears instantly on screen (0ms network delay).
   const pointGeometry = useMemo(() => {
     const positions = [];
-    scene.updateMatrixWorld(true);
-
-    // Some models have high vertex counts; we can sample them to avoid 
-    // too many particles, but rendering 100k-200k points in WebGL is usually fine.
-    scene.traverse((child) => {
-      if (child.isMesh && child.geometry) {
-        const posAttribute = child.geometry.attributes.position;
-        if (!posAttribute) return;
-        
-        const v = new THREE.Vector3();
-        // Step size of 2 or 3 can reduce point count if it's too dense
-        // Let's use step = 1 (all vertices) for maximum detail
-        for (let i = 0; i < posAttribute.count; i += 2) {
-          v.fromBufferAttribute(posAttribute, i);
-          v.applyMatrix4(child.matrixWorld);
-          positions.push(v.x, v.y, v.z);
-        }
+    const count = window.innerWidth < 768 ? 5000 : 15000;
+    
+    for (let i = 0; i < count; i++) {
+      let x, y, z;
+      const area = Math.random();
+      
+      // Math-based Humanoid/Knight structure
+      if (area < 0.08) { // Head/Helmet
+        x = (Math.random() - 0.5) * 0.2;
+        y = 0.55 + Math.random() * 0.25;
+        z = (Math.random() - 0.5) * 0.22;
+      } else if (area < 0.45) { // Torso/Armor
+        x = (Math.random() - 0.5) * 0.45;
+        y = -0.1 + Math.random() * 0.65;
+        z = (Math.random() - 0.5) * 0.35;
+      } else if (area < 0.65) { // Legs
+        x = (Math.random() > 0.5 ? 0.15 : -0.15) + (Math.random() - 0.5) * 0.15;
+        y = -0.7 + Math.random() * 0.6;
+        z = (Math.random() - 0.5) * 0.15;
+      } else if (area < 0.85) { // Arms
+        x = (Math.random() > 0.5 ? 0.35 : -0.35) + (Math.random() - 0.5) * 0.15;
+        y = -0.1 + Math.random() * 0.6;
+        z = (Math.random() - 0.5) * 0.15;
+      } else { // Cape extending backwards
+        x = (Math.random() - 0.5) * 0.5;
+        y = -0.7 + Math.random() * 1.3;
+        z = -0.2 - Math.random() * 0.35;
       }
-    });
+
+      positions.push(x, y, z);
+    }
 
     const geometry = new THREE.BufferGeometry();
     geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
     
-    // Add some random offsets for idle jitter
-    const randoms = new Float32Array(positions.length / 3);
-    for (let i = 0; i < randoms.length; i++) randoms[i] = Math.random();
+    const randoms = new Float32Array(count);
+    for (let i = 0; i < count; i++) randoms[i] = Math.random();
     geometry.setAttribute('aRandom', new THREE.BufferAttribute(randoms, 1));
     
     return geometry;
-  }, [scene]);
+  }, []);
 
   const material = useMemo(() => {
     return new THREE.ShaderMaterial({
@@ -104,8 +116,6 @@ export function HologramProxy({ progress, opacity = 1 }) {
     });
   }, []);
 
-  const { invalidate } = useThree();
-
   useFrame(({ clock }) => {
     material.uniforms.uTime.value = clock.elapsedTime;
     material.uniforms.uProgress.value = progress / 100;
@@ -117,5 +127,3 @@ export function HologramProxy({ progress, opacity = 1 }) {
     <points geometry={pointGeometry} material={material} position={[-0.155, -1.74, 0]} scale={1.8} />
   );
 }
-
-useGLTF.preload('/models/knight.glb');
