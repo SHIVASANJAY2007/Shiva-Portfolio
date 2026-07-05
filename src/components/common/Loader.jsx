@@ -8,30 +8,17 @@ export const Loader = () => {
   const [displayProgress, setDisplayProgress] = useState(0);
 
   useEffect(() => {
-    if (actualProgress > 0) {
-      setDisplayProgress(prev => Math.max(prev, actualProgress));
-    }
+    // Sync display progress with actual progress, but don't let it jump backwards
+    setDisplayProgress(prev => Math.max(prev, actualProgress));
   }, [actualProgress]);
 
   useEffect(() => {
-    let current = 0;
-    const interval = setInterval(() => {
-      current += Math.random() * 15;
-      if (current >= 100) {
-        current = 100;
-        clearInterval(interval);
-      }
-      setDisplayProgress(prev => Math.max(prev, current));
-    }, 50);
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    if (displayProgress >= 100) {
-      const timer = setTimeout(() => setShow(false), 800);
+    // Only fade out if actualProgress truly hits 100
+    if (displayProgress >= 100 && actualProgress === 100) {
+      const timer = setTimeout(() => setShow(false), 1200); // Wait a bit to let the canvas render
       return () => clearTimeout(timer);
     }
-  }, [displayProgress]);
+  }, [displayProgress, actualProgress]);
 
   return (
     <AnimatePresence>
