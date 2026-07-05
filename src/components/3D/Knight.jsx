@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import * as THREE from 'three';
 import { useFrame, useThree, useGraph } from '@react-three/fiber';
-import { useKnightModel } from '../../hooks/useKnightModel';
+import { useGLTF } from '@react-three/drei';
 import gsap from 'gsap';
 
 function KnightModel({ scene, invalidate }) {
@@ -106,17 +106,11 @@ function KnightModel({ scene, invalidate }) {
     }
   });
 
-  if (scene.userData && scene.userData.isFallback) {
-    return <primitive object={scene} />;
-  }
-
   return (
     <group ref={meshRef} position={[-0.155, -1.74, 0]} scale={1.8} dispose={null}>
-      <group position={[0.248, 1.783, 0.363]} rotation={[2.443, -1.393, -0.88]} scale={0.496}>
-        <mesh castShadow receiveShadow geometry={nodes.Object_4.geometry} material={materials.roses_mat} />
-        <mesh castShadow receiveShadow geometry={nodes.Object_5.geometry} material={materials.roses_mat} />
-      </group>
       <primitive object={nodes.GLTF_created_0_rootJoint} />
+      <mesh castShadow receiveShadow geometry={nodes.Object_4.geometry} material={materials.roses_mat} position={[0.248, 1.783, 0.363]} rotation={[2.443, -1.393, -0.88]} scale={0.496} />
+      <mesh castShadow receiveShadow geometry={nodes.Object_103.geometry} material={materials.sword_mat} position={[0, 1.844, 0.392]} />
       <skinnedMesh castShadow receiveShadow geometry={nodes.Object_10.geometry} material={materials.cloak_mat} skeleton={nodes.Object_10.skeleton} />
       <skinnedMesh castShadow receiveShadow geometry={nodes.Object_12.geometry} material={materials.center_armor_mat} skeleton={nodes.Object_12.skeleton} />
       <skinnedMesh castShadow receiveShadow geometry={nodes.Object_14.geometry} material={materials.center_armor_mat} skeleton={nodes.Object_14.skeleton} />
@@ -130,23 +124,16 @@ function KnightModel({ scene, invalidate }) {
       <skinnedMesh castShadow receiveShadow geometry={nodes.Object_28.geometry} material={materials.details_mat} skeleton={nodes.Object_28.skeleton} />
       <skinnedMesh castShadow receiveShadow geometry={nodes.Object_29.geometry} material={materials.top_armor_mat} skeleton={nodes.Object_29.skeleton} />
       <skinnedMesh castShadow receiveShadow geometry={nodes.Object_31.geometry} material={materials.details_mat} skeleton={nodes.Object_31.skeleton} />
-      <mesh castShadow receiveShadow geometry={nodes.Object_103.geometry} material={materials.sword_mat} position={[0, 1.844, 0.392]} />
     </group>
   );
 }
 
 export function Knight() {
   const { invalidate } = useThree();
-  const { scene, loading, error } = useKnightModel(false);
-
-  if (error) {
-    console.error("Failed to render Knight:", error);
-    return null;
-  }
-
-  if (loading || !scene) {
-    return null; 
-  }
+  const { scene } = useGLTF('/models/knight-hd.glb', '/draco/');
 
   return <KnightModel scene={scene} invalidate={invalidate} />;
 }
+
+// Preload the model so it starts downloading immediately
+useGLTF.preload('/models/knight-hd.glb', '/draco/');

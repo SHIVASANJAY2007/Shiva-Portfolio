@@ -175,8 +175,15 @@ export const Hero = () => {
       <div ref={canvasWrapRef} className={styles.canvasContainer} aria-hidden="true">
         <HeroErrorBoundary>
           <Canvas
-            gl={{ alpha: true, antialias: false, powerPreference: 'high-performance' }}
-            dpr={[1, 2]}
+            shadows
+            gl={{ 
+              alpha: true, 
+              antialias: true, 
+              powerPreference: 'high-performance',
+              toneMapping: THREE.ACESFilmicToneMapping,
+              toneMappingExposure: 1.1
+            }}
+            dpr={[1.5, 2]}
             frameloop={modelReady ? "demand" : "always"}
           >
             {/* Restored FOV to 25 to zoom the model in */}
@@ -189,7 +196,13 @@ export const Hero = () => {
             <CameraRig />
 
             <ambientLight intensity={0.6} />
-            <directionalLight position={[5, 5, 5]} intensity={1.2} castShadow shadow-mapSize={[1024, 1024]} />
+            <directionalLight 
+              position={[5, 5, 5]} 
+              intensity={1.2} 
+              castShadow 
+              shadow-mapSize={[2048, 2048]} 
+              shadow-bias={-0.0001} 
+            />
             <directionalLight position={[-5, 3, -5]} intensity={0.5} />
             <Environment preset="city" />
 
