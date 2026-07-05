@@ -16,27 +16,28 @@ export function HologramProxy({ progress, opacity = 1 }) {
       let x, y, z;
       const area = Math.random();
       
-      // Math-based Humanoid/Knight structure
+      // Math-based Humanoid/Knight structure (Scaled to match the massive 84MB GLB!)
+      // The real model is roughly y=0 to y=2.5 in local space
       if (area < 0.08) { // Head/Helmet
-        x = (Math.random() - 0.5) * 0.2;
-        y = 0.55 + Math.random() * 0.25;
-        z = (Math.random() - 0.5) * 0.22;
+        x = (Math.random() - 0.5) * 0.3;
+        y = 2.1 + Math.random() * 0.4;
+        z = (Math.random() - 0.5) * 0.3;
       } else if (area < 0.45) { // Torso/Armor
-        x = (Math.random() - 0.5) * 0.45;
-        y = -0.1 + Math.random() * 0.65;
-        z = (Math.random() - 0.5) * 0.35;
+        x = (Math.random() - 0.5) * 0.7;
+        y = 1.0 + Math.random() * 1.1;
+        z = (Math.random() - 0.5) * 0.5;
       } else if (area < 0.65) { // Legs
-        x = (Math.random() > 0.5 ? 0.15 : -0.15) + (Math.random() - 0.5) * 0.15;
-        y = -0.7 + Math.random() * 0.6;
-        z = (Math.random() - 0.5) * 0.15;
+        x = (Math.random() > 0.5 ? 0.25 : -0.25) + (Math.random() - 0.5) * 0.25;
+        y = 0.0 + Math.random() * 1.0;
+        z = (Math.random() - 0.5) * 0.25;
       } else if (area < 0.85) { // Arms
-        x = (Math.random() > 0.5 ? 0.35 : -0.35) + (Math.random() - 0.5) * 0.15;
-        y = -0.1 + Math.random() * 0.6;
-        z = (Math.random() - 0.5) * 0.15;
+        x = (Math.random() > 0.5 ? 0.55 : -0.55) + (Math.random() - 0.5) * 0.25;
+        y = 1.0 + Math.random() * 1.0;
+        z = (Math.random() - 0.5) * 0.25;
       } else { // Cape extending backwards
-        x = (Math.random() - 0.5) * 0.5;
-        y = -0.7 + Math.random() * 1.3;
-        z = -0.2 - Math.random() * 0.35;
+        x = (Math.random() - 0.5) * 0.8;
+        y = 0.2 + Math.random() * 2.0;
+        z = -0.3 - Math.random() * 0.6;
       }
 
       positions.push(x, y, z);

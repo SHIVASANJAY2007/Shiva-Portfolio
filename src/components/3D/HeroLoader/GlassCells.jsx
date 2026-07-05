@@ -17,21 +17,21 @@ export function GlassCells({ progress, opacity = 1 }) {
       let x, y, z;
       const area = Math.random();
       if (area < 0.15) { // Head
-        x = (Math.random() - 0.5) * 0.25;
-        y = 0.6 + Math.random() * 0.3;
-        z = (Math.random() - 0.5) * 0.25;
-      } else if (area < 0.6) { // Torso
-        x = (Math.random() - 0.5) * 0.45;
-        y = -0.1 + Math.random() * 0.7;
+        x = (Math.random() - 0.5) * 0.35;
+        y = 2.1 + Math.random() * 0.4;
         z = (Math.random() - 0.5) * 0.35;
+      } else if (area < 0.6) { // Torso
+        x = (Math.random() - 0.5) * 0.65;
+        y = 1.0 + Math.random() * 1.1;
+        z = (Math.random() - 0.5) * 0.5;
       } else if (area < 0.8) { // Legs
-        x = (Math.random() > 0.5 ? 0.1 : -0.1) + (Math.random() - 0.5) * 0.15;
-        y = -0.7 + Math.random() * 0.6;
-        z = (Math.random() - 0.5) * 0.15;
+        x = (Math.random() > 0.5 ? 0.2 : -0.2) + (Math.random() - 0.5) * 0.25;
+        y = 0.0 + Math.random() * 1.0;
+        z = (Math.random() - 0.5) * 0.25;
       } else { // Arms
-        x = (Math.random() > 0.5 ? 0.3 : -0.3) + (Math.random() - 0.5) * 0.15;
-        y = 0.0 + Math.random() * 0.5;
-        z = (Math.random() - 0.5) * 0.15;
+        x = (Math.random() > 0.5 ? 0.45 : -0.45) + (Math.random() - 0.5) * 0.25;
+        y = 1.0 + Math.random() * 1.0;
+        z = (Math.random() - 0.5) * 0.25;
       }
       
       const rotX = Math.random() * Math.PI;
@@ -115,7 +115,7 @@ export function GlassCells({ progress, opacity = 1 }) {
   });
 
   return (
-    <group position={[-0.155, -0.6, 0]} scale={1.8}>
+    <group position={[-0.155, -1.74, 0]} scale={1.8}>
       <instancedMesh ref={meshRef} args={[null, null, count]} material={material}>
         <octahedronGeometry args={[1, 0]} />
       </instancedMesh>
