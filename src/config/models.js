@@ -1,8 +1,8 @@
 export const MODEL_REGISTRY = {
   knight: {
-    url: "https://huggingface.co/datasets/Shiva-Asta/portfolio-assets/resolve/main/knight.glb",
-    sizeMB: 84,
+    url: "/models/knight.glb",
+    sizeMB: 4.39,
     section: "hero",
-    isDracoCompressed: false,
+    isDracoCompressed: true,
   },
 };
