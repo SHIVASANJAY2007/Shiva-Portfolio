@@ -6,143 +6,17 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import styles from './Hero.module.css';
 import { resumeData } from '../../data/resume';
-import { useModelLoader, preloadModel, useModelProgress } from '../../hooks/useModelLoader';
+import { useModelProvider } from '../../providers/ModelProvider';
+import { HeroLoader } from '../3D/HeroLoader';
+import { Knight } from '../3D/Knight';
 
 gsap.registerPlugin(ScrollTrigger);
 
 // ── Preload immediately on module import so the model is ready by the time Hero mounts
-preloadModel('knight');
+// preloadModel('knight'); // removed as logic is now handled in Provider
 
 // ─────────────────────────────────────────────────────────────────────────────
-// KnightModel
-// Loads the GLB, positions it at the exact world-space transform that the
-// Theatre.js CameraRig was calibrated against, applies head-tracking and a
-// GSAP material fade-in.
 // ─────────────────────────────────────────────────────────────────────────────
-function KnightModel() {
-  // Use the shared architecture hook to load the model (handles Draco, caching, etc.)
-  const { gltf } = useModelLoader('knight');
-  const scene = gltf.scene;
-  const meshRef = useRef();
-
-  // ── Position model exactly where CameraRig expects it ──────────────
-  // (Bounds/Center components fail on SkinnedMeshes due to GPU bone transforms)
-  useEffect(() => {
-    if (!scene) return;
-    // Shifted x to 1.2 to push it right, shifted y to -1.8 to lower it slightly
-    scene.position.set(-0.155, -1.74, 0);
-    scene.scale.setScalar(1.8);
-  }, [scene]);
-
-  // ── HEAD TRACKING refs ─────────────────────────────────────────────────────
-  const headBoneRef = useRef(null);
-  const initialHeadRotation = useRef(new THREE.Euler());
-  const isPointerActive = useRef(false);
-  const globalMouse = useRef({ x: 0, y: 0 });
-
-  // ── Step 2: Traverse to find head bone and set shadows ─────────────────────
-  useEffect(() => {
-    if (!scene) return;
-    let found = false;
-    scene.traverse((child) => {
-      if (child.isMesh) {
-        child.castShadow = true;
-        child.receiveShadow = true;
-      }
-      if (!found && child.isBone) {
-        const name = child.name.toLowerCase();
-        if (name.includes('head') || name.includes('neck')) {
-          headBoneRef.current = child;
-          initialHeadRotation.current.copy(child.rotation);
-          found = true;
-        }
-      }
-    });
-    // We intentionally removed the aggressive disposal here because useGLTF caches 
-    // the scene globally. Disposing it here corrupts the cache on React strict-mode 
-    // re-mounts or page reloads.
-  }, [scene]);
-
-  // ── Step 3: Single global mouse/leave listener — no per-frame allocations ──
-  const { invalidate } = useThree();
-  useEffect(() => {
-    const onMouseMove = (e) => {
-      isPointerActive.current = true;
-      globalMouse.current.x = (e.clientX / window.innerWidth)  * 2 - 1;
-      globalMouse.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
-      invalidate();
-    };
-    const onMouseLeave = () => {
-      isPointerActive.current = false;
-      invalidate();
-    };
-    window.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseleave', onMouseLeave);
-    // Non-touch devices: treat as always active so head doesn't freeze
-    if (navigator.maxTouchPoints === 0) isPointerActive.current = true;
-    return () => {
-      window.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseleave', onMouseLeave);
-    };
-  }, [invalidate]);
-
-  // ── Step 4: GSAP material fade-in once model is in the scene ─────────────
-  useEffect(() => {
-    if (!meshRef.current) return;
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReduced) return;
-    meshRef.current.traverse((child) => {
-      if (child.isMesh && child.material) {
-        child.material.transparent = true;
-        child.material.opacity = 0;
-        gsap.to(child.material, {
-          opacity: 1,
-          duration: 1.4,
-          ease: 'power2.out',
-          delay: 0.4,
-          onUpdate: invalidate, // Trigger R3F to render the frame during animation!
-        });
-      }
-    });
-  }, [invalidate]);
-
-  // ── Step 5: Per-frame head lerp — ±20° yaw, ±10° pitch ───────────────────
-  useFrame(() => {
-    if (!headBoneRef.current) return;
-
-    let targetYaw   = 0;
-    let targetPitch = 0;
-
-    if (isPointerActive.current) {
-      targetYaw   = globalMouse.current.x *  (20 * Math.PI / 180);
-      targetPitch = -globalMouse.current.y * (10 * Math.PI / 180);
-    }
-
-    const head = headBoneRef.current;
-    const init = initialHeadRotation.current;
-    const finalYaw   = init.y + targetYaw;
-    const finalPitch = init.x + targetPitch;
-
-    // 0.05 lerp → heavy armour inertia, no snapping
-    head.rotation.y = THREE.MathUtils.lerp(head.rotation.y, finalYaw,   0.05);
-    head.rotation.x = THREE.MathUtils.lerp(head.rotation.x, finalPitch, 0.05);
-
-    // Keep invalidating while the head is still moving toward its target
-    if (
-      Math.abs(head.rotation.y - finalYaw)   > 0.001 ||
-      Math.abs(head.rotation.x - finalPitch) > 0.001
-    ) {
-      invalidate();
-    }
-  });
-
-  return (
-    <primitive
-      ref={meshRef}
-      object={scene}
-    />
-  );
-}
 
 class HeroErrorBoundary extends React.Component {
   constructor(props) {
@@ -195,21 +69,7 @@ function CameraRig() {
   return null;
 }
 
-// Lightweight wireframe — shown while the remote GLB is being downloaded
-function ModelFallback() {
-  const { progress } = useModelProgress();
-  return (
-    <mesh>
-      <boxGeometry args={[1, 1, 1]} />
-      <meshBasicMaterial color="#ff005522" wireframe />
-      <Html center>
-        <div style={{ color: '#FF0055', fontFamily: 'monospace', fontWeight: 'bold' }}>
-          {progress.toFixed(0)}%
-        </div>
-      </Html>
-    </mesh>
-  );
-}
+// ─────────────────────────────────────────────────────────────────────────────
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Hero
@@ -277,7 +137,7 @@ export const Hero = () => {
     };
   }, []);
 
-  const { progress } = useModelProgress();
+  const { progress } = useModelProvider() || { progress: 0 };
   const [modelReady, setModelReady] = useState(false);
   const [mountModel, setMountModel] = useState(false);
 
@@ -336,7 +196,7 @@ export const Hero = () => {
             <HeroLoader />
             {mountModel && (
               <Suspense fallback={null}>
-                <KnightModel />
+                <Knight />
               </Suspense>
             )}
           </Canvas>

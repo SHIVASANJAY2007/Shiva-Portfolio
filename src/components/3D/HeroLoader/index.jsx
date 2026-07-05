@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, Suspense } from 'react';
-import { useModelProgress } from '../../../hooks/useModelLoader';
+import { useModelProvider } from '../../../providers/ModelProvider';
 import { HologramProxy } from './HologramProxy';
 import { GlassCells } from './GlassCells';
 import { EnergyEffects } from './EnergyEffects';
@@ -7,7 +7,7 @@ import { Html } from '@react-three/drei';
 import gsap from 'gsap';
 
 export function HeroLoader({ onComplete }) {
-  const { progress } = useModelProgress();
+  const { progress } = useModelProvider() || { progress: 0 };
   const [fakeProgress, setFakeProgress] = useState(0);
   const [opacity, setOpacity] = useState(1);
   const [smoothProgress, setSmoothProgress] = useState(0);

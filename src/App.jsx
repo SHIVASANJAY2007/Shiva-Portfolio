@@ -12,6 +12,7 @@ import useScrollScene from './hooks/useScrollScene';
 import './styles/globals.css';
 import ModuleScroller from './components/sections/ModuleScroller';
 import TheatreStudio from './utils/TheatreStudio';
+import { ModelProvider } from './providers/ModelProvider';
 
 export default function App() {
   useScrollScene();
@@ -33,25 +34,27 @@ export default function App() {
   }, []);
 
   return (
-    <div className="app">
-      <TheatreStudio />
-      <Loader />
-      <Navigation />
+    <ModelProvider>
+      <div className="app">
+        <TheatreStudio />
+        <Loader />
+        <Navigation />
 
-      <main>
-        <Suspense fallback={<div style={{height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>Loading...</div>}>
-          <ModuleScroller>
-            <Hero />
-            <About />
-            <Skills />
-            <Projects />
-            <Experience />
-            <Contact />
-          </ModuleScroller>
-        </Suspense>
-      </main>
+        <main>
+          <Suspense fallback={<div style={{height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>Loading...</div>}>
+            <ModuleScroller>
+              <Hero />
+              <About />
+              <Skills />
+              <Projects />
+              <Experience />
+              <Contact />
+            </ModuleScroller>
+          </Suspense>
+        </main>
 
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </ModelProvider>
   );
 }
