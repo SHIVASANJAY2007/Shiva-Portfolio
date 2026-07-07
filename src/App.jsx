@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Lenis from 'lenis';
-import { Navigation, Footer, Loader } from './components/common';
+import { Navigation, Footer, Loader, ClickSpark } from './components/common';
 import { lazy, Suspense } from 'react';
 const Hero = lazy(() => import('./components/sections/Hero').then(m => ({ default: m.Hero || m.default })));
 const About = lazy(() => import('./components/sections/About').then(m => ({ default: m.About || m.default })));
@@ -36,6 +36,15 @@ export default function App() {
   return (
     <ModelProvider>
       <div className="app">
+        <ClickSpark
+          sparkColor="#ffffff"
+          sparkSize={10}
+          sparkRadius={15}
+          sparkCount={8}
+          duration={400}
+          easing="ease-out"
+          extraScale={1}
+        />
         <TheatreStudio />
         <Loader />
         <Navigation />

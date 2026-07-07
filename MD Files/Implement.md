@@ -1,77 +1,203 @@
-Uncaught TypeError: Cannot read properties of undefined (reading 'geometry')
-    at KnightModel (Knight.jsx:113:65)
-    at renderWithHooks (chunk-FPASVA5V.js?v=947d84dd:5897:26)
-    at mountIndeterminateComponent (chunk-FPASVA5V.js?v=947d84dd:9380:21)
-    at beginWork (chunk-FPASVA5V.js?v=947d84dd:10363:22)
-    at HTMLUnknownElement.callCallback2 (chunk-FPASVA5V.js?v=947d84dd:10594:22)
-    at Object.invokeGuardedCallbackDev (chunk-FPASVA5V.js?v=947d84dd:10619:24)
-    at invokeGuardedCallback (chunk-FPASVA5V.js?v=947d84dd:10651:39)
-    at beginWork$1 (chunk-FPASVA5V.js?v=947d84dd:14205:15)
-    at performUnitOfWork (chunk-FPASVA5V.js?v=947d84dd:13669:20)
-    at workLoopSync (chunk-FPASVA5V.js?v=947d84dd:13609:13)
-installHook.js:1 The above error occurred in the <KnightModel> component:
+npx shadcn@latest add @react-bits/Antigravity-JS-CSS 
 
-    at KnightModel (http://localhost:3000/src/components/3D/Knight.jsx?t=1783272979443:23:24)
-    at Knight (http://localhost:3000/src/components/3D/Knight.jsx?t=1783272979443:207:26)
-    at Suspense
-    at Suspense
-    at ErrorBoundary (http://localhost:3000/node_modules/.vite/deps/chunk-FPASVA5V.js?v=947d84dd:15975:5)
-    at FiberProvider (http://localhost:3000/node_modules/.vite/deps/chunk-FPASVA5V.js?v=947d84dd:17655:21)
-    at Provider (http://localhost:3000/node_modules/.vite/deps/chunk-FPASVA5V.js?v=947d84dd:17264:3)
+import Antigravity from './Antigravity';
 
-React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
-overrideMethod @ installHook.js:1
-2chunk-FPASVA5V.js?v=947d84dd:17761 Uncaught TypeError: Cannot read properties of undefined (reading 'geometry')
-    at KnightModel (Knight.jsx:113:65)
-    at renderWithHooks (chunk-FPASVA5V.js?v=947d84dd:5897:26)
-    at mountIndeterminateComponent (chunk-FPASVA5V.js?v=947d84dd:9380:21)
-    at beginWork (chunk-FPASVA5V.js?v=947d84dd:10363:22)
-    at beginWork$1 (chunk-FPASVA5V.js?v=947d84dd:14193:22)
-    at performUnitOfWork (chunk-FPASVA5V.js?v=947d84dd:13669:20)
-    at workLoopSync (chunk-FPASVA5V.js?v=947d84dd:13609:13)
-    at renderRootSync (chunk-FPASVA5V.js?v=947d84dd:13588:15)
-    at recoverFromConcurrentError (chunk-FPASVA5V.js?v=947d84dd:13178:28)
-    at performConcurrentWorkOnRoot (chunk-FPASVA5V.js?v=947d84dd:13126:30)
-installHook.js:1 The above error occurred in the <ForwardRef(Canvas)> component:
+<div style={{ width: '100%', height: '400px', position: 'relative' }}>
+  <Antigravity
+    count={300}
+    magnetRadius={6}
+    ringRadius={7}
+    waveSpeed={0.4}
+    waveAmplitude={1}
+    particleSize={1.5}
+    lerpSpeed={0.05}
+    color="#5227FF"
+    autoAnimate
+    particleVariance={1}
+    rotationSpeed={0}
+    depthFactor={1}
+    pulseSpeed={3}
+    particleShape="capsule"
+    fieldStrength={10}
+/>
+</div>
 
-    at Canvas (http://localhost:3000/node_modules/.vite/deps/chunk-FPASVA5V.js?v=947d84dd:17721:3)
-    at FiberProvider (http://localhost:3000/node_modules/.vite/deps/chunk-FPASVA5V.js?v=947d84dd:17655:21)
-    at CanvasWrapper
-    at HeroErrorBoundary (http://localhost:3000/src/components/sections/Hero.jsx?t=1783273214053:32:5)
-    at div
-    at section
-    at Hero (http://localhost:3000/src/components/sections/Hero.jsx?t=1783273214053:82:24)
-    at div
-    at div
-    at ModuleScroller (http://localhost:3000/src/components/sections/ModuleScroller.jsx:23:34)
-    at Suspense
-    at main
-    at div
-    at ModelProvider (http://localhost:3000/src/providers/ModelProvider.jsx?t=1783272943842:21:33)
-    at App (http://localhost:3000/src/App.jsx?t=1783273214053:41:3)
+/* eslint-disable react/no-unknown-property */
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { useMemo, useRef } from 'react';
+import * as THREE from 'three';
 
-React will try to recreate this component tree from scratch using the error boundary you provided, HeroErrorBoundary.
-overrideMethod @ installHook.js:1
-installHook.js:1 Hero 3D Canvas Error: TypeError: Cannot read properties of undefined (reading 'geometry')
-    at KnightModel (Knight.jsx:113:65)
-    at renderWithHooks (chunk-FPASVA5V.js?v=947d84dd:5897:26)
-    at mountIndeterminateComponent (chunk-FPASVA5V.js?v=947d84dd:9380:21)
-    at beginWork (chunk-FPASVA5V.js?v=947d84dd:10363:22)
-    at beginWork$1 (chunk-FPASVA5V.js?v=947d84dd:14193:22)
-    at performUnitOfWork (chunk-FPASVA5V.js?v=947d84dd:13669:20)
-    at workLoopSync (chunk-FPASVA5V.js?v=947d84dd:13609:13)
-    at renderRootSync (chunk-FPASVA5V.js?v=947d84dd:13588:15)
-    at recoverFromConcurrentError (chunk-FPASVA5V.js?v=947d84dd:13178:28)
-    at performConcurrentWorkOnRoot (chunk-FPASVA5V.js?v=947d84dd:13126:30) Object Error Component Stack
-    at HeroErrorBoundary (Hero.jsx:23:5)
-    at div (<anonymous>)
-    at section (<anonymous>)
-    at Hero (Hero.jsx:78:25)
-    at div (<anonymous>)
-    at div (<anonymous>)
-    at ModuleScroller (ModuleScroller.jsx:8:34)
-    at Suspense (<anonymous>)
-    at main (<anonymous>)
-    at div (<anonymous>)
-    at ModelProvider (ModelProvider.jsx:6:33)
-    at App (App.jsx:18:3)
+const AntigravityInner = ({
+  count = 300,
+  magnetRadius = 10,
+  ringRadius = 10,
+  waveSpeed = 0.4,
+  waveAmplitude = 1,
+  particleSize = 2,
+  lerpSpeed = 0.1,
+  color = '#FF9FFC',
+  autoAnimate = false,
+  particleVariance = 1,
+  rotationSpeed = 0,
+  depthFactor = 1,
+  pulseSpeed = 3,
+  particleShape = 'capsule',
+  fieldStrength = 10
+}) => {
+  const meshRef = useRef(null);
+  const { viewport } = useThree();
+  const dummy = useMemo(() => new THREE.Object3D(), []);
+
+  const lastMousePos = useRef({ x: 0, y: 0 });
+  const lastMouseMoveTime = useRef(0);
+  const virtualMouse = useRef({ x: 0, y: 0 });
+
+  const particles = useMemo(() => {
+    const temp = [];
+    const width = viewport.width || 100;
+    const height = viewport.height || 100;
+
+    for (let i = 0; i < count; i++) {
+      const t = Math.random() * 100;
+      const factor = 20 + Math.random() * 100;
+      const speed = 0.01 + Math.random() / 200;
+      const xFactor = -50 + Math.random() * 100;
+      const yFactor = -50 + Math.random() * 100;
+      const zFactor = -50 + Math.random() * 100;
+
+      const x = (Math.random() - 0.5) * width;
+      const y = (Math.random() - 0.5) * height;
+      const z = (Math.random() - 0.5) * 20;
+
+      const randomRadiusOffset = (Math.random() - 0.5) * 2;
+
+      temp.push({
+        t,
+        factor,
+        speed,
+        xFactor,
+        yFactor,
+        zFactor,
+        mx: x,
+        my: y,
+        mz: z,
+        cx: x,
+        cy: y,
+        cz: z,
+        vx: 0,
+        vy: 0,
+        vz: 0,
+        randomRadiusOffset
+      });
+    }
+    return temp;
+  }, [count, viewport.width, viewport.height]);
+
+  useFrame(state => {
+    const mesh = meshRef.current;
+    if (!mesh) return;
+
+    const { viewport: v, pointer: m } = state;
+
+    const mouseDist = Math.sqrt(Math.pow(m.x - lastMousePos.current.x, 2) + Math.pow(m.y - lastMousePos.current.y, 2));
+
+    if (mouseDist > 0.001) {
+      lastMouseMoveTime.current = Date.now();
+      lastMousePos.current = { x: m.x, y: m.y };
+    }
+
+    let destX = (m.x * v.width) / 2;
+    let destY = (m.y * v.height) / 2;
+
+    if (autoAnimate && Date.now() - lastMouseMoveTime.current > 2000) {
+      const time = state.clock.getElapsedTime();
+      destX = Math.sin(time * 0.5) * (v.width / 4);
+      destY = Math.cos(time * 0.5 * 2) * (v.height / 4);
+    }
+
+    const smoothFactor = 0.05;
+    virtualMouse.current.x += (destX - virtualMouse.current.x) * smoothFactor;
+    virtualMouse.current.y += (destY - virtualMouse.current.y) * smoothFactor;
+
+    const targetX = virtualMouse.current.x;
+    const targetY = virtualMouse.current.y;
+
+    const globalRotation = state.clock.getElapsedTime() * rotationSpeed;
+
+    particles.forEach((particle, i) => {
+      let { t, speed, mx, my, mz, cz, randomRadiusOffset } = particle;
+
+      t = particle.t += speed / 2;
+
+      const projectionFactor = 1 - cz / 50;
+      const projectedTargetX = targetX * projectionFactor;
+      const projectedTargetY = targetY * projectionFactor;
+
+      const dx = mx - projectedTargetX;
+      const dy = my - projectedTargetY;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      let targetPos = { x: mx, y: my, z: mz * depthFactor };
+
+      if (dist < magnetRadius) {
+        const angle = Math.atan2(dy, dx) + globalRotation;
+
+        const wave = Math.sin(t * waveSpeed + angle) * (0.5 * waveAmplitude);
+        const deviation = randomRadiusOffset * (5 / (fieldStrength + 0.1));
+
+        const currentRingRadius = ringRadius + wave + deviation;
+
+        targetPos.x = projectedTargetX + currentRingRadius * Math.cos(angle);
+        targetPos.y = projectedTargetY + currentRingRadius * Math.sin(angle);
+        targetPos.z = mz * depthFactor + Math.sin(t) * (1 * waveAmplitude * depthFactor);
+      }
+
+      particle.cx += (targetPos.x - particle.cx) * lerpSpeed;
+      particle.cy += (targetPos.y - particle.cy) * lerpSpeed;
+      particle.cz += (targetPos.z - particle.cz) * lerpSpeed;
+
+      dummy.position.set(particle.cx, particle.cy, particle.cz);
+
+      dummy.lookAt(projectedTargetX, projectedTargetY, particle.cz);
+      dummy.rotateX(Math.PI / 2);
+
+      const currentDistToMouse = Math.sqrt(
+        Math.pow(particle.cx - projectedTargetX, 2) + Math.pow(particle.cy - projectedTargetY, 2)
+      );
+
+      const distFromRing = Math.abs(currentDistToMouse - ringRadius);
+      let scaleFactor = 1 - distFromRing / 10;
+
+      scaleFactor = Math.max(0, Math.min(1, scaleFactor));
+
+      const finalScale = scaleFactor * (0.8 + Math.sin(t * pulseSpeed) * 0.2 * particleVariance) * particleSize;
+      dummy.scale.set(finalScale, finalScale, finalScale);
+
+      dummy.updateMatrix();
+
+      mesh.setMatrixAt(i, dummy.matrix);
+    });
+
+    mesh.instanceMatrix.needsUpdate = true;
+  });
+
+  return (
+    <instancedMesh ref={meshRef} args={[undefined, undefined, count]}>
+      {particleShape === 'capsule' && <capsuleGeometry args={[0.1, 0.4, 4, 8]} />}
+      {particleShape === 'sphere' && <sphereGeometry args={[0.2, 16, 16]} />}
+      {particleShape === 'box' && <boxGeometry args={[0.3, 0.3, 0.3]} />}
+      {particleShape === 'tetrahedron' && <tetrahedronGeometry args={[0.3]} />}
+      <meshBasicMaterial color={color} />
+    </instancedMesh>
+  );
+};
+
+const Antigravity = props => {
+  return (
+    <Canvas camera={{ position: [0, 0, 50], fov: 35 }}>
+      <AntigravityInner {...props} />
+    </Canvas>
+  );
+};
+
+export default Antigravity;

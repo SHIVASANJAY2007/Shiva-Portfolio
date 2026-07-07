@@ -6,6 +6,8 @@ import { resumeData } from '../../data/resume';
 
 gsap.registerPlugin(ScrollTrigger);
 
+import { Antigravity } from '../common';
+
 export const About = () => {
   const containerRef = useRef(null);
 
@@ -34,7 +36,24 @@ export const About = () => {
 
   return (
     <section id="about" className={styles.originSection} ref={containerRef}>
-      
+      <Antigravity
+        eventSource={containerRef}
+        count={120}
+        magnetRadius={6}
+        ringRadius={7}
+        waveSpeed={0.4}
+        waveAmplitude={1}
+        particleSize={1.5}
+        lerpSpeed={0.05}
+        color="#5227FF"
+        autoAnimate={false}
+        particleVariance={1}
+        rotationSpeed={0}
+        depthFactor={1}
+        pulseSpeed={3}
+        particleShape="capsule"
+        fieldStrength={10}
+      />
 
       <div className={styles.content}>
         <h2 className={styles.sectionTitle}>

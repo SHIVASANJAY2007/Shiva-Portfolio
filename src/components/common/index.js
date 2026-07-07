@@ -14,3 +14,5 @@ export { CustomCursor } from './CustomCursor';
 export { AbstractBackground } from './AbstractBackground';
 
 export { TextFlippingBoard } from './TextFlippingBoard';
+export { default as ClickSpark } from './ClickSpark';
+export { default as Antigravity } from './Antigravity';

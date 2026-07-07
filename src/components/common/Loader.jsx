@@ -6,19 +6,31 @@ export const Loader = () => {
   const { progress: actualProgress } = useProgress();
   const [show, setShow] = useState(true);
   const [displayProgress, setDisplayProgress] = useState(0);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    // Sync display progress with actual progress, but don't let it jump backwards
-    setDisplayProgress(prev => Math.max(prev, actualProgress));
+    // Smoothly interpolate display progress
+    let animationFrame;
+    const updateProgress = () => {
+      setDisplayProgress(prev => {
+        const next = prev + (actualProgress - prev) * 0.1;
+        if (actualProgress === 100 && next >= 99.9) return 100;
+        return next;
+      });
+      animationFrame = requestAnimationFrame(updateProgress);
+    };
+    updateProgress();
+    return () => cancelAnimationFrame(animationFrame);
   }, [actualProgress]);
 
   useEffect(() => {
-    // Only fade out if actualProgress truly hits 100
-    if (displayProgress >= 100 && actualProgress === 100) {
-      const timer = setTimeout(() => setShow(false), 1200); // Wait a bit to let the canvas render
+    if (displayProgress >= 100) {
+      setIsLoaded(true);
+      // Wait for the flash-to-white transition before unmounting
+      const timer = setTimeout(() => setShow(false), 1200);
       return () => clearTimeout(timer);
     }
-  }, [displayProgress, actualProgress]);
+  }, [displayProgress]);
 
   return (
     <AnimatePresence>
@@ -31,76 +43,72 @@ export const Loader = () => {
             position: 'fixed',
             top: 0,
             left: 0,
-            width: '100%',
+            width: '100vw',
             height: '100vh',
-            background: '#000000',
+            backgroundColor: '#000000',
             zIndex: 9999,
             display: 'flex',
-            flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
+            overflow: 'hidden',
           }}
         >
-          {/* Minimalist Logo/Letter */}
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 1, repeat: Infinity, repeatType: "reverse" }}
+          {/* White flash overlay for cinematic transition to Hero */}
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: isLoaded ? 1 : 0 }}
+            transition={{ duration: 0.8, ease: "easeIn" }}
             style={{
-              fontSize: '4rem',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              backgroundColor: '#ffffff',
+              zIndex: 1,
+              pointerEvents: 'none'
+            }}
+          />
+
+          {/* Text Container */}
+          <motion.div
+            initial={{ scale: 1, filter: 'blur(0px)', opacity: 1 }}
+            animate={isLoaded ? { scale: 1.2, filter: 'blur(10px)', opacity: 0, letterSpacing: '0.1em' } : { scale: 1, filter: 'blur(0px)', opacity: 1, letterSpacing: '0.02em' }}
+            transition={{ duration: 1, ease: "easeInOut" }}
+            style={{
+              position: 'relative',
+              fontSize: '20vw',
               fontWeight: '900',
-              color: '#ffffff',
-              marginBottom: '2rem',
-              letterSpacing: '0.2em',
+              lineHeight: 1,
+              fontFamily: 'sans-serif',
+              transformOrigin: 'center center',
+              zIndex: 2,
             }}
           >
-            SHIVA
-          </motion.div>
-
-          {/* Progress Bar Container */}
-          <div style={{
-            width: '200px',
-            height: '2px',
-            background: 'rgba(255,255,255,0.1)',
-            position: 'relative',
-            overflow: 'hidden'
-          }}>
-            <motion.div
+            {/* Base Gray Text */}
+            <div style={{ color: '#222222', whiteSpace: 'nowrap' }}>
+              SHIVA
+            </div>
+            
+            {/* Top White Text Overlay (Fills based on progress) */}
+            <div
               style={{
-                width: `${displayProgress}%`,
-                height: '100%',
-                background: '#ffffff',
                 position: 'absolute',
-                left: 0,
                 top: 0,
+                left: 0,
+                color: '#ffffff',
+                whiteSpace: 'nowrap',
+                clipPath: `inset(0 ${100 - displayProgress}% 0 0)`,
+                textShadow: '0 0 30px rgba(255, 255, 255, 0.4)',
               }}
-              transition={{ ease: "easeOut", duration: 0.5 }}
-            />
-          </div>
-
-          {/* Percentage */}
-          <div style={{
-            marginTop: '1rem',
-            fontSize: '0.8rem',
-            color: 'rgba(255,255,255,0.5)',
-            fontFamily: 'monospace',
-            letterSpacing: '0.1em'
-          }}>
-            {Math.round(displayProgress)}%
-          </div>
-
-          <div style={{
-            position: 'absolute',
-            bottom: '2rem',
-            fontSize: '0.6rem',
-            color: 'rgba(255,255,255,0.3)',
-            textTransform: 'uppercase',
-            letterSpacing: '0.3em'
-          }}>
-            Crafting Experience
-          </div>
+            >
+              SHIVA
+            </div>
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>
   );
 };
+
+export default Loader;
