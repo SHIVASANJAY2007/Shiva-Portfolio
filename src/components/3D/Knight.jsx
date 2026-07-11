@@ -17,14 +17,14 @@ function KnightModel({ scene, invalidate }) {
   // ── Step 2: Traverse to find head bone & apply shadows ─────────────────────
   useEffect(() => {
     let foundHead = false;
-    
+
     scene.traverse((child) => {
       // 1. Apply shadows to all meshes
       if (child.isMesh) {
         child.castShadow = true;
         child.receiveShadow = true;
       }
-      
+
       // 2. Find the head/neck bone
       if (!foundHead && child.isBone) {
         const name = child.name.toLowerCase();
@@ -41,7 +41,7 @@ function KnightModel({ scene, invalidate }) {
   useEffect(() => {
     const onMouseMove = (e) => {
       isPointerActive.current = true;
-      globalMouse.current.x = (e.clientX / window.innerWidth)  * 2 - 1;
+      globalMouse.current.x = (e.clientX / window.innerWidth) * 2 - 1;
       globalMouse.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
       invalidate();
     };
@@ -51,7 +51,7 @@ function KnightModel({ scene, invalidate }) {
     };
     window.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseleave', onMouseLeave);
-    
+
     if (navigator.maxTouchPoints === 0) isPointerActive.current = true;
     return () => {
       window.removeEventListener('mousemove', onMouseMove);
@@ -63,13 +63,13 @@ function KnightModel({ scene, invalidate }) {
   useEffect(() => {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReduced) return;
-    
+
     scene.traverse((child) => {
       if (child.isMesh && child.material) {
         child.material = child.material.clone();
         child.material.transparent = true;
         child.material.opacity = 0;
-        
+
         gsap.to(child.material, {
           opacity: 1,
           duration: 1.4,
@@ -85,24 +85,24 @@ function KnightModel({ scene, invalidate }) {
   useFrame((state) => {
     if (!headBoneRef.current) return;
 
-    let targetYaw   = 0;
+    let targetYaw = 0;
     let targetPitch = 0;
 
     if (isPointerActive.current) {
-      targetYaw   = globalMouse.current.x *  (20 * Math.PI / 180);
+      targetYaw = globalMouse.current.x * (20 * Math.PI / 180);
       targetPitch = -globalMouse.current.y * (10 * Math.PI / 180);
     }
 
     const head = headBoneRef.current;
     const init = initialHeadRotation.current;
-    const finalYaw   = init.y + targetYaw;
+    const finalYaw = init.y + targetYaw;
     const finalPitch = init.x + targetPitch;
 
-    head.rotation.y = THREE.MathUtils.lerp(head.rotation.y, finalYaw,   0.15);
+    head.rotation.y = THREE.MathUtils.lerp(head.rotation.y, finalYaw, 0.15);
     head.rotation.x = THREE.MathUtils.lerp(head.rotation.x, finalPitch, 0.15);
 
     if (
-      Math.abs(head.rotation.y - finalYaw)   > 0.001 ||
+      Math.abs(head.rotation.y - finalYaw) > 0.001 ||
       Math.abs(head.rotation.x - finalPitch) > 0.001
     ) {
       invalidate();

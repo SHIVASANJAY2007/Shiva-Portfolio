@@ -10,4 +10,4 @@ dist
 # 3D models
 *.glb
 *.gltf
-!public/models/knight-hd.glb
+!src/components/3D/knight-hd.glb
