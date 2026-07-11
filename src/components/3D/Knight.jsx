@@ -97,8 +97,8 @@ function KnightModel({ scene, invalidate }) {
     const finalYaw   = init.y + targetYaw;
     const finalPitch = init.x + targetPitch;
 
-    head.rotation.y = THREE.MathUtils.lerp(head.rotation.y, finalYaw,   0.05);
-    head.rotation.x = THREE.MathUtils.lerp(head.rotation.x, finalPitch, 0.05);
+    head.rotation.y = THREE.MathUtils.lerp(head.rotation.y, finalYaw,   0.15);
+    head.rotation.x = THREE.MathUtils.lerp(head.rotation.x, finalPitch, 0.15);
 
     if (
       Math.abs(head.rotation.y - finalYaw)   > 0.001 ||
