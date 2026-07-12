@@ -89,8 +89,8 @@ function KnightModel({ scene, invalidate }) {
     let targetPitch = 0;
 
     if (isPointerActive.current) {
-      targetYaw = globalMouse.current.x * (20 * Math.PI / 180);
-      targetPitch = -globalMouse.current.y * (10 * Math.PI / 180);
+      targetYaw = globalMouse.current.x * (45 * Math.PI / 180);
+      targetPitch = -globalMouse.current.y * (20 * Math.PI / 180);
     }
 
     const head = headBoneRef.current;
@@ -110,7 +110,7 @@ function KnightModel({ scene, invalidate }) {
   });
 
   return (
-    <group ref={meshRef} position={[-0.155, -1.74, 0]} scale={1.8} dispose={null}>
+    <group ref={meshRef} position={[0, -1.56, 0]} scale={1.6} dispose={null}>
       <primitive object={scene} />
     </group>
   );

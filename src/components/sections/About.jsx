@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './About.module.css';
 import { resumeData } from '../../data/resume';
+import bgVideo from '../Videos/montage_nature.mp4';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -34,6 +35,16 @@ export const About = () => {
 
   return (
     <section id="about" className={styles.originSection} ref={containerRef}>
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className={styles.bgVideo}
+      >
+        <source src={bgVideo} type="video/mp4" />
+      </video>
+      <div className={styles.overlay}></div>
 
       <div className={styles.content}>
         <h2 className={styles.sectionTitle}>

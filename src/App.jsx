@@ -10,9 +10,10 @@ const Experience = lazy(() => import('./components/sections/Experience').then(m 
 const Contact = lazy(() => import('./components/sections/Contact').then(m => ({ default: m.Contact || m.default })));
 import useScrollScene from './hooks/useScrollScene';
 import './styles/globals.css';
-import ModuleScroller from './components/sections/ModuleScroller';
 import TheatreStudio from './utils/TheatreStudio';
 import { ModelProvider } from './providers/ModelProvider';
+import ModuleScroller from './components/sections/ModuleScroller';
+import GlobalCanvas from './components/3D/GlobalCanvas';
 
 export default function App() {
   useScrollScene();
@@ -32,7 +33,6 @@ export default function App() {
     requestAnimationFrame(raf);
     return () => lenis.destroy();
   }, []);
-
   return (
     <ModelProvider>
       <div className="app">
@@ -48,11 +48,12 @@ export default function App() {
         <TheatreStudio />
         <Loader />
         <Navigation />
+        <GlobalCanvas />
 
         <main>
           <Suspense fallback={<div style={{height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>Loading...</div>}>
+            <Hero />
             <ModuleScroller>
-              <Hero />
               <About />
               <Skills />
               <Projects />
