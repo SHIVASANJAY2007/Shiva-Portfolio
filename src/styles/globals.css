@@ -6,14 +6,14 @@
  */
 
 :root {
-  /* Formal Warm Palette -> Switched to Dark Theme */
-  --color-bg: #050505; /* Deep black/dark gray */
-  --color-text: #FFFFFF; /* Pure white */
-  --color-text-muted: #A0A0A0;
-  --color-primary: #E8696A; /* Purple accent */
-  --color-primary-dark: #E8696A;
-  --color-border: #333333;
-  --color-surface: #111111; /* Dark gray for components */
+  /* Formal Warm Palette */
+  --color-bg: #FFF9E6; /* Very Light Yellow/Cream default */
+  --color-text: #2C1E16; /* Deep warm charcoal/brown */
+  --color-text-muted: #8D6E63;
+  --color-primary: #FF6D00; /* Vibrant Orange */
+  --color-primary-dark: #E65100;
+  --color-border: #FFE0B2;
+  --color-surface: #FFFFFF; /* Pure white for components */
 
   /* Typography */
   --font-primary: 'Syne', sans-serif;

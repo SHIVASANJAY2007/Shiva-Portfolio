@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import * as THREE from 'three';
 import { useFrame, useThree } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
-import knightModelUrl from './knight-hd.glb';
+import knightModelUrl from './knight-hd.glb?url';
 import gsap from 'gsap';
 
 function KnightModel({ scene, invalidate }) {

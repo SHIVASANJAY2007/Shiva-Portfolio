@@ -1,0 +1,151 @@
+{
+  "languages": [
+    {
+      "name": "Java",
+      "slug": "java",
+      "logo": "https://svgl.app/library/java.svg"
+    },
+    {
+      "name": "JavaScript",
+      "slug": "javascript",
+      "logo": "https://svgl.app/library/javascript.svg"
+    },
+    {
+      "name": "Python",
+      "slug": "python",
+      "logo": "https://svgl.app/library/python.svg"
+    },
+    {
+      "name": "C",
+      "slug": "c",
+      "logo": "https://svgl.app/library/c.svg"
+    }
+  ],
+  "codeEditors": [
+    {
+      "name": "VS Code",
+      "slug": "vscode",
+      "logo": "https://svgl.app/library/vscode.svg"
+    }
+  ],
+  "aiTools": [
+    {
+      "name": "ChatGPT",
+      "slug": "chatgpt",
+      "logo": "https://svgl.app/library/chatgpt.svg"
+    },
+    {
+      "name": "Gemini",
+      "slug": "gemini",
+      "logo": "https://svgl.app/library/gemini.svg"
+    },
+    {
+      "name": "NotebookLM",
+      "slug": "notebooklm",
+      "logo": "https://svgl.app/library/notebooklm.svg"
+    },
+    {
+      "name": "GitHub Copilot",
+      "slug": "github-copilot",
+      "logo": "https://svgl.app/library/github-copilot.svg"
+    }
+  ],
+  "frontend": [
+    {
+      "name": "HTML5",
+      "slug": "html5",
+      "logo": "https://svgl.app/library/html5.svg"
+    },
+    {
+      "name": "CSS3",
+      "slug": "css",
+      "logo": "https://svgl.app/library/css.svg"
+    },
+    {
+      "name": "React",
+      "slug": "react",
+      "logo": "https://svgl.app/library/react.svg"
+    },
+    {
+      "name": "Tailwind CSS",
+      "slug": "tailwindcss",
+      "logo": "https://svgl.app/library/tailwindcss.svg"
+    },
+    {
+      "name": "Bootstrap",
+      "slug": "bootstrap",
+      "logo": "https://svgl.app/library/bootstrap.svg"
+    }
+  ],
+  "backend": [
+    {
+      "name": "Node.js",
+      "slug": "nodejs",
+      "logo": "https://svgl.app/library/nodejs.svg"
+    },
+    {
+      "name": "Express.js",
+      "slug": "expressjs",
+      "logo": "https://svgl.app/library/expressjs.svg"
+    }
+  ],
+  "databases": [
+    {
+      "name": "MongoDB",
+      "slug": "mongodb",
+      "logo": "https://svgl.app/library/mongodb.svg"
+    },
+    {
+      "name": "PostgreSQL",
+      "slug": "postgresql",
+      "logo": "https://svgl.app/library/postgresql.svg"
+    },
+    {
+      "name": "MySQL",
+      "slug": "mysql",
+      "logo": "https://svgl.app/library/mysql.svg"
+    }
+  ],
+  "tools": [
+    {
+      "name": "GitHub",
+      "slug": "github",
+      "logo": "https://svgl.app/library/github.svg"
+    },
+    {
+      "name": "Notion",
+      "slug": "notion",
+      "logo": "https://svgl.app/library/notion.svg"
+    },
+    {
+      "name": "Docker",
+      "slug": "docker",
+      "logo": "https://svgl.app/library/docker.svg"
+    },
+    {
+      "name": "n8n",
+      "slug": "n8n",
+      "logo": "https://svgl.app/library/n8n.svg"
+    },
+    {
+      "name": "Google Colab",
+      "slug": "google-colab",
+      "logo": "https://svgl.app/library/google-colab.svg"
+    },
+    {
+      "name": "Microsoft Office",
+      "slug": "microsoft-office",
+      "logo": "https://svgl.app/library/microsoft-office.svg"
+    },
+    {
+      "name": "Salesforce",
+      "slug": "salesforce",
+      "logo": "https://svgl.app/library/salesforce.svg"
+    },
+    {
+      "name": "Odoo",
+      "slug": "odoo",
+      "logo": "https://svgl.app/library/odoo.svg"
+    }
+  ]
+}

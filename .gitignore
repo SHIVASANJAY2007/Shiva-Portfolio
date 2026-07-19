@@ -7,8 +7,7 @@ dist
 .cache
 .vercel
 .env*
-*.rar
 # 3D models
 *.glb
 *.gltf
-!src/components/3D/knight-hd.glb
+!src/components/3D/knight-hd.glb.vite/

@@ -20,7 +20,16 @@ export const Loader = () => {
       animationFrame = requestAnimationFrame(updateProgress);
     };
     updateProgress();
-    return () => cancelAnimationFrame(animationFrame);
+    
+    // Safety fallback: if loading hangs for more than 4 seconds, force it to complete
+    const fallbackTimer = setTimeout(() => {
+      setDisplayProgress(100);
+    }, 4000);
+
+    return () => {
+      cancelAnimationFrame(animationFrame);
+      clearTimeout(fallbackTimer);
+    };
   }, [actualProgress]);
 
   useEffect(() => {

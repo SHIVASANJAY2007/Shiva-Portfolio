@@ -4,6 +4,29 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './Hero.module.css';
 import { resumeData } from '../../data/resume';
 import { useModelProvider } from '../../providers/ModelProvider';
+import { Canvas } from '@react-three/fiber';
+import { Environment, PerspectiveCamera } from '@react-three/drei';
+import * as THREE from 'three';
+import { Suspense, useState } from 'react';
+import { Knight } from '../3D/Knight';
+import { HeroLoader } from '../3D/HeroLoader';
+
+// Simplified CameraRig for Hero
+function HeroCameraRig() {
+  return (
+    <PerspectiveCamera
+      makeDefault
+      fov={21.676747862747334}
+      near={0.1}
+      far={1000}
+      position={[
+        0.03506215468457707 + 3.705 * Math.sin(1.602) * Math.sin(-0.002), // simplified spherical pos
+        2.0473513037249234 + 3.705 * Math.cos(1.602),
+        0.1572685070081812 + 3.705 * Math.sin(1.602) * Math.cos(-0.002)
+      ]}
+    />
+  );
+}
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -22,7 +45,7 @@ export const Hero = () => {
   const subtitleRef   = useRef(null);
   const blobLeftRef   = useRef(null);
   const blobRightRef  = useRef(null);
-  const gridRef       = useRef(null);
+
   const canvasWrapRef = useRef(null);
 
   useEffect(() => {
@@ -33,6 +56,7 @@ export const Hero = () => {
       // UI entrance stagger
       const tl = gsap.timeline({
         defaults: { ease: 'cubic-bezier(0.215, 0.61, 0.355, 1)' },
+        delay: 1.5 // Wait for loader overlay to finish
       });
       tl.from(taglineRef.current, { opacity: 0, x: -30, duration: 0.8 })
         .from(subtitleRef.current, { opacity: 0, x: 30, duration: 0.8 }, '-=0.6');
@@ -48,12 +72,6 @@ export const Hero = () => {
         scrollTrigger: { trigger: containerRef.current, start: 'top top', end: 'bottom top', scrub: 1.8 },
       });
 
-      // Grid fades faster
-      gsap.to(gridRef.current, {
-        opacity: 0, ease: 'none',
-        scrollTrigger: { trigger: containerRef.current, start: 'top top', end: '40% top', scrub: true },
-      });
-
       // Content drifts up
       gsap.to(containerRef.current.querySelector(`.${styles.content}`), {
         y: -60, opacity: 0, ease: 'none',
@@ -63,21 +81,60 @@ export const Hero = () => {
 
     return () => {
       ctx.revert();
-      ScrollTrigger.getAll().forEach((st) => st.kill());
     };
   }, []);
+
+  const { progress } = useModelProvider() || { progress: 0 };
+  const [modelReady, setModelReady] = useState(false);
+
+  useEffect(() => {
+    if (progress === 100) {
+      setTimeout(() => setModelReady(true), 1500);
+    }
+  }, [progress]);
 
 
   return (
     <section id="hero" className={styles.heroSection} ref={containerRef}>
 
       {/* Background decorative layers */}
-      <div ref={gridRef}      className={styles.grid}      aria-hidden="true" />
       <div ref={blobLeftRef}  className={styles.blobLeft}  aria-hidden="true" />
       <div ref={blobRightRef} className={styles.blobRight} aria-hidden="true" />
 
+      {/* Embedded 3D Canvas explicitly restricted to Hero */}
+      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0, pointerEvents: 'none' }}>
+        <Canvas
+          shadows
+          gl={{ 
+            alpha: true, 
+            antialias: true, 
+            powerPreference: 'high-performance',
+            toneMapping: THREE.ACESFilmicToneMapping,
+            toneMappingExposure: 1.1
+          }}
+          dpr={[1, 1.5]}
+          frameloop="demand"
+        >
+          <HeroCameraRig />
+          <ambientLight intensity={0.6} />
+          <directionalLight 
+            position={[5, 5, 5]} 
+            intensity={1.2} 
+            castShadow 
+            shadow-mapSize={[1024, 1024]} 
+            shadow-bias={-0.0001} 
+          />
+          <directionalLight position={[-5, 3, -5]} intensity={0.5} />
+          <Environment preset="city" resolution={256} />
 
-
+          <HeroLoader />
+          <Suspense fallback={null}>
+            <group>
+              <Knight />
+            </group>
+          </Suspense>
+        </Canvas>
+      </div>
       <div className={styles.content}>
         
         {/* Left Side */}

@@ -10,10 +10,6 @@
   min-height: 100vh;
   /* background-color should ideally be set in the modules themselves, but we can set a base */
   background-color: rgba(0, 0, 0, 0.4); 
-  z-index: 1; /* GSAP pinning will handle stacking */
-  /* Remove any overflow hidden so we can scroll naturally */
+  /* z-index is set inline by the component */
 }
 
-/* Optional: if you want a subtle shadow when a module slides over another */
-.moduleItem {
-}

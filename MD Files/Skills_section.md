@@ -1,120 +1,136 @@
-# Interactive Tech Stack — Build Spec v2
+# Interactive Physics-Based Tool Card — Build Spec
 
-Revision of the physics tool card concept. Two components now, connected by one toggle and one transition.
+## Concept
+A rounded, dark bento-style card that showcases a set of tools/skills as floating logo icons on a dotted grid background. The logos idle-float with gentle random drift, and react to the user's cursor with smooth, physics-driven motion (attraction/repulsion + momentum + collision avoidance) when the cursor moves inside the card bounds. Below the icon area sits a title + subtitle text block on a solid dark footer.
 
-- **Component A — "Scatter" view**: bare logos falling under gravity inside a bounded card, draggable, no text, no glass background.
-- **Component B — "Stack" view**: full tech-stack grid (per reference image) — bordered cards with icon + label, hover glow.
-- A small icon-only toggle button switches between the two, with an animated transition.
-
----
-
-## 0. Icon Source — SVGL only
-
-All logos must come from **SVGL** (https://svgl.app), not custom icon packs, not glass/emoji icons.
-
-- Public API: `GET https://api.svgl.app` → returns array of `{ id, title, category, route, url }`
-- `route` is either a direct `.svg` URL string, or `{ light, dark }` variants — use the `dark` variant since the whole UI is dark-themed
-- Fetch by name: `GET https://api.svgl.app?search=react`
-- Fetch by category: `GET https://api.svgl.app/category/{category}`
-- Render the raw SVG directly (via `<img src={route}>` or inlined `<svg>` if you need to recolor strokes) — **no icon should sit inside a colored/frosted chip, no icon should have a text label rendered under it in Component A.** The logo is the entire visual; nothing else.
-- Build a small local mapping of `{ toolName → svgl route }` at build time (fetch once, cache in a JSON file) rather than calling the API live on every render.
+Reference behavior: think "liquid magnetism" — icons should never snap or teleport; every movement is spring-damped and inertial, like objects floating in a fluid that responds to a nearby force field (the cursor).
 
 ---
 
-## 1. Component A — Scatter (gravity physics)
+## 1. Visual Structure
 
-### Mechanism (replaces the old cursor-repel idea entirely)
+- Outer container: rounded-2xl card, dark background (`#0d0d0f` or similar near-black), subtle 1px border (`rgba(255,255,255,0.08)`), soft drop shadow.
+- Top ~65% of card: "canvas" zone with a faint dot-grid background (radial-gradient dots, low opacity, ~24px spacing) — this is the physics playground.
+- Bottom ~35%: solid dark footer panel (slightly different shade, e.g. `#000000`) containing:
+  - Title (bold, white, ~16–18px) — e.g. "All Your AI Tools in One Place"
+  - Subtitle (gray, ~13px, 2 lines max) — short descriptive text
+- Icons are rendered as SVG/PNG logos of tools/skills, each in its own bounded hitbox, scattered at varied starting positions and sizes (do not grid-align them — natural scatter feels organic).
 
-Use a real 2D physics engine — **Matter.js** — instead of spring-based fake physics. This gives proper gravity, collision, and drag for free.
+## 2. Data Model
 
-- Each card is its own bounded **physics world**:
-  - Invisible static bodies for floor + side walls, matching the card's rounded inner padding (so logos rest inside the border, not clipped by it)
-  - `engine.world.gravity.y` set to a small positive value (e.g. `0.6–1`) so logos drift downward and settle, rather than falling hard/bouncy
-- Each logo is a **circular or icon-shaped rigid body** (`Matter.Bodies.circle` sized to the icon, or a rectangle matching the icon's bounding box) with:
-  - Moderate restitution (~0.3) so they bounce softly once against the floor/each other, then settle
-  - Friction + frictionAir tuned so they don't skate around forever
-- **Dragging**: use `Matter.MouseConstraint` (bound to the card's mouse/pointer events) so the user can grab any logo and drag it anywhere inside the bounds
-- **Releasing ("leavable")**: on mouse up, the constraint releases and the logo simply falls back under gravity and resettles — no snapping, no forced return position
-- On mount, logos spawn from randomized positions slightly above the visible card (so the "load-in" itself looks like them dropping into place) and settle within ~1–2s
-- Render the Matter.js bodies as absolutely-positioned React elements synced to body `position`/`angle` each frame (Matter.js handles physics in its own headless world; React/DOM just mirrors it — do not use Matter's canvas renderer, keep icons as real DOM SVGs so they stay crisp and stylable)
-
-### What NOT to include (removed from v1)
-- ❌ Cursor-proximity repel force
-- ❌ Idle Perlin-noise floating drift
-- ❌ Any text label or category name rendered on/under the floating icons
-- ❌ Any glass/frosted/colored chip background behind each icon — the icon sits directly on the card background, nothing wrapping it
-
-### Per-card aesthetics
-Each Scatter card should feel intentional, not identical:
-- Give each category card (e.g. "AI Bots", "IDE", "Programming", "Automation") a subtle signature accent — a faint radial glow in a category color behind the icons, or a thin top-border accent line — so cards are visually distinguishable at a glance
-- Rounded corners (`rounded-2xl`), near-black background, soft outer shadow, consistent with the original reference
-- Optional faint dot-grid background, low opacity, purely decorative (physics bodies ignore it)
-
----
-
-## 2. Component B — Stack (full grid)
-
-Matches the second reference image: a full tech-stack directory.
-
-- Header: large gradient title text (e.g. "TECH STACK")
-- Grid of rounded cards, each containing:
-  - SVGL icon (small, ~24–32px) inside a subtle rounded square/chip
-  - Tool name as a small caption label below the icon (labels ARE shown here — this is the one place text appears)
-- **Hover animation** per card: on hover, scale up slightly (~1.05–1.08), border brightens or gets a soft glow in an accent color, icon can have a subtle lift (translateY -2px) — keep it snappy (~150–200ms ease-out), no bounce
-- Background: deep purple/black gradient with a soft ambient glow (matches reference), can reuse across both components for consistency
-
----
-
-## 3. Toggle Button
-
-- A **single small line-icon button**, no text, no label — think a minimal "≡" / horizontal-line / expand-collapse glyph (pull from SVGL or a simple inline SVG, keep it a single stroke, not a filled icon)
-- Positioned consistently (e.g. top-right corner of the Scatter card, or floating corner of the whole section)
-- Click toggles between Component A (Scatter) and Component B (Stack)
-- Button itself should have a small hover state (subtle scale or glow) so it reads as interactive despite having no text
-
----
-
-## 4. Transition Between A and B
-
-Keep it simple, not gimmicky:
-
-- Use **Framer Motion `AnimatePresence`** wrapping both components, keyed by current view
-- Suggested approach: **crossfade + slight scale/blur**
-  - Outgoing view: fade out + scale down slightly (~0.97) + optional blur(4px), ~250–300ms
-  - Incoming view: fade in + scale up from ~0.97 → 1, staggered slightly after outgoing starts leaving (~80–100ms overlap)
-- Optional nicer variant (if time allows): use shared `layoutId` per tool icon so a logo visible in both views (e.g. "React") visually morphs/flies from its scattered position into its grid slot rather than just cross-fading — this is the "cool" version, but the plain crossfade+scale is a safe, always-good-looking fallback
-- No hard cuts — every switch should feel like one continuous piece of UI, not two separate pages swapping
-
----
-
-## 5. Suggested Component API
-
-```tsx
-<TechStackShowcase
-  categories={[
-    { name: "AI Bots", tools: aiToolsArray },
-    { name: "IDE", tools: ideToolsArray },
-    { name: "Programming", tools: langToolsArray },
-    { name: "Automation", tools: automationToolsArray },
-  ]}
-  defaultView="scatter" // "scatter" | "stack"
-/>
-```
-
-Where each tool entry is:
+Each item in the card should be data-driven:
 
 ```ts
-type Tool = {
-  name: string;       // "React"
-  svglRoute: string;   // resolved SVGL dark-variant URL, cached at build time
-  category: string;    // "IDE" | "Programming" | "AI Bots" | ...
+type ToolItem = {
+  id: string;
+  name: string;        // e.g. "Claude", "VS Code", "Python"
+  category: string;    // e.g. "AI Bots", "IDE", "Programming", "Automation"
+  icon: string;         // SVG path, imported component, or image URL
+  size?: number;         // optional override for icon scale
 };
 ```
 
-## 6. Deliverable
+Pass in Shiva's actual tool/skill set (AI bots, IDEs, programming languages, automation tools like n8n, etc.) as this array — the card should be reusable for different tool groupings (e.g. one card per category, or one mixed card).
 
-- `TechStackShowcase.tsx` — top-level component managing view state + toggle + transition
-- `ScatterCard.tsx` — Matter.js-driven physics card (Component A)
-- `StackGrid.tsx` — full grid view (Component B)
-- `lib/svgl.ts` — small helper to fetch/cache SVGL routes by tool name at build time
-- Comments explaining the Matter.js world setup (gravity, walls, mouse constraint) so physics tuning is easy later
+## 3. Physics / Motion Requirements
+
+Use a lightweight physics-feel system — NOT a full physics engine unless truly needed. Prefer spring-based motion (Framer Motion `useSpring` / `useAnimationFrame`, or a custom RAF loop) over `matter.js` for performance, unless true rigid-body collision is required.
+
+Required behaviors:
+
+1. **Idle float**: When the cursor is NOT hovering, each icon should slowly drift in a small organic orbit (Perlin-noise or sine-based offset per icon, randomized phase/amplitude per icon so they don't move in sync).
+2. **Cursor influence**: When the cursor enters the card bounds, nearby icons should react:
+   - **Repel mode** (recommended for this look): icons within a radius (~120–160px) of the cursor get pushed away smoothly, with force falling off by distance (inverse-square or linear falloff).
+   - Force should never cause instant jumps — apply as acceleration → velocity → position, with damping/friction each frame so motion settles naturally.
+3. **Momentum & damping**: Each icon has velocity + friction coefficient (~0.90–0.95 per frame) so it decelerates smoothly after the cursor moves away, then eases back toward idle float.
+4. **Boundary containment**: Icons must stay within the canvas zone — apply soft boundary repulsion near edges rather than hard clamping, so it feels like a bounded fluid rather than a wall collision.
+5. **Mutual avoidance (optional, nice-to-have)**: Icons gently repel each other at close range so they don't overlap, using the same spring-repel logic as cursor interaction but with a smaller radius.
+6. **Return-to-rest**: If the cursor leaves the card entirely, all icons should smoothly decay back into their idle-float behavior over ~1–2s, not snap back.
+
+## 4. Tech Stack (match existing project conventions)
+
+- **React** functional components + hooks
+- **Framer Motion** for spring physics (`useMotionValue`, `useSpring`, `animate`) — preferred over GSAP here since this is 2D DOM-based, not 3D/WebGL
+- `useAnimationFrame` (Framer Motion) or a custom `requestAnimationFrame` loop for the per-frame force calculation
+- Track cursor position via `onMouseMove` on the card container, converted to local coordinates relative to the canvas zone
+- Each icon is an absolutely positioned `motion.div` inside a `relative` canvas container
+- Use `will-change: transform` and transform-only animation (translate, not top/left) for GPU-accelerated smoothness
+- Debounce/guard so the effect is skipped entirely on touch devices or add a touch-drag fallback (icons respond to a finger/tap position instead of hover)
+
+## 5. Performance Guardrails
+
+- Cap the number of simultaneously animated icons to a sane count per card (~6–10) to avoid frame drops
+- Use a single RAF loop for all icons rather than one per icon
+- Throttle mousemove position updates using the RAF loop itself, not multiple listeners
+- Avoid re-rendering React state every frame — mutate motion values directly (Framer Motion pattern) instead of `setState` in the animation loop
+
+## 6. Suggested Component API
+
+```tsx
+<PhysicsToolCard
+  title="All Your AI Tools in One Place"
+  subtitle="Connect and use leading AI models from a single interface. Faster, simpler, and seamless."
+  tools={toolsArray}
+  interactionMode="repel" // "repel" | "attract" | "orbit"
+  influenceRadius={140}
+  className="max-w-sm"
+/>
+```
+
+## 7. Deliverable
+
+Build this as a single self-contained, reusable React component (`PhysicsToolCard.tsx`) with:
+- No hard-coded tool data (accepts `tools` prop)
+- Inline styles or Tailwind, matching the dark/near-black aesthetic in the reference image
+- Comments explaining the force-calculation logic so it can be tuned later
+- A short usage example at the bottom of the file
+
+JSON : 
+{
+  "languages": [
+    "Java",
+    "JavaScript",
+    "Python",
+    "C",
+    "SQL"
+  ],
+  "code_editors": [
+    "Antigravity",
+    "VS Code"
+  ],
+  "ai_workspace": [
+    "ChatGPT",
+    "Gemini",
+    "NotebookLLM",
+    "GitHub Copilot"
+  ],
+  "frontend": [
+    "HTML5",
+    "CSS3",
+    "React",
+    "Tailwind CSS",
+    "Bootstrap"
+  ],
+  "backend": [
+    "Node.js",
+    "Express.js"
+  ],
+  "databases": [
+    "MongoDB",
+    "PostgreSQL",
+    "pgAdmin",
+    "MySQL"
+  ],
+  "other_tools_platforms": [
+    "GitHub",
+    "Notion",
+    "Docker",
+    "n8n",
+    "Google Colab",
+    "Microsoft Office"
+  ],
+  "crm_erp_platforms": [
+    "Salesforce",
+    "Odoo"
+  ]
+}

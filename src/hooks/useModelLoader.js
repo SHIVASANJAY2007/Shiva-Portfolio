@@ -1,7 +1,6 @@
 import { useGLTF, useProgress } from "@react-three/drei";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
 import { MODEL_REGISTRY } from "../config/models";
-import * as THREE from "three";
 
 const DRACO_DECODER_PATH = "https://www.gstatic.com/draco/versioned/decoders/1.5.6/";
 

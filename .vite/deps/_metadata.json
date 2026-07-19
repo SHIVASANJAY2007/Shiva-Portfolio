@@ -1,0 +1,112 @@
+{
+  "hash": "5fbbab3d",
+  "configHash": "cd4c078f",
+  "lockfileHash": "f7e6c611",
+  "browserHash": "e3719ab8",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "37b59067",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "10c4a1ba",
+      "needsInterop": true
+    },
+    "lenis": {
+      "src": "../../node_modules/lenis/dist/lenis.mjs",
+      "file": "lenis.js",
+      "fileHash": "7bd32397",
+      "needsInterop": false
+    },
+    "gsap": {
+      "src": "../../node_modules/gsap/index.js",
+      "file": "gsap.js",
+      "fileHash": "709adda8",
+      "needsInterop": false
+    },
+    "gsap/ScrollTrigger": {
+      "src": "../../node_modules/gsap/ScrollTrigger.js",
+      "file": "gsap_ScrollTrigger.js",
+      "fileHash": "305a49c4",
+      "needsInterop": false
+    },
+    "@react-three/drei": {
+      "src": "../../node_modules/@react-three/drei/index.js",
+      "file": "@react-three_drei.js",
+      "fileHash": "7f619009",
+      "needsInterop": false
+    },
+    "@theatre/core": {
+      "src": "../../node_modules/@theatre/core/dist/index.js",
+      "file": "@theatre_core.js",
+      "fileHash": "c670b6ae",
+      "needsInterop": true
+    },
+    "@theatre/studio": {
+      "src": "../../node_modules/@theatre/studio/dist/index.js",
+      "file": "@theatre_studio.js",
+      "fileHash": "eff34b97",
+      "needsInterop": true
+    },
+    "zustand": {
+      "src": "../../node_modules/zustand/esm/index.mjs",
+      "file": "zustand.js",
+      "fileHash": "92e79c2b",
+      "needsInterop": false
+    },
+    "framer-motion": {
+      "src": "../../node_modules/framer-motion/dist/es/index.mjs",
+      "file": "framer-motion.js",
+      "fileHash": "77faa980",
+      "needsInterop": false
+    },
+    "@react-three/fiber": {
+      "src": "../../node_modules/@react-three/fiber/dist/react-three-fiber.esm.js",
+      "file": "@react-three_fiber.js",
+      "fileHash": "f5929df5",
+      "needsInterop": false
+    },
+    "three": {
+      "src": "../../node_modules/three/build/three.module.js",
+      "file": "three.js",
+      "fileHash": "6553cc4f",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "hls-5MQMENTY": {
+      "file": "hls-5MQMENTY.js"
+    },
+    "vision_bundle-GDIRXNMM": {
+      "file": "vision_bundle-GDIRXNMM.js"
+    },
+    "chunk-YN6XUGJW": {
+      "file": "chunk-YN6XUGJW.js"
+    },
+    "chunk-XVMVIYZU": {
+      "file": "chunk-XVMVIYZU.js"
+    },
+    "chunk-4YRSYSYO": {
+      "file": "chunk-4YRSYSYO.js"
+    },
+    "chunk-GPUGIQNS": {
+      "file": "chunk-GPUGIQNS.js"
+    },
+    "chunk-IT6G3TIR": {
+      "file": "chunk-IT6G3TIR.js"
+    },
+    "chunk-N4N5IM6X": {
+      "file": "chunk-N4N5IM6X.js"
+    },
+    "chunk-GK33OAIQ": {
+      "file": "chunk-GK33OAIQ.js"
+    },
+    "chunk-LK32TJAX": {
+      "file": "chunk-LK32TJAX.js"
+    }
+  }
+}

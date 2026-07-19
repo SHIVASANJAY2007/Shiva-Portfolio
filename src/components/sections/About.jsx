@@ -3,7 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './About.module.css';
 import { resumeData } from '../../data/resume';
-import bgVideo from '../Videos/montage_nature.mp4';
+import montageNature from '../videos/montage_nature.mp4';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -42,7 +42,7 @@ export const About = () => {
         playsInline
         className={styles.bgVideo}
       >
-        <source src={bgVideo} type="video/mp4" />
+        <source src={montageNature} type="video/mp4" />
       </video>
       <div className={styles.overlay}></div>
 
