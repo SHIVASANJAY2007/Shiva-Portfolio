@@ -14,7 +14,7 @@ const Experience = lazy(() => import('./components/sections/Experience').then(m 
 const Contact = lazy(() => import('./components/sections/Contact').then(m => ({ default: m.Contact || m.default })));
 import useScrollScene from './hooks/useScrollScene';
 import './styles/globals.css';
-import ModuleScroller from './components/sections/ModuleScroller';
+import StackScroller from './components/sections/StackScroller';
 import TheatreStudio from './utils/TheatreStudio';
 import { ModelProvider } from './providers/ModelProvider';
 
@@ -59,15 +59,15 @@ export default function App() {
         <Navigation />
 
         <main>
-          <Suspense fallback={<div style={{height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>Loading...</div>}>
-            <ModuleScroller>
+          <Suspense fallback={<div style={{height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff'}}>Loading...</div>}>
+            <StackScroller>
               <Hero />
               <About />
               <Skills />
               <Projects />
               <Experience />
               <Contact />
-            </ModuleScroller>
+            </StackScroller>
           </Suspense>
         </main>
 

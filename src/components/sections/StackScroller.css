@@ -1,0 +1,51 @@
+/* Containers */
+.stack__conceal {
+  /* No specific styles in MD file, but it's a container */
+}
+
+/* Cards */
+.card__conceal {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  min-height: 100vh;
+  /* Removed flex center and background so the section components handle their own layout */
+  z-index: -1;
+}
+
+/* Stacking order: conceal */
+.card__conceal:nth-child(1) { z-index: 5; }
+.card__conceal:nth-child(2) { z-index: 6; }
+.card__conceal:nth-child(3) { z-index: 7; }
+.card__conceal:nth-child(4) { z-index: 8; }
+.card__conceal:nth-child(5) { z-index: 9; }
+.card__conceal:nth-child(6) { z-index: 10; }
+.card__conceal:nth-child(7) { z-index: 11; }
+
+/* Sibling overlay: invisible on load */
+.overlay__conceal::before,
+.overlay__conceal--visible::before {
+  left: 0;
+  width: 100%;
+  /* Use a massive height so the overlay covers even the tallest sections completely */
+  height: 500vh;
+  opacity: 0;
+  content: "";
+  display: block; /* block is more reliable than inline-block for absolute positioning */
+  position: absolute;
+  background: black;
+  transition: opacity 1s cubic-bezier(0.165, 0.84, 0.44, 1);
+  pointer-events: none;
+  will-change: opacity; /* Optimize the fade animation */
+}
+
+/* Conceal effect: before card */
+.overlay__conceal::before,
+.overlay__conceal--visible::before {
+  bottom: 100%;
+}
+
+/* Sibling overlay: visibile when JS executes */
+.overlay__conceal--visible::before {
+  opacity: 0.7;
+}

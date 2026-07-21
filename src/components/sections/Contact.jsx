@@ -26,8 +26,8 @@ export const Contact = () => {
     const ctx = gsap.context(() => {
       gsap.from('.contactFade', {
         scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top 80%',
+          trigger: `.${styles.contentGrid}`,
+          start: 'top 85%',
         },
         y: 30,
         opacity: 0,
@@ -83,14 +83,6 @@ export const Contact = () => {
             <input type="text" placeholder="Enter your Name" className={styles.inputField} />
             <input type="email" placeholder="Enter a valid email address" className={styles.inputField} />
             <textarea placeholder="Enter your message" className={styles.textareaField} rows={5}></textarea>
-            
-            <div className={styles.termsGroup}>
-              <input type="checkbox" id="terms" className={styles.checkbox} />
-              <label htmlFor="terms" className={styles.termsLabel}>
-                I accept the <a href="#terms" className={styles.termsLink}>Terms of Service</a>
-              </label>
-            </div>
-            
             <button type="button" className={styles.submitBtn}>
               SUBMIT
             </button>

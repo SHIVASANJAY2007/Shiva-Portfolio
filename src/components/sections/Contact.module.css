@@ -2,13 +2,13 @@
   position: relative;
   min-height: 100vh;
   width: 100%;
-  padding: 10vh 5vw;
+  padding: 15vh 5vw; /* increased top padding slightly */
   background-color: #050505;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
+  /* removed overflow: hidden to prevent clipping content on smaller screens */
   font-family: 'Inter', sans-serif;
 }
 

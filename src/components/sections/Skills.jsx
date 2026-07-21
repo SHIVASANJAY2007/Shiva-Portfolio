@@ -31,23 +31,23 @@ export const Skills = () => {
   const activeSkill = allSkills[activeIndex];
   const activeGlowColor = glowColors[activeIndex % glowColors.length];
 
-  // Calculate positions for inactive skills
-  const inactiveSkills = useMemo(() => {
-    const filtered = allSkills.filter((_, i) => i !== activeIndex);
+  // Calculate permanent positions for all skills so they don't re-arrange on click
+  const allSkillsWithPositions = useMemo(() => {
     const radius = window.innerWidth < 768 ? 160 : 250;
-    const angleStep = (2 * Math.PI) / filtered.length;
+    const angleStep = (2 * Math.PI) / allSkills.length;
 
-    return filtered.map((skill, i) => {
-      // Offset by -PI/2 to start at the top
+    return allSkills.map((skill, i) => {
       const angle = i * angleStep - Math.PI / 2;
       return {
         ...skill,
         x: Math.cos(angle) * radius,
         y: Math.sin(angle) * radius,
-        originalIndex: allSkills.findIndex((s) => s.name === skill.name)
+        originalIndex: i
       };
     });
-  }, [activeIndex]);
+  }, []);
+
+  const inactiveSkills = allSkillsWithPositions.filter((_, i) => i !== activeIndex);
 
   return (
     <section id="skills" className={styles.skillsSection}>
@@ -72,25 +72,27 @@ export const Skills = () => {
         {/* Right Column: Orbit */}
         <div className={styles.rightColumn}>
           <div className={styles.orbitContainer}>
-            {/* The Orbit Ring */}
-            <div className={styles.orbitRing} />
+            {/* The Orbit Ring and Items inside the rotating wrapper */}
+            <div className={styles.orbitRotatingWrapper}>
+              <div className={styles.orbitRing} />
 
-            {/* Inactive Skills on the Orbit */}
-            {inactiveSkills.map((skill) => (
-              <motion.div
-                key={skill.name}
-                layoutId={`skill-${skill.name}`}
-                className={styles.orbitItem}
-                initial={false}
-                animate={{ x: skill.x, y: skill.y }}
-                transition={{ type: "spring", stiffness: 50, damping: 20 }}
-                onClick={() => setActiveIndex(skill.originalIndex)}
-                whileHover={{ scale: 1.2 }}
-                title={skill.name}
-              >
-                <img src={skill.logo} alt={skill.name} />
-              </motion.div>
-            ))}
+              {/* Inactive Skills on the Orbit */}
+              {inactiveSkills.map((skill) => (
+                <motion.div
+                  key={skill.name}
+                  layoutId={`skill-${skill.name}`}
+                  className={styles.orbitItem}
+                  initial={false}
+                  animate={{ x: skill.x, y: skill.y }}
+                  transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                  onClick={() => setActiveIndex(skill.originalIndex)}
+                  whileHover={{ scale: 1.2 }}
+                  title={skill.name}
+                >
+                  <img src={skill.logo} alt={skill.name} className={styles.rotatingIcon} />
+                </motion.div>
+              ))}
+            </div>
 
             {/* Active Skill in the Center */}
             <motion.div
@@ -99,7 +101,7 @@ export const Skills = () => {
               className={styles.centerSkill}
               initial={false}
               animate={{ x: 0, y: 0, scale: 1 }}
-              transition={{ type: "spring", stiffness: 50, damping: 20 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
             >
               <img src={activeSkill.logo} alt={activeSkill.name} />
               <div className={styles.activeLabel}>{activeSkill.name}</div>

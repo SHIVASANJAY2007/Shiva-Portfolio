@@ -5,6 +5,10 @@
  * Japanese aesthetic with minimalist elegance
  */
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   /* Formal Warm Palette */
   --color-bg: #FFF9E6; /* Very Light Yellow/Cream default */
@@ -95,7 +99,7 @@ html {
 
 body {
   font-family: var(--font-secondary);
-  background-color: var(--color-bg);
+  background-color: #050505;
   color: var(--color-text);
   line-height: var(--line-height-normal);
   overflow-x: hidden;
