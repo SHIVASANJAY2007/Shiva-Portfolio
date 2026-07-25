@@ -37,8 +37,8 @@ export const Projects = () => {
         const cardInner = card.querySelector(`.${styles.card__inner}`);
 
         gsap.to(cardInner, {
-          scale: toScale,
-          filter: 'brightness(0.6)',
+          scale: 1, /* Kept scale 1 to keep them large */
+          filter: 'brightness(1)', /* Avoid blurring / darkening */
           ease: 'none',
           scrollTrigger: {
             trigger: nextCard,
@@ -77,7 +77,7 @@ export const Projects = () => {
                 <div className={styles.card__imageContainer}>
                   <img
                     className={styles.card__image}
-                    src="https://images.unsplash.com/photo-1620207418302-439b387441b0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=100"
+                    src={project.image || "https://images.unsplash.com/photo-1620207418302-439b387441b0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=100"}
                     alt={project.name}
                   />
                 </div>

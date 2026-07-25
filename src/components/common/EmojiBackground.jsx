@@ -6,7 +6,7 @@ const svgModules = import.meta.glob('../emojis/*.svg', { eager: true });
 const emojis = Object.values(svgModules).map((mod) => mod.default);
 
 export const EmojiBackground = () => {
-  const rowsCount = 12; /* Massive number of rows */
+  const rowsCount = 30; /* Massive number of rows */
   
   const rows = useMemo(() => {
     return Array.from({ length: rowsCount }).map((_, i) => {

@@ -31,8 +31,8 @@
 .emojiSet {
   display: flex;
   align-items: center;
-  gap: 8vw; /* Increased spacing */
-  padding-right: 8vw; /* Match gap to ensure perfect loop */
+  gap: 3vw; /* Increased density */
+  padding-right: 3vw; /* Match gap to ensure perfect loop */
 }
 
 @keyframes moveRight {
@@ -60,7 +60,7 @@
   }
   
   .emojiSet {
-    gap: 8vw;
-    padding-right: 8vw;
+    gap: 3vw;
+    padding-right: 3vw;
   }
 }

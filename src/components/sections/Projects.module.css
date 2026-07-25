@@ -53,7 +53,7 @@
 
 .cards {
   width: 100%;
-  max-width: 900px; /* Restore card width */
+  max-width: 1200px; /* Restore card width */
   margin: 0 auto;
   display: grid;
   gap: 40px 0;
