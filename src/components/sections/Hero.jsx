@@ -76,8 +76,7 @@ export const Hero = () => {
       const canvasContainer = containerRef.current.querySelector('.canvas-container');
       if (canvasContainer) {
         gsap.to(canvasContainer, {
-          y: 200, // Move down to create parallax lag
-          scale: 0.85,
+          y: 200, // Move down to create parallax lag (no scale to prevent WebGL glitches)
           opacity: 0.2,
           ease: 'none',
           scrollTrigger: { trigger: containerRef.current, start: 'top top', end: 'bottom top', scrub: true },
