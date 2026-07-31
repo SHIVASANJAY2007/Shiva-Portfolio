@@ -1,10 +1,3 @@
-/**
- * README - SHIVA PORTFOLIO
- * World-Class Elite Portfolio Website
- * 
- * Dragon-themed Japanese aesthetic with advanced 3D interactivity
- */
-
 # Shiva Sanjay N D - Elite Portfolio
 
 A production-ready, high-end personal portfolio website showcasing professional experience, projects, and skills. Built with React, Three.js, and premium UI/UX design principles.
