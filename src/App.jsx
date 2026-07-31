@@ -15,7 +15,7 @@ const Contact = lazy(() => import('./components/sections/Contact').then(m => ({ 
 import useScrollScene from './hooks/useScrollScene';
 import './styles/globals.css';
 import StackScroller from './components/sections/StackScroller';
-import TheatreStudio from './utils/TheatreStudio';
+import TheatreStudio from './components/3D/TheatreStudio';
 import { ModelProvider } from './providers/ModelProvider';
 
 export default function App() {

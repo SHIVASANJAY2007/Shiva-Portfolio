@@ -41,7 +41,7 @@ export const resumeData = {
     {
       id: 'fitlee',
       name: 'Fitlee',
-      image: '/projects/fitlee.png',
+      image: '/projects/fitlee.webp',
       year: 2025,
       description:
         'Prize-winning fitness web application featuring an NFT-based reward system to gamify user engagement and milestone tracking. Integrated an AI chatbot for interactive fitness guidance and enhanced user experience. Designed with a focus on usability, innovation, and practical implementation.',
@@ -55,7 +55,7 @@ export const resumeData = {
     {
       id: 'zyvox',
       name: 'Zyvox AI',
-      image: '/projects/zyvox.png',
+      image: '/projects/zyvox.webp',
       year: 2025,
       description:
         'Team-developed AI travel assistant built using n8n to automate personalized trip planning workflows. Deployed as a WhatsApp Business bot to provide users with real-time travel suggestions and itinerary generation.',
@@ -69,7 +69,7 @@ export const resumeData = {
     {
       id: 'fade',
       name: 'FADE',
-      image: '/projects/fade.png',
+      image: '/projects/fade.webp',
       year: 2025,
       description:
         'Instagram Fake Account Detection Engine with advanced ML algorithms and immersive 3D UI. Features cyberpunk-inspired visual effects with glitch animations, real-time risk scoring, and profile authenticity analysis. Combines cutting-edge frontend technology with security intelligence for safer social media navigation.',
@@ -82,7 +82,7 @@ export const resumeData = {
     {
       id: 'verishield',
       name: 'VeriShield',
-      image: '/projects/verishield.png',
+      image: '/projects/verishield.webp',
       year: 2025,
       description:
         'High-throughput AI misinformation detection pipeline processing 2,100+ posts per minute with 97% accuracy. Integrates Google Fact Check Tools API with intelligent claim extraction, semantic analysis, and proprietary FakeMeter™ risk assessment. Glassmorphic premium UI for real-time monitoring and vernacular news sanitization.',
@@ -95,7 +95,7 @@ export const resumeData = {
     {
       id: 'studymate',
       name: 'StudyMate',
-      image: '/projects/studymate.png',
+      image: '/projects/studymate.webp',
       year: 2025,
       description:
         'AI-powered academic assistant revolutionizing learning through intelligent tutoring and personalized study guidance. Combines machine learning with educational technology to provide adaptive learning paths, real-time assistance, and comprehensive academic support for students.',
@@ -108,7 +108,7 @@ export const resumeData = {
     {
       id: 'gojo-lens',
       name: 'GOJO SNAPCHAT LENS',
-      image: '/projects/gojo.png',
+      image: '/projects/gojo.webp',
       year: 2025,
       description:
         'Immersive Augmented Reality face filter lens inspired by Jujutsu Kaisen\'s Gojo Satoru. Features advanced shader effects, head mesh deformation, face mask integration, and real-time rendering. Cross-platform compatible with dynamic visual effects using Snap Lens Studio for mobile and web.',
@@ -121,7 +121,7 @@ export const resumeData = {
     {
       id: 'ingres',
       name: 'INGRES',
-      image: '/projects/ingres.png',
+      image: '/projects/ingres.webp',
       year: 2025,
       description:
         'Modern TypeScript-based web application built with cutting-edge development practices. Features rapid development setup, modular architecture, and optimized build configuration using Vite. Designed for scalability and maintainability with TypeScript type safety.',

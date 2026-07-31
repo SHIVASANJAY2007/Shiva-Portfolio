@@ -8,7 +8,7 @@ import { Canvas } from '@react-three/fiber';
 import { Environment, PerspectiveCamera } from '@react-three/drei';
 import * as THREE from 'three';
 import { Suspense, useState } from 'react';
-import { Knight } from '../3D/Knight';
+const Knight = React.lazy(() => import('../3D/Knight').then(module => ({ default: module.Knight })));
 import { HeroLoader } from '../3D/HeroLoader';
 
 // Simplified CameraRig for Hero

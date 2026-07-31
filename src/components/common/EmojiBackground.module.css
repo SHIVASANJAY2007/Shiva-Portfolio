@@ -1,14 +1,20 @@
+.stickyWrapper {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
 .container {
   position: absolute;
-  top: -20%; /* Offset to compensate for rotation */
-  left: -10%;
-  width: 120%; /* Wider to cover edges when rotated */
-  height: 140%;
-  overflow: hidden;
+  top: -30vh;
+  left: -20vw;
+  width: 140vw;
+  height: 160vh;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  opacity: 0.85; /* Massively increased opacity for bright white look */
   z-index: 0;
   pointer-events: none;
   transform: rotate(-15deg); /* Creates the diagonal cross lines */
@@ -31,8 +37,7 @@
 .emojiSet {
   display: flex;
   align-items: center;
-  gap: 3vw; /* Increased density */
-  padding-right: 3vw; /* Match gap to ensure perfect loop */
+  /* Removed gap and padding to use rigid margins instead */
 }
 
 @keyframes moveRight {
@@ -48,19 +53,17 @@
   width: 64px;
   height: 64px;
   object-fit: contain;
-  /* Make SVGs super bright white (brightness 0 + invert 1 turns to white, then add heavy glow) */
-  filter: brightness(0) invert(1) drop-shadow(0 0 20px rgba(255, 255, 255, 1)) drop-shadow(0 0 10px rgba(255, 255, 255, 0.8)) drop-shadow(0 0 5px rgba(255, 255, 255, 1));
+  filter: brightness(0) invert(1);
+  opacity: 1;
   transition: transform 0.3s ease;
+  margin-right: 80px; 
+  flex-shrink: 0; /* Prevents emojis from squishing together */
 }
 
 @media (max-width: 768px) {
   .emoji {
     width: 48px;
     height: 48px;
-  }
-  
-  .emojiSet {
-    gap: 3vw;
-    padding-right: 3vw;
+    margin-right: 40px;
   }
 }

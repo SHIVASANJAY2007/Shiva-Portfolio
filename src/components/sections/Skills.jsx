@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import styles from './Skills.module.css';
-import skillsData from '../skills.json';
+import skillsData from '../../data/skills.json';
 
 // Flatten the skills.json into a single array
 const allSkills = [
