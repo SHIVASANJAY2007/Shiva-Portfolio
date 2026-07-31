@@ -46,12 +46,15 @@ export const Experience = () => {
               <div className={styles.timelineContent}>
                 <h3 className={styles.expTitle}>{exp.title}</h3>
                 <h4 className={styles.expOrg}>{exp.organization}</h4>
-                <p className={styles.expFocus}>{exp.focus}</p>
-                <div className={styles.achievements}>
-                  {exp.achievements.map((ach, i) => (
-                    <span key={i} className={styles.achievement}>{ach}</span>
-                  ))}
-                </div>
+                {exp.period && <p className={styles.expFocus}>{exp.period} {exp.location ? `| ${exp.location}` : ''}</p>}
+                {exp.focus && <p className={styles.expFocus}>{exp.focus}</p>}
+                {exp.achievements && exp.achievements.length > 0 && (
+                  <div className={styles.achievements}>
+                    {exp.achievements.map((ach, i) => (
+                      <span key={i} className={styles.achievement}>{ach}</span>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           ))}

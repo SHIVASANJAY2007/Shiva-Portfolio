@@ -149,23 +149,29 @@ export const resumeData = {
   },
   experience: [
     {
-      title: 'Prize-winning Project Lead',
+      title: 'Intern',
+      organization: 'Xenovex Technologies',
+      period: '1 Month (2025)',
+      location: 'Chennai'
+    },
+    {
+      title: 'Class Representative',
       organization: 'Kongu Engineering College',
-      focus: 'Fitlee - NFT Fitness Platform',
-      achievements: ['1st Prize in POC', 'Dept. HOD Recognition'],
+      period: '2024',
+      location: 'Erode'
     },
     {
-      title: 'Team Lead',
-      organization: 'Xenovex Technologies',
-      focus: 'Zyvox AI - Travel Assistant',
-      achievements: ['Xackathon 2k25 Winner', 'WhatsApp Bot Deployment'],
+      title: 'Association Joint Secretary',
+      organization: 'Kongu Engineering College',
+      period: '2025',
+      location: 'Erode'
     },
     {
-      title: 'Marketing Event Champion',
-      organization: 'Xenovex Technologies',
-      focus: 'Back-to-back marketing victories',
-      achievements: ['2 consecutive wins', 'Team leadership'],
-    },
+      title: 'Kho Kho Team Captain',
+      organization: 'Kongu Engineering College',
+      period: '2024',
+      location: 'Erode'
+    }
   ],
   awards: [
     {
