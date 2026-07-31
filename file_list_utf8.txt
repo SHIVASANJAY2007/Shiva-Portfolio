@@ -1,0 +1,245 @@
+﻿D:\Portfolio\SHIVA_Portfolio\.eslintrc.json
+D:\Portfolio\SHIVA_Portfolio\.gitattributes
+D:\Portfolio\SHIVA_Portfolio\.gitignore
+D:\Portfolio\SHIVA_Portfolio\build_log.txt
+D:\Portfolio\SHIVA_Portfolio\components.json
+D:\Portfolio\SHIVA_Portfolio\file_list.txt
+D:\Portfolio\SHIVA_Portfolio\index.html
+D:\Portfolio\SHIVA_Portfolio\jsconfig.json
+D:\Portfolio\SHIVA_Portfolio\log.json
+D:\Portfolio\SHIVA_Portfolio\log.txt
+D:\Portfolio\SHIVA_Portfolio\package-lock.json
+D:\Portfolio\SHIVA_Portfolio\package.json
+D:\Portfolio\SHIVA_Portfolio\postcss.config.js
+D:\Portfolio\SHIVA_Portfolio\README.md
+D:\Portfolio\SHIVA_Portfolio\tailwind.config.js
+D:\Portfolio\SHIVA_Portfolio\tsconfig.json
+D:\Portfolio\SHIVA_Portfolio\tsconfig.node.json
+D:\Portfolio\SHIVA_Portfolio\vercel.json
+D:\Portfolio\SHIVA_Portfolio\vite.config.js
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\@react-three_drei.js
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\@react-three_drei.js.map
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\@react-three_fiber.js
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\@react-three_fiber.js.map
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\@theatre_core.js
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\@theatre_core.js.map
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\@theatre_studio.js
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\@theatre_studio.js.map
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\chunk-4YRSYSYO.js
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\chunk-4YRSYSYO.js.map
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\chunk-GK33OAIQ.js
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\chunk-GK33OAIQ.js.map
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\chunk-GPUGIQNS.js
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\chunk-GPUGIQNS.js.map
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\chunk-IT6G3TIR.js
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\chunk-IT6G3TIR.js.map
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\chunk-LK32TJAX.js
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\chunk-LK32TJAX.js.map
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\chunk-N4N5IM6X.js
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\chunk-N4N5IM6X.js.map
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\chunk-XVMVIYZU.js
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\chunk-XVMVIYZU.js.map
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\chunk-YN6XUGJW.js
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\chunk-YN6XUGJW.js.map
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\framer-motion.js
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\framer-motion.js.map
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\gsap.js
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\gsap.js.map
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\gsap_ScrollTrigger.js
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\gsap_ScrollTrigger.js.map
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\hls-5MQMENTY.js
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\hls-5MQMENTY.js.map
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\lenis.js
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\lenis.js.map
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\package.json
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\react-dom_client.js
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\react-dom_client.js.map
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\react.js
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\react.js.map
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\three.js
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\three.js.map
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\vision_bundle-GDIRXNMM.js
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\vision_bundle-GDIRXNMM.js.map
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\zustand.js
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\zustand.js.map
+D:\Portfolio\SHIVA_Portfolio\.vite\deps\_metadata.json
+D:\Portfolio\SHIVA_Portfolio\dist\index.html
+D:\Portfolio\SHIVA_Portfolio\dist\assets\About-H1R4ZCkE.js
+D:\Portfolio\SHIVA_Portfolio\dist\assets\About-hQee1kN1.css
+D:\Portfolio\SHIVA_Portfolio\dist\assets\Contact-Ccyhr1Qi.css
+D:\Portfolio\SHIVA_Portfolio\dist\assets\Contact-DNfILMrl.js
+D:\Portfolio\SHIVA_Portfolio\dist\assets\Experience-D89ip68b.css
+D:\Portfolio\SHIVA_Portfolio\dist\assets\Experience-Df7aANDZ.js
+D:\Portfolio\SHIVA_Portfolio\dist\assets\index-BM7CAQ35.css
+D:\Portfolio\SHIVA_Portfolio\dist\assets\index-CWPjxOne.js
+D:\Portfolio\SHIVA_Portfolio\dist\assets\knight-hd-BWhGhc0V.glb
+D:\Portfolio\SHIVA_Portfolio\dist\assets\montage_nature-8zcKv55b.mp4
+D:\Portfolio\SHIVA_Portfolio\dist\assets\Projects-DLro8oM_.js
+D:\Portfolio\SHIVA_Portfolio\dist\assets\Projects-T5tQ6kEY.css
+D:\Portfolio\SHIVA_Portfolio\dist\assets\reactVendor-YIRLLn-K.js
+D:\Portfolio\SHIVA_Portfolio\dist\assets\Skills-ByTT3E8x.css
+D:\Portfolio\SHIVA_Portfolio\dist\assets\Skills-hFemC8yu.js
+D:\Portfolio\SHIVA_Portfolio\dist\assets\three-D1e2kviN.js
+D:\Portfolio\SHIVA_Portfolio\dist\assets\vendor-BtIhrb1g.js
+D:\Portfolio\SHIVA_Portfolio\dist\projects\fade.png
+D:\Portfolio\SHIVA_Portfolio\dist\projects\fitlee.png
+D:\Portfolio\SHIVA_Portfolio\dist\projects\gojo.png
+D:\Portfolio\SHIVA_Portfolio\dist\projects\ingres.png
+D:\Portfolio\SHIVA_Portfolio\dist\projects\studymate.png
+D:\Portfolio\SHIVA_Portfolio\dist\projects\verishield.png
+D:\Portfolio\SHIVA_Portfolio\dist\projects\zyvox.png
+D:\Portfolio\SHIVA_Portfolio\MD Files\3D_animeLoader.md
+D:\Portfolio\SHIVA_Portfolio\MD Files\3D_HEAD_TRACKING.md
+D:\Portfolio\SHIVA_Portfolio\MD Files\3D_Loader.md
+D:\Portfolio\SHIVA_Portfolio\MD Files\3D_optimize.md
+D:\Portfolio\SHIVA_Portfolio\MD Files\DRAWBACKS_REPORT.md
+D:\Portfolio\SHIVA_Portfolio\MD Files\Errors.md
+D:\Portfolio\SHIVA_Portfolio\MD Files\glb-3d-web-integration.md
+D:\Portfolio\SHIVA_Portfolio\MD Files\Implement.md
+D:\Portfolio\SHIVA_Portfolio\MD Files\Optimization.md
+D:\Portfolio\SHIVA_Portfolio\MD Files\projects.md
+D:\Portfolio\SHIVA_Portfolio\MD Files\Recovery.md
+D:\Portfolio\SHIVA_Portfolio\MD Files\Scroll_Mechanism.md
+D:\Portfolio\SHIVA_Portfolio\MD Files\Skills_section.md
+D:\Portfolio\SHIVA_Portfolio\MD Files\stackCards_scrollAnimation.md
+D:\Portfolio\SHIVA_Portfolio\public\projects\fade.png
+D:\Portfolio\SHIVA_Portfolio\public\projects\fitlee.png
+D:\Portfolio\SHIVA_Portfolio\public\projects\gojo.png
+D:\Portfolio\SHIVA_Portfolio\public\projects\ingres.png
+D:\Portfolio\SHIVA_Portfolio\public\projects\studymate.png
+D:\Portfolio\SHIVA_Portfolio\public\projects\verishield.png
+D:\Portfolio\SHIVA_Portfolio\public\projects\zyvox.png
+D:\Portfolio\SHIVA_Portfolio\src\App.jsx
+D:\Portfolio\SHIVA_Portfolio\src\main.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\crowd_component.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\skills.json
+D:\Portfolio\SHIVA_Portfolio\src\components\3D\DeveloperAvatar.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\3D\Dragon.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\3D\index.js
+D:\Portfolio\SHIVA_Portfolio\src\components\3D\knight-hd.glb
+D:\Portfolio\SHIVA_Portfolio\src\components\3D\Knight.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\3D\ModelViewer.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\3D\HeroLoader\EnergyEffects.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\3D\HeroLoader\GlassCells.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\3D\HeroLoader\HologramProxy.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\3D\HeroLoader\index.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\animata\container\sibling-focus-nav.css
+D:\Portfolio\SHIVA_Portfolio\src\components\common\AbstractBackground.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\common\Animations.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\common\Antigravity.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\common\Button.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\common\Button.module.css
+D:\Portfolio\SHIVA_Portfolio\src\components\common\ClickSpark.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\common\CustomCursor.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\common\EmojiBackground.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\common\EmojiBackground.module.css
+D:\Portfolio\SHIVA_Portfolio\src\components\common\Footer.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\common\Footer.module.css
+D:\Portfolio\SHIVA_Portfolio\src\components\common\index.js
+D:\Portfolio\SHIVA_Portfolio\src\components\common\Loader.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\common\Magnetic.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\common\Navigation.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\common\Navigation.module.css
+D:\Portfolio\SHIVA_Portfolio\src\components\common\ProjectCard.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\common\ProjectCard.module.css
+D:\Portfolio\SHIVA_Portfolio\src\components\common\ScrambleHeader.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\common\Section.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\common\Section.module.css
+D:\Portfolio\SHIVA_Portfolio\src\components\common\SkillCard.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\common\SkillCard.module.css
+D:\Portfolio\SHIVA_Portfolio\src\components\common\TextFlippingBoard.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\common\TextFlippingBoard.module.css
+D:\Portfolio\SHIVA_Portfolio\src\components\common\EmblaCarousel\embla.module.css
+D:\Portfolio\SHIVA_Portfolio\src\components\common\EmblaCarousel\EmblaCarousel.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\common\EmblaCarousel\EmblaCarouselArrowButtons.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\common\EmblaCarousel\EmblaCarouselDotButton.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (1).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (10).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (11).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (12).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (13).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (14).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (15).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (16).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (17).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (18).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (19).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (2).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (20).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (21).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (22).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (23).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (24).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (25).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (26).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (27).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (28).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (29).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (3).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (30).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (31).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (32).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (33).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (34).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (35).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (36).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (37).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (38).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (39).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (4).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (40).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (41).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (42).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (43).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (44).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (45).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (46).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (47).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (48).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (49).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (5).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (50).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (51).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (52).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (53).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (54).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (55).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (56).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (6).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (7).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (8).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook (9).svg
+D:\Portfolio\SHIVA_Portfolio\src\components\emojis\lllook.svg
+D:\Portfolio\SHIVA_Portfolio\src\components\sections\About.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\sections\About.module.css
+D:\Portfolio\SHIVA_Portfolio\src\components\sections\Contact.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\sections\Contact.module.css
+D:\Portfolio\SHIVA_Portfolio\src\components\sections\Experience.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\sections\Experience.module.css
+D:\Portfolio\SHIVA_Portfolio\src\components\sections\Hero.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\sections\Hero.module.css
+D:\Portfolio\SHIVA_Portfolio\src\components\sections\index.js
+D:\Portfolio\SHIVA_Portfolio\src\components\sections\Projects.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\sections\Projects.module.css
+D:\Portfolio\SHIVA_Portfolio\src\components\sections\Skills.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\sections\Skills.module.css
+D:\Portfolio\SHIVA_Portfolio\src\components\sections\StackScroller.css
+D:\Portfolio\SHIVA_Portfolio\src\components\sections\StackScroller.jsx
+D:\Portfolio\SHIVA_Portfolio\src\components\videos\montage_nature.mp4
+D:\Portfolio\SHIVA_Portfolio\src\config\models.js
+D:\Portfolio\SHIVA_Portfolio\src\data\resume.js
+D:\Portfolio\SHIVA_Portfolio\src\hooks\index.js
+D:\Portfolio\SHIVA_Portfolio\src\hooks\useInViewport.js
+D:\Portfolio\SHIVA_Portfolio\src\hooks\useModelLoader.js
+D:\Portfolio\SHIVA_Portfolio\src\hooks\useScramble.js
+D:\Portfolio\SHIVA_Portfolio\src\hooks\useScrollDirection.js
+D:\Portfolio\SHIVA_Portfolio\src\hooks\useScrollScene.js
+D:\Portfolio\SHIVA_Portfolio\src\lib\utils.js
+D:\Portfolio\SHIVA_Portfolio\src\providers\ModelProvider.jsx
+D:\Portfolio\SHIVA_Portfolio\src\store\sceneStore.js
+D:\Portfolio\SHIVA_Portfolio\src\styles\globals.css
+D:\Portfolio\SHIVA_Portfolio\src\utils\index.js
+D:\Portfolio\SHIVA_Portfolio\src\utils\theatreSetup.js
+D:\Portfolio\SHIVA_Portfolio\src\utils\TheatreSetup.jsx
+D:\Portfolio\SHIVA_Portfolio\src\utils\TheatreStudio.jsx
+D:\Portfolio\SHIVA_Portfolio\src\utils\vitals.js

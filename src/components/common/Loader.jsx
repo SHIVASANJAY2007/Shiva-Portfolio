@@ -86,10 +86,10 @@ export const Loader = () => {
             transition={{ duration: 1, ease: "easeInOut" }}
             style={{
               position: 'relative',
-              fontSize: '20vw',
-              fontWeight: '900',
+              fontSize: '15vw', // Adjusted for font size
+              fontWeight: '400', // Shojumaru is 400
               lineHeight: 1,
-              fontFamily: 'sans-serif',
+              fontFamily: '"Shojumaru", cursive',
               transformOrigin: 'center center',
               zIndex: 2,
             }}

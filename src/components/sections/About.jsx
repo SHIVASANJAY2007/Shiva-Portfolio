@@ -3,7 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './About.module.css';
 import { resumeData } from '../../data/resume';
-import montageNature from '../videos/montage_nature.mp4';
+import montageNature from '../../assets/videos/montage_nature_opt.mp4';
 
 gsap.registerPlugin(ScrollTrigger);
 
