@@ -28,8 +28,8 @@ const glowColors = [
 export const Skills = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const activeSkill = allSkills[activeIndex];
-  const activeGlowColor = glowColors[activeIndex % glowColors.length];
+  const activeSkill = useMemo(() => allSkills[activeIndex], [activeIndex]);
+  const activeGlowColor = useMemo(() => glowColors[activeIndex % glowColors.length], [activeIndex]);
 
   // Calculate permanent positions for all skills so they don't re-arrange on click
   const allSkillsWithPositions = useMemo(() => {
@@ -47,7 +47,7 @@ export const Skills = () => {
     });
   }, []);
 
-  const inactiveSkills = allSkillsWithPositions.filter((_, i) => i !== activeIndex);
+  const inactiveSkills = useMemo(() => allSkillsWithPositions.filter((_, i) => i !== activeIndex), [allSkillsWithPositions, activeIndex]);
 
   return (
     <section id="skills" className={styles.skillsSection}>

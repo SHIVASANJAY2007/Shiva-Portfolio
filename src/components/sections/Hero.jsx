@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './Hero.module.css';
-import { resumeData } from '../../data/resume';
 import { useModelProvider } from '../../providers/ModelProvider';
 import { Canvas } from '@react-three/fiber';
 import { Environment, PerspectiveCamera } from '@react-three/drei';
@@ -30,9 +29,6 @@ function HeroCameraRig() {
 
 gsap.registerPlugin(ScrollTrigger);
 
-
-gsap.registerPlugin(ScrollTrigger);
-
 // ── Preload immediately on module import so the model is ready by the time Hero mounts
 // preloadModel('knight'); // removed as logic is now handled in Provider
 
@@ -45,8 +41,6 @@ export const Hero = () => {
   const subtitleRef   = useRef(null);
   const blobLeftRef   = useRef(null);
   const blobRightRef  = useRef(null);
-
-  const canvasWrapRef = useRef(null);
 
   useEffect(() => {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -84,16 +78,7 @@ export const Hero = () => {
     };
   }, []);
 
-  const { progress } = useModelProvider() || { progress: 0 };
-  const [modelReady, setModelReady] = useState(false);
-
-  useEffect(() => {
-    if (progress === 100) {
-      setTimeout(() => setModelReady(true), 1500);
-    }
-  }, [progress]);
-
-
+  // Model progress handled by HeroLoader
   return (
     <section id="hero" className={styles.heroSection} ref={containerRef}>
 
