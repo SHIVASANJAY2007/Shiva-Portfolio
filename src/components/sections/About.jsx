@@ -12,17 +12,21 @@ export const About = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from('.aboutText span', {
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top 60%',
-        },
-        y: 20,
-        opacity: 0,
-        stagger: 0.05,
-        duration: 1,
-        ease: 'power4.out',
-      });
+      gsap.fromTo('.aboutText span', 
+        { opacity: 0.2, color: '#888' },
+        {
+          opacity: 1,
+          color: '#fff',
+          stagger: 0.1,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top 60%',
+            end: 'center center',
+            scrub: true,
+          }
+        }
+      );
     }, containerRef);
     return () => ctx.revert();
   }, []);

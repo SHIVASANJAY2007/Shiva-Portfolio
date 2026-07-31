@@ -82,24 +82,18 @@ export const Experience = () => {
             </div>
           ))}
 
-          {/* Awards integrated into the timeline visually */}
-          <div className={`${styles.timelineItem} timelineItem ${resumeData.experience.length % 2 === 0 ? styles.left : styles.right}`} style={{ justifyContent: 'center', margin: '2rem 0' }}>
-            <div className={styles.timelineDivider}><span>Awards</span></div>
-          </div>
-          
-          {resumeData.awards.map((award, index) => {
-            const isLeft = (resumeData.experience.length + 1 + index) % 2 === 0;
-            return (
-              <div key={`award-${index}`} className={`${styles.timelineItem} timelineItem ${isLeft ? styles.left : styles.right}`}>
-                <div className={styles.timelineMarker} style={{ borderColor: 'var(--color-primary)' }}></div>
-                <div className={styles.timelineContent}>
-                  <h3 className={styles.expTitle}>{award.title}</h3>
-                  {award.organization && <h4 className={styles.expOrg}>{award.organization}</h4>}
-                  <p className={styles.expFocus}>{award.project || award.achievement}</p>
+          <div className={styles.awardsSection}>
+            <h3 className={styles.awardsTitle}>Awards & Recognition</h3>
+            <div className={styles.awardsGrid}>
+              {resumeData.awards.map((award, index) => (
+                <div key={`award-${index}`} className={styles.awardCard}>
+                  <h4 className={styles.awardTitle}>{award.title}</h4>
+                  {award.organization && <h5 className={styles.awardOrg}>{award.organization}</h5>}
+                  <p className={styles.awardDesc}>{award.project || award.achievement}</p>
                 </div>
-              </div>
-            );
-          })}
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>

@@ -66,11 +66,23 @@ export const Hero = () => {
         scrollTrigger: { trigger: containerRef.current, start: 'top top', end: 'bottom top', scrub: 1.8 },
       });
 
-      // Content drifts up
+      // Content drifts up and scales down
       gsap.to(containerRef.current.querySelector(`.${styles.content}`), {
-        y: -60, opacity: 0, ease: 'none',
-        scrollTrigger: { trigger: containerRef.current, start: '20% top', end: 'bottom top', scrub: 1 },
+        y: -100, scale: 0.9, opacity: 0, ease: 'none',
+        scrollTrigger: { trigger: containerRef.current, start: '10% top', end: 'bottom top', scrub: true },
       });
+
+      // Deep parallax for the 3D canvas
+      const canvasContainer = containerRef.current.querySelector('.canvas-container');
+      if (canvasContainer) {
+        gsap.to(canvasContainer, {
+          y: 200, // Move down to create parallax lag
+          scale: 0.85,
+          opacity: 0.2,
+          ease: 'none',
+          scrollTrigger: { trigger: containerRef.current, start: 'top top', end: 'bottom top', scrub: true },
+        });
+      }
     }, containerRef);
 
     return () => {
@@ -87,7 +99,7 @@ export const Hero = () => {
       <div ref={blobRightRef} className={styles.blobRight} aria-hidden="true" />
 
       {/* Embedded 3D Canvas explicitly restricted to Hero */}
-      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0, pointerEvents: 'none' }}>
+      <div className="canvas-container" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0, pointerEvents: 'none' }}>
         <Canvas
           shadows
           gl={{ 

@@ -1,7 +1,11 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './Skills.module.css';
 import skillsData from '../../data/skills.json';
+
+gsap.registerPlugin(ScrollTrigger);
 
 // Flatten the skills.json into a single array
 const allSkills = [
@@ -27,6 +31,7 @@ const glowColors = [
 
 export const Skills = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const sectionRef = useRef(null);
 
   const activeSkill = useMemo(() => allSkills[activeIndex], [activeIndex]);
   const activeGlowColor = useMemo(() => glowColors[activeIndex % glowColors.length], [activeIndex]);
@@ -49,8 +54,36 @@ export const Skills = () => {
 
   const inactiveSkills = useMemo(() => allSkillsWithPositions.filter((_, i) => i !== activeIndex), [allSkillsWithPositions, activeIndex]);
 
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Rotate the entire wrapper on scroll
+      gsap.to(`.${styles.orbitRotatingWrapper}`, {
+        rotation: 180,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1
+        }
+      });
+      // Counter-rotate the inner icons to keep them upright
+      gsap.to('.iconWrapper', {
+        rotation: -180,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1
+        }
+      });
+    }, sectionRef);
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="skills" className={styles.skillsSection}>
+    <section id="skills" className={styles.skillsSection} ref={sectionRef}>
       {/* Dynamic radial glow background */}
       <div 
         className={styles.backgroundGlow}
@@ -89,7 +122,9 @@ export const Skills = () => {
                   whileHover={{ scale: 1.2 }}
                   title={skill.name}
                 >
-                  <img src={skill.logo} alt={skill.name} className={styles.rotatingIcon} />
+                  <div className="iconWrapper" style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <img src={skill.logo} alt={skill.name} className={styles.rotatingIcon} />
+                  </div>
                 </motion.div>
               ))}
             </div>

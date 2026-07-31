@@ -1,15 +1,15 @@
 .contactSection {
   position: relative;
-  min-height: 100vh;
+  height: calc(100vh - 60px);
   width: 100%;
-  padding: 15vh 5vw; /* increased top padding slightly */
-  background-color: #050505;
+  padding: 10vh 5vw;
+  background-color: transparent;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* removed overflow: hidden to prevent clipping content on smaller screens */
   font-family: 'Inter', sans-serif;
+  overflow: hidden;
 }
 
 /* Header Container */

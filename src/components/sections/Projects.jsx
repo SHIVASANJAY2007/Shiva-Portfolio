@@ -12,6 +12,8 @@ export const Projects = () => {
   const sectionRef = useRef(null);
   const [emblaApi, setEmblaApi] = useState(null);
 
+  const carouselWrapperRef = useRef(null);
+
   useEffect(() => {
     if (!emblaApi || !sectionRef.current) return;
 
@@ -31,6 +33,17 @@ export const Projects = () => {
             const index = Math.round(self.progress * (scrollSnaps.length - 1));
             emblaApi.scrollTo(index);
           }
+          
+          if (carouselWrapperRef.current) {
+            const velocity = self.getVelocity();
+            const skewAmount = Math.max(Math.min(velocity / 150, 15), -15); // Clamp between -15 and 15 degrees
+            gsap.to(carouselWrapperRef.current, {
+              skewX: skewAmount,
+              ease: 'power2.out',
+              duration: 0.3,
+              overwrite: 'auto'
+            });
+          }
         }
       });
     }, sectionRef);
@@ -49,7 +62,7 @@ export const Projects = () => {
           <span className={styles.redSlash}>/</span> Featured Projects
         </h2>
 
-        <div className={styles.carouselWrapper}>
+        <div className={styles.carouselWrapper} ref={carouselWrapperRef}>
           <EmblaCarousel 
             slides={resumeData.projects} 
             options={{ loop: false, watchDrag: false }} 

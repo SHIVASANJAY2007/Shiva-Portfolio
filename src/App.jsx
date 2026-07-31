@@ -58,7 +58,7 @@ export default function App() {
         <Loader />
         <Navigation />
 
-        <main>
+        <main style={{ position: 'relative', zIndex: 1, marginBottom: '100vh', background: '#050505' }}>
           <Suspense fallback={<div style={{height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff'}}>Loading...</div>}>
             <StackScroller>
               <Hero />
@@ -66,12 +66,16 @@ export default function App() {
               <Skills />
               <Projects />
               <Experience />
-              <Contact />
             </StackScroller>
           </Suspense>
         </main>
 
-        <Footer />
+        <div style={{ position: 'fixed', bottom: 0, left: 0, width: '100%', height: '100vh', zIndex: 0 }}>
+          <Suspense fallback={null}>
+            <Contact />
+          </Suspense>
+          <Footer />
+        </div>
       </div>
     </ModelProvider>
   );
