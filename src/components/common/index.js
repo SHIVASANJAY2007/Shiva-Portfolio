@@ -1,19 +1,9 @@
 /**
- * Common components index
+ * Common Components Index
  */
-export { Button } from './Button';
-export { Section } from './Section';
-export { SkillCard } from './SkillCard';
-export { ProjectCard } from './ProjectCard';
-export { Navigation } from './Navigation';
-export { Footer } from './Footer';
-export { Loader } from './Loader';
-export { Magnetic } from './Magnetic';
-export { ScrambleHeader } from './ScrambleHeader';
-export { CustomCursor } from './CustomCursor';
-export { AbstractBackground } from './AbstractBackground';
 
-export { TextFlippingBoard } from './TextFlippingBoard';
+export { default as Navigation } from './Navigation';
+export { default as Footer } from './Footer';
+export { default as Loader } from './Loader';
 export { default as ClickSpark } from './ClickSpark';
-export { default as Antigravity } from './Antigravity';
-export { EmojiBackground } from './EmojiBackground';
+export { default as EmojiBackground } from './EmojiBackground';
