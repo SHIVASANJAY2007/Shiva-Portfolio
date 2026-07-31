@@ -133,6 +133,11 @@ const EmblaCarousel = (props) => {
                       ))}
                     </ul>
                   )}
+                  <div className={styles.embla__slide__actions}>
+                    <a href={project.link || "#"} target={project.link ? "_blank" : "_self"} rel="noopener noreferrer" className={styles.embla__slide__btn}>
+                      View Project
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>

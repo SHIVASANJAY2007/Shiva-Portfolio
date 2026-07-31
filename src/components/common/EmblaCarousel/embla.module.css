@@ -114,6 +114,28 @@
   backdrop-filter: blur(5px);
 }
 
+.embla__slide__actions {
+  margin-top: 1rem;
+}
+
+.embla__slide__btn {
+  display: inline-block;
+  background: #FF9100;
+  color: #000;
+  text-decoration: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 700;
+  text-transform: uppercase;
+  transition: transform 0.2s ease, background 0.2s ease;
+  pointer-events: auto; /* Ensure it is clickable over the background */
+}
+
+.embla__slide__btn:hover {
+  background: #FFA733;
+  transform: translateY(-2px);
+}
+
 .embla__controls {
   display: flex;
   justify-content: space-between;

@@ -33,6 +33,17 @@ export const Navigation = () => {
     { href: '#contact', kanji: '', text: 'CONTACT' },
   ];
 
+  const handleLinkClick = (e, href) => {
+    e.preventDefault();
+    const targetId = href.slice(1);
+    const element = document.getElementById(targetId);
+    if (element) {
+      // Lenis overrides scrollIntoView, ensuring smooth scrolling
+      element.scrollIntoView({ behavior: 'smooth' });
+      setActiveSection(targetId);
+    }
+  };
+
   return (
     <nav className={styles.sideNav}>
       <div className={styles.navLine}></div>
@@ -42,6 +53,7 @@ export const Navigation = () => {
           <a
             key={link.href}
             href={link.href}
+            onClick={(e) => handleLinkClick(e, link.href)}
             className={`${styles.navItem} ${isActive ? styles.active : ''}`}
           >
             <div className={styles.navContent}>

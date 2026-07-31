@@ -41,6 +41,13 @@ export const Contact = () => {
     return () => ctx.revert();
   }, []);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Simple alert to simulate submission
+    alert('Thank you! Your message has been sent successfully.');
+    e.target.reset(); // Clear the form
+  };
+
   return (
     <section id="contact" className={styles.contactSection} ref={containerRef}>
       <CrowdBackground />
@@ -81,11 +88,11 @@ export const Contact = () => {
         </div>
 
         <div className={`${styles.rightCol} contactFade`}>
-          <form className={styles.contactForm}>
-            <input type="text" placeholder="Enter your Name" className={styles.inputField} />
-            <input type="email" placeholder="Enter a valid email address" className={styles.inputField} />
-            <textarea placeholder="Enter your message" className={styles.textareaField} rows={5}></textarea>
-            <button type="button" className={styles.submitBtn}>
+          <form className={styles.contactForm} onSubmit={handleSubmit}>
+            <input type="text" placeholder="Enter your Name" required className={styles.inputField} />
+            <input type="email" placeholder="Enter a valid email address" required className={styles.inputField} />
+            <textarea placeholder="Enter your message" required className={styles.textareaField} rows={5}></textarea>
+            <button type="submit" className={styles.submitBtn}>
               SUBMIT
             </button>
           </form>
