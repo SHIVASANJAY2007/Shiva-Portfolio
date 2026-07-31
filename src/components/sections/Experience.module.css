@@ -34,49 +34,106 @@
 }
 
 .timeline {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 3rem;
-  border-left: 2px solid var(--color-gray-800);
-  padding-left: 2rem;
-  margin-left: 1rem;
+  gap: 4rem;
+  padding: 4rem 0;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* SVG Line */
+.svgRoadmap {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 100%;
+  z-index: 0;
+}
+
+.svgLine {
+  stroke: #D500F9;
+  stroke-width: 4px;
+  stroke-linecap: round;
+  fill: none;
 }
 
 .timelineItem {
   position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  z-index: 1;
 }
 
+/* Alternating Layout */
+.timelineItem.left {
+  justify-content: flex-end;
+  padding-right: 50%;
+}
+
+.timelineItem.right {
+  justify-content: flex-start;
+  padding-left: 50%;
+}
+
+/* The dot on the line */
 .timelineMarker {
   position: absolute;
-  left: -2.65rem;
-  top: 0.5rem;
-  width: 1rem;
-  height: 1rem;
-  background: var(--color-bg);
-  border: 2px solid #D500F9;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 1.2rem;
+  height: 1.2rem;
+  background: var(--color-bg, #ffffff);
+  border: 3px solid #D500F9;
   border-radius: 50%;
   transition: all 0.3s ease;
+  z-index: 2;
 }
 
 .timelineItem:hover .timelineMarker {
   background: #D500F9;
-  border-color: #D500F9;
   box-shadow: 0 0 15px #D500F9;
 }
 
+/* The actual content card */
 .timelineContent {
+  width: 85%; /* Take up most of the half-width */
   background: #FFFFFF;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(255, 109, 0, 0.05);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  transition: transform 0.3s ease;
+  border-left: 4px solid transparent;
+}
+
+.timelineItem.left .timelineContent {
+  margin-right: 2rem;
+  border-right: 4px solid #D500F9;
+  border-left: none;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.timelineItem.right .timelineContent {
+  margin-left: 2rem;
+  border-left: 4px solid #D500F9;
+}
+
+.timelineItem:hover .timelineContent {
+  transform: translateY(-5px);
 }
 
 .expTitle {
-  text-shadow: 2px 2px 0px #D500F9;
-  font-size: 1.8rem;
+  text-shadow: 1px 1px 0px rgba(213, 0, 249, 0.2);
+  font-size: 1.6rem;
   font-weight: 800;
   color: #050505;
   text-transform: uppercase;
@@ -87,12 +144,12 @@
   font-size: 1.1rem;
   color: #D500F9;
   font-family: var(--font-secondary);
-  font-weight: 600;
+  font-weight: 700;
   margin: 0;
 }
 
 .expFocus {
-  color: #050505;
+  color: #555;
   font-size: 1rem;
   margin: 0.5rem 0;
 }
@@ -101,30 +158,54 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.8rem;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
+}
+
+.timelineItem.left .achievements {
+  justify-content: flex-end;
 }
 
 .achievement {
   font-size: 0.8rem;
-  color: #050505;
-  background: rgba(0,0,0,0.05);
-  padding: 0.3rem 0.8rem;
-  border-radius: 2px;
+  color: #D500F9;
+  background: rgba(213, 0, 249, 0.08);
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  font-weight: 600;
 }
 
-.timelineDivider {
-  position: relative;
-  height: 2rem;
-  display: flex;
-  align-items: center;
-  color: var(--color-gray-600);
-  font-size: 2rem;
-  margin-left: -2.8rem;
-}
-
-.timelineDivider span {
-  background: var(--color-bg);
-  padding: 0.5rem;
+/* Responsive Mobile Layout */
+@media (max-width: 768px) {
+  .svgRoadmap {
+    left: 20px;
+    transform: none;
+  }
+  
+  .timelineItem.left,
+  .timelineItem.right {
+    justify-content: flex-start;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  
+  .timelineMarker {
+    left: 20px;
+  }
+  
+  .timelineItem.left .timelineContent,
+  .timelineItem.right .timelineContent {
+    width: calc(100% - 50px);
+    margin-left: 50px;
+    margin-right: 0;
+    border-left: 4px solid #D500F9;
+    border-right: none;
+    align-items: flex-start;
+    text-align: left;
+  }
+  
+  .timelineItem.left .achievements {
+    justify-content: flex-start;
+  }
 }
