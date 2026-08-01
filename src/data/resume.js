@@ -151,7 +151,7 @@ export const resumeData = {
     {
       title: 'Intern',
       organization: 'Xenovex Technologies',
-      period: '1 Month (2025)',
+      period: '1 Month (2026)',
       location: 'Chennai'
     },
     {
@@ -169,7 +169,7 @@ export const resumeData = {
     {
       title: 'Kho Kho Team Captain',
       organization: 'Kongu Engineering College',
-      period: '2024',
+      period: '2024-2027',
       location: 'Erode'
     }
   ],

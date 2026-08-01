@@ -170,17 +170,16 @@
 }
 
 .achievement {
-  font-size: 0.8rem;
-  color: #D500F9;
-  background: rgba(213, 0, 249, 0.08);
-  padding: 0.4rem 0.8rem;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.3rem 0.8rem;
   border-radius: 20px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  font-size: 0.8rem;
   font-weight: 600;
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Responsive Mobile Layout */
+/* Responsive Mobile Layout for Timeline */
 @media (max-width: 768px) {
   .svgRoadmap {
     left: 20px;
@@ -200,10 +199,18 @@
   
   .timelineItem.left .timelineContent,
   .timelineItem.right .timelineContent {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #FFFFFF;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+    width: calc(100% - 50px);
+    margin-left: 50px;
+    margin-right: 0;
+    border-left: 4px solid #D500F9;
+    border-right: none;
+    align-items: flex-start;
+    text-align: left;
+  }
+  
+  .timelineItem.left .achievements {
+    justify-content: flex-start;
+  }
 }
 
 /* Awards Section */

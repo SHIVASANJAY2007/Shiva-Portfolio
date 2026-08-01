@@ -1,0 +1,614 @@
+{
+  "picture": {
+    "hidden": false,
+    "url": "",
+    "size": 80,
+    "rotation": 0,
+    "aspectRatio": 1,
+    "borderRadius": 0,
+    "borderColor": "rgba(0, 0, 0, 0.5)",
+    "borderWidth": 0,
+    "shadowColor": "rgba(0, 0, 0, 0.5)",
+    "shadowWidth": 0
+  },
+  "basics": {
+    "name": "Shiva Sanjay N D",
+    "headline": "Fresher, AI & Web Developer, Technical and Non-Technical Trainer",
+    "email": "shivasanjay9255@gmail.com",
+    "phone": "7373382999",
+    "location": "Perundurai, Tamilnadu, India",
+    "website": {
+      "url": "https://shivasanjay.vercel.app/",
+      "label": ""
+    },
+    "customFields": []
+  },
+  "summary": {
+    "title": "",
+    "icon": "article",
+    "columns": 1,
+    "hidden": false,
+    "keepTogether": false,
+    "startOnNewPage": false,
+    "content": "<p>What drives me is building solutions that work in the real world. I have a strong foundation in programming and web development, with knowledge of Odoo, Salesforce (CRM), n8n workflows, and Cybersecurity. I enjoy exploring emerging technologies to build practical, user-focused solutions. Beyond development, I stay consistent with fitness and Kho Kho, where I actively lead a team, strengthening leadership, discipline, and teamwork.</p>"
+  },
+  "sections": {
+    "profiles": {
+      "title": "Contact",
+      "icon": "messenger-logo",
+      "columns": 3,
+      "hidden": false,
+      "keepTogether": false,
+      "startOnNewPage": false,
+      "items": [
+        {
+          "id": "019f3be3-e37b-74d9-baf9-7608a66991db",
+          "hidden": false,
+          "icon": "linkedin-logo",
+          "iconColor": "",
+          "network": "LinkedIn",
+          "username": "shiva-sanjay",
+          "website": {
+            "url": "https://www.linkedin.com/in/shiva-sanjay-610512320/",
+            "label": "",
+            "inlineLink": false
+          }
+        },
+        {
+          "id": "019f3be5-4610-75d7-8f65-974b5d2c48db",
+          "hidden": false,
+          "icon": "github-logo",
+          "iconColor": "",
+          "network": "Github",
+          "username": "SHIVASANJAY2007",
+          "website": {
+            "url": "https://github.com/SHIVASANJAY2007/",
+            "label": "",
+            "inlineLink": false
+          }
+        },
+        {
+          "id": "019f3be4-7d94-709a-913f-75b7ce3b9c3c",
+          "hidden": false,
+          "icon": "globe-stand",
+          "iconColor": "",
+          "network": "Portfolio",
+          "username": "shivasanjay",
+          "website": {
+            "url": "https://shivasanjay.vercel.app",
+            "label": "",
+            "inlineLink": false
+          }
+        }
+      ]
+    },
+    "experience": {
+      "title": "",
+      "icon": "briefcase",
+      "columns": 1,
+      "hidden": false,
+      "keepTogether": false,
+      "startOnNewPage": false,
+      "items": [
+        {
+          "id": "019fa238-c8c7-7628-a088-1e87b4bf1cff",
+          "hidden": false,
+          "company": "Xenovex Technologies",
+          "position": "Intern",
+          "location": "Chennai",
+          "period": "1 Month",
+          "website": {
+            "url": "",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": "",
+          "roles": []
+        }
+      ]
+    },
+    "education": {
+      "title": "",
+      "icon": "graduation-cap",
+      "columns": 1,
+      "hidden": false,
+      "keepTogether": false,
+      "startOnNewPage": false,
+      "items": [
+        {
+          "id": "019fa239-2344-722b-862a-506ef4edd006",
+          "hidden": false,
+          "school": "Kongu Vellaler Matriculation Higher Secondary School, Erode",
+          "degree": "",
+          "area": "HSC (CS - Maths)",
+          "grade": "82%",
+          "location": "Erode",
+          "period": "2024",
+          "website": {
+            "url": "",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": ""
+        },
+        {
+          "id": "019fa23a-f391-75e6-a0e2-1a7ec5b38241",
+          "hidden": false,
+          "school": "Kongu Vellaler Matriculation Higher Secondary School, Erode",
+          "degree": "",
+          "area": "SSLC",
+          "grade": "83.4%",
+          "location": "Erode",
+          "period": "2022",
+          "website": {
+            "url": "",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": ""
+        },
+        {
+          "id": "019fa243-778a-76f3-bb88-c9affaec1217",
+          "hidden": false,
+          "school": "Kongu Engineering College, Erode",
+          "degree": "B.Sc Information Systems",
+          "area": "",
+          "grade": "8.54/10",
+          "location": "Erode",
+          "period": "2024 - 2027",
+          "website": {
+            "url": "",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": ""
+        }
+      ]
+    },
+    "projects": {
+      "title": "",
+      "icon": "code-simple",
+      "columns": 1,
+      "hidden": false,
+      "keepTogether": false,
+      "startOnNewPage": false,
+      "items": [
+        {
+          "id": "019fa246-0a2a-767e-a0a8-ee4fb2aa94ea",
+          "hidden": false,
+          "name": "Fitlee",
+          "period": "2025",
+          "website": {
+            "url": "",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": "<p>Prize-winning fitness web application featuring an NFT-based reward system to gamify user engagement and milestone tracking. Integrated an AI chatbot for personalized fitness guidance with a focus on usability and innovation.</p>"
+        },
+        {
+          "id": "019fa246-4081-717c-8615-faa677fee85b",
+          "hidden": false,
+          "name": "Zyvox AI",
+          "period": "2025",
+          "website": {
+            "url": "",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": "<p>Team-developed AI travel assistant built using n8n to automate personalized trip planning workflows. Deployed as a WhatsApp Business bot to provide users with real-time travel suggestions and itinerary generation.</p>"
+        },
+        {
+          "id": "019fa27b-472c-76af-b4b1-9c4a619a52c3",
+          "hidden": false,
+          "name": "FADE",
+          "period": "2025",
+          "website": {
+            "url": "",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": "<p>Developed an Instagram Fake Account Detection Engine using machine learning to analyze profile authenticity, generate real-time risk scores, and identify suspicious accounts through an interactive 3D user interface.</p>"
+        },
+        {
+          "id": "019fa282-1e3d-7129-9107-7661cf9edd6f",
+          "hidden": false,
+          "name": "INGRES",
+          "period": "2026",
+          "website": {
+            "url": "",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": "<p>Designed and developed an AI-powered chatbot for the INGRES platform, enabling intelligent groundwater data retrieval through natural language queries with multilingual support.</p>"
+        }
+      ]
+    },
+    "skills": {
+      "title": "",
+      "icon": "compass-tool",
+      "columns": 2,
+      "hidden": false,
+      "keepTogether": false,
+      "startOnNewPage": false,
+      "items": [
+        {
+          "id": "019fa247-e8f7-72ee-bda8-512173b0528a",
+          "hidden": false,
+          "icon": "campfire",
+          "iconColor": "rgba(231, 0, 11, 1)",
+          "name": "Java",
+          "proficiency": "",
+          "level": 4,
+          "keywords": []
+        },
+        {
+          "id": "019fa249-e2fe-7780-a62f-52f2bde90243",
+          "hidden": false,
+          "icon": "copyright",
+          "iconColor": "rgba(255, 0, 0, 1)",
+          "name": "C",
+          "proficiency": "",
+          "level": 3,
+          "keywords": []
+        },
+        {
+          "id": "019fa24a-9c59-778c-841b-a3b4e68ddadc",
+          "hidden": false,
+          "icon": "sneaker-move",
+          "iconColor": "",
+          "name": "Python",
+          "proficiency": "",
+          "level": 3,
+          "keywords": []
+        },
+        {
+          "id": "019fa24b-17a2-73e8-90d1-ddaabfb17f44",
+          "hidden": false,
+          "icon": "crown-simple",
+          "iconColor": "rgba(231, 0, 11, 1)",
+          "name": "Full Stack Dev",
+          "proficiency": "",
+          "level": 4,
+          "keywords": []
+        },
+        {
+          "id": "019fa24c-b18f-76bd-a5bc-9e8fc8c14279",
+          "hidden": false,
+          "icon": "chat",
+          "iconColor": "rgba(231, 0, 11, 1)",
+          "name": "n8n",
+          "proficiency": "",
+          "level": 2,
+          "keywords": []
+        },
+        {
+          "id": "019fa24d-9bd4-732a-a84d-cbc067b88f7d",
+          "hidden": false,
+          "icon": "mountains",
+          "iconColor": "",
+          "name": "Salesforce",
+          "proficiency": "",
+          "level": 2,
+          "keywords": []
+        }
+      ]
+    },
+    "languages": {
+      "title": "",
+      "icon": "translate",
+      "columns": 2,
+      "hidden": false,
+      "keepTogether": false,
+      "startOnNewPage": false,
+      "items": [
+        {
+          "id": "019fa24e-3968-7728-88e9-b45b0b111bc9",
+          "hidden": false,
+          "language": "English",
+          "fluency": "",
+          "level": 4
+        },
+        {
+          "id": "019fa24e-586f-764f-accd-3bdfb4c40eaa",
+          "hidden": false,
+          "language": "Tamil",
+          "fluency": "",
+          "level": 5
+        }
+      ]
+    },
+    "interests": {
+      "title": "",
+      "icon": "football",
+      "columns": 1,
+      "hidden": false,
+      "keepTogether": false,
+      "startOnNewPage": false,
+      "items": [
+        {
+          "id": "019fa24e-c6d4-7454-8f93-717037515512",
+          "hidden": false,
+          "icon": "barbell",
+          "iconColor": "rgba(148, 255, 9, 1)",
+          "name": "Fitness and Sports",
+          "keywords": []
+        },
+        {
+          "id": "019fa251-86dd-7582-a315-85f7a30e9f02",
+          "hidden": false,
+          "icon": "shooting-star",
+          "iconColor": "",
+          "name": "Cybersecurity",
+          "keywords": []
+        },
+        {
+          "id": "019fa24f-da20-735e-8cee-fe3dc65e9ac6",
+          "hidden": false,
+          "icon": "game-controller",
+          "iconColor": "rgba(0, 146, 184, 1)",
+          "name": "Indie Game Testing",
+          "keywords": []
+        },
+        {
+          "id": "019fa255-a6dd-74ad-bd23-99406dcc7760",
+          "hidden": false,
+          "icon": "book",
+          "iconColor": "",
+          "name": "Notion & Note Making",
+          "keywords": []
+        },
+        {
+          "id": "019fa30c-2390-739c-b2e5-2b0422edb9ac",
+          "hidden": false,
+          "icon": "student",
+          "iconColor": "",
+          "name": "Mentoring & Coaching",
+          "keywords": []
+        }
+      ]
+    },
+    "awards": {
+      "title": "",
+      "icon": "trophy",
+      "columns": 1,
+      "hidden": false,
+      "keepTogether": false,
+      "startOnNewPage": false,
+      "items": [
+        {
+          "id": "019fa260-920d-7278-8aa0-30b5e1fe84aa",
+          "hidden": false,
+          "title": "Proof of Concept",
+          "awarder": "Dept. HOD",
+          "date": "2025",
+          "website": {
+            "url": "",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": "<p>First Prize in POC for Fitlee</p>"
+        },
+        {
+          "id": "019fa261-3937-725b-9534-ecf89fafc75f",
+          "hidden": false,
+          "title": "Xackathon-2025 Winner",
+          "awarder": "Xenovex Technologies",
+          "date": "2025",
+          "website": {
+            "url": "",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": ""
+        },
+        {
+          "id": "019fa263-3389-706a-896d-be177b2a89c2",
+          "hidden": false,
+          "title": "Winners in Marketing Events",
+          "awarder": "KEC Faculty",
+          "date": "2025",
+          "website": {
+            "url": "",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": ""
+        },
+        {
+          "id": "019fa264-3cb9-7205-9b35-5c3c3121fe1d",
+          "hidden": false,
+          "title": "Winners in Kho Kho",
+          "awarder": "Colleges around Tamilnadu",
+          "date": "2024-2027",
+          "website": {
+            "url": "",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": "<p>Multiple Winners in State Level Kho Kho Tournaments in Tamilnadu</p>"
+        }
+      ]
+    },
+    "certifications": {
+      "title": "",
+      "icon": "certificate",
+      "columns": 1,
+      "hidden": false,
+      "keepTogether": false,
+      "startOnNewPage": false,
+      "items": [
+        {
+          "id": "019fa265-de14-7518-a2d5-63ae945c9c43",
+          "hidden": false,
+          "title": "Java Certified Foundations Associate",
+          "issuer": "Oracle",
+          "date": "2026",
+          "website": {
+            "url": "",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": ""
+        }
+      ]
+    },
+    "publications": {
+      "title": "",
+      "icon": "books",
+      "columns": 1,
+      "hidden": false,
+      "keepTogether": false,
+      "startOnNewPage": false,
+      "items": []
+    },
+    "volunteer": {
+      "title": "",
+      "icon": "hand-heart",
+      "columns": 1,
+      "hidden": false,
+      "keepTogether": false,
+      "startOnNewPage": false,
+      "items": []
+    },
+    "references": {
+      "title": "",
+      "icon": "phone",
+      "columns": 1,
+      "hidden": false,
+      "keepTogether": false,
+      "startOnNewPage": false,
+      "items": []
+    }
+  },
+  "customSections": [
+    {
+      "title": "Leadership Experience",
+      "icon": "head-circuit",
+      "columns": 1,
+      "hidden": false,
+      "keepTogether": false,
+      "startOnNewPage": false,
+      "id": "019fa274-7661-75d4-9f3d-5ebb94c9fac9",
+      "type": "experience",
+      "items": [
+        {
+          "id": "019fa275-13a5-7694-a36e-1bb3e5d118d3",
+          "hidden": false,
+          "company": "Class Representative",
+          "position": "Kongu Engineering College",
+          "location": "Erode",
+          "period": "2024",
+          "website": {
+            "url": "",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": "",
+          "roles": []
+        },
+        {
+          "id": "019fa275-e57a-74d9-a907-70bd2777d319",
+          "hidden": false,
+          "company": "Association Joint Secretary",
+          "position": "Kongu Engineering College",
+          "location": "Erode",
+          "period": "2025",
+          "website": {
+            "url": "",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": "<p></p>",
+          "roles": []
+        },
+        {
+          "id": "019fa277-d0c9-7779-849a-994381c155a1",
+          "hidden": false,
+          "company": "Kho Kho Team Captain",
+          "position": "Kongu Engineering College",
+          "location": "Erode",
+          "period": "2024",
+          "website": {
+            "url": "",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": "",
+          "roles": []
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "template": "gengar",
+    "layout": {
+      "sidebarWidth": 35,
+      "pages": [
+        {
+          "fullWidth": false,
+          "main": [
+            "profiles",
+            "summary",
+            "education",
+            "experience",
+            "projects",
+            "volunteer",
+            "references",
+            "019fa274-7661-75d4-9f3d-5ebb94c9fac9"
+          ],
+          "sidebar": [
+            "skills",
+            "certifications",
+            "awards",
+            "languages",
+            "interests",
+            "publications"
+          ]
+        }
+      ]
+    },
+    "page": {
+      "gapX": 4,
+      "gapY": 6,
+      "marginX": 14,
+      "marginY": 12,
+      "format": "a4",
+      "locale": "en-US",
+      "hideLinkUnderline": false,
+      "hideIcons": false,
+      "hideSectionIcons": true
+    },
+    "design": {
+      "level": {
+        "icon": "star",
+        "type": "circle"
+      },
+      "colors": {
+        "primary": "rgba(220, 38, 38, 1)",
+        "text": "rgba(0, 0, 0, 1)",
+        "background": "rgba(255, 255, 255, 1)"
+      }
+    },
+    "typography": {
+      "body": {
+        "fontFamily": "IBM Plex Serif",
+        "fontWeights": [
+          "400",
+          "500"
+        ],
+        "fontSize": 10,
+        "lineHeight": 1.5
+      },
+      "heading": {
+        "fontFamily": "IBM Plex Serif",
+        "fontWeights": [
+          "600"
+        ],
+        "fontSize": 14,
+        "lineHeight": 1.5
+      }
+    },
+    "notes": "",
+    "styleRules": []
+  }
+}
