@@ -28,6 +28,7 @@ export default function App() {
       smoothWheel: true,
     });
 
+    window.lenis = lenis; // Expose Lenis globally for real-time navigation color changing events
     lenis.on('scroll', ScrollTrigger.update);
 
     const raf = (time) => {
@@ -58,7 +59,7 @@ export default function App() {
         <Loader />
         <Navigation />
 
-        <main style={{ position: 'relative', zIndex: 1, marginBottom: '100vh', background: '#050505' }}>
+        <main>
           <Suspense fallback={<div style={{height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff'}}>Loading...</div>}>
             <StackScroller>
               <Hero />
@@ -66,16 +67,12 @@ export default function App() {
               <Skills />
               <Projects />
               <Experience />
+              <Contact />
             </StackScroller>
           </Suspense>
         </main>
 
-        <div style={{ position: 'fixed', bottom: 0, left: 0, width: '100%', height: '100vh', zIndex: 0 }}>
-          <Suspense fallback={null}>
-            <Contact />
-          </Suspense>
-          <Footer />
-        </div>
+        <Footer />
       </div>
     </ModelProvider>
   );

@@ -1,15 +1,14 @@
 .contactSection {
   position: relative;
-  height: calc(100vh - 60px);
+  min-height: 100vh;
   width: 100%;
-  padding: 10vh 5vw;
-  background-color: transparent;
+  padding: 15vh 5vw;
+  background-color: #050505;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   font-family: 'Inter', sans-serif;
-  overflow: hidden;
 }
 
 /* Header Container */
@@ -43,12 +42,18 @@
   font-family: 'Inter', sans-serif;
   font-size: clamp(2rem, 5vw, 4.5rem);
   font-weight: 800;
-  color: #FFC107; /* Yellow */
+  color: #FFFFFF;
   margin: 0;
   position: relative;
   z-index: 1;
   text-transform: uppercase;
   letter-spacing: 0.02em;
+}
+
+.redSlash {
+  color: #FF2E54;
+  font-weight: 900;
+  margin-right: 1rem;
 }
 
 /* Two Column Layout */
@@ -116,14 +121,14 @@
 
 .contactItem:hover {
   background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 193, 7, 0.3); /* subtle yellow border on hover */
+  border-color: rgba(255, 46, 84, 0.4);
   transform: translateY(-3px);
 }
 
 .icon {
   width: 45px;
   height: 45px;
-  color: #FFC107;
+  color: #FF2E54;
   flex-shrink: 0;
 }
 
@@ -149,7 +154,7 @@
 }
 
 .contactValue:hover {
-  color: #FFC107;
+  color: #FF2E54;
 }
 
 /* Right Column (Form) */
@@ -185,9 +190,9 @@
 }
 
 .inputField:focus, .textareaField:focus {
-  border-color: #FFC107;
+  border-color: #FF2E54;
   background: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 0 15px rgba(255, 193, 7, 0.15);
+  box-shadow: 0 0 15px rgba(255, 46, 84, 0.2);
 }
 
 .textareaField {
@@ -233,7 +238,7 @@
 }
 
 .termsLink {
-  color: #B388FF; /* Purplish color */
+  color: #FF2E54;
   text-decoration: none;
 }
 
@@ -243,8 +248,8 @@
 
 .submitBtn {
   align-self: flex-start;
-  background: #FFC107;
-  color: #050505;
+  background: #FF2E54;
+  color: #FFFFFF;
   border: none;
   border-radius: 12px;
   padding: 1rem 2.5rem;
@@ -254,11 +259,11 @@
   cursor: pointer;
   margin-top: 1rem;
   transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 10px rgba(255, 193, 7, 0.2);
+  box-shadow: 0 4px 15px rgba(255, 46, 84, 0.35);
 }
 
 .submitBtn:hover {
-  background: #FFCA28;
+  background: #FF4A6D;
   transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(255, 193, 7, 0.4);
+  box-shadow: 0 8px 25px rgba(255, 46, 84, 0.5);
 }

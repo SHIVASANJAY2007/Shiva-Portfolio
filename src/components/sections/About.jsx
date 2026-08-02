@@ -12,21 +12,53 @@ export const About = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      // Kinetic text highlight reveal
       gsap.fromTo('.aboutText span', 
-        { opacity: 0.2, color: '#888' },
+        { opacity: 0.2, color: '#666666' },
         {
           opacity: 1,
-          color: '#fff',
-          stagger: 0.1,
+          color: '#ffffff',
+          textShadow: '0 0 14px rgba(255, 255, 255, 0.45)',
+          stagger: 0.08,
           ease: 'none',
           scrollTrigger: {
             trigger: containerRef.current,
-            start: 'top 60%',
-            end: 'center center',
-            scrub: true,
+            start: 'top 65%',
+            end: 'center 65%',
+            scrub: 1.2,
           }
         }
       );
+
+      // Section title magnetic parallax glide
+      const titleEl = containerRef.current.querySelector(`.${styles.sectionTitle}`);
+      if (titleEl) {
+        gsap.fromTo(titleEl, 
+          { y: 40, opacity: 0, filter: 'blur(10px)' },
+          {
+            y: 0, opacity: 1, filter: 'blur(0px)',
+            duration: 1, ease: 'power3.out',
+            scrollTrigger: { trigger: containerRef.current, start: 'top 80%' }
+          }
+        );
+      }
+
+      // 3D perspective kinetic entrance stagger for education history rows
+      const eduItems = containerRef.current.querySelectorAll(`.${styles.eduItem}`);
+      if (eduItems.length > 0) {
+        gsap.fromTo(eduItems,
+          { y: 45, opacity: 0, rotationX: -15, transformPerspective: 600 },
+          {
+            y: 0, opacity: 1, rotationX: 0,
+            stagger: 0.2, duration: 0.9, ease: 'power3.out',
+            scrollTrigger: {
+              trigger: containerRef.current.querySelector(`.${styles.educationBox}`),
+              start: 'top 85%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        );
+      }
     }, containerRef);
     return () => ctx.revert();
   }, []);

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Animated Emojis Matrix</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- =========================================================
+       COMPONENT: ANIMATED EMOJI BACKGROUND
+       ========================================================= -->
+  <div class="emoji-bg-wrapper">
+    <div class="emoji-bg-container" id="animatedEmojiGrid">
+      <!-- Rows dynamically injected via script.js -->
+    </div>
+  </div>
+
+  <!-- =========================================================
+       COMPACT INTERACTIVE CONTROL PANEL
+       ========================================================= -->
+  <main class="demo-overlay">
+    <div class="demo-card">
+      <div class="importer-section">
+        
+        <textarea 
+          id="iconPathsInput" 
+          class="paths-input" 
+          rows="5" 
+          placeholder="Paste custom SVG or PNG URLs here..."></textarea>
+        
+        <div class="controls-row">
+          <span id="statusIndicator" class="status-badge">Loaded: 57 icons</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

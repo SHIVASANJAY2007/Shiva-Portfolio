@@ -27,7 +27,7 @@ export const Experience = () => {
           ease: 'none',
           scrollTrigger: {
             trigger: timelineRef.current,
-            start: 'top 50%', // Starts when timeline hits center
+            start: 'top 50%',
             end: 'bottom 50%',
             scrub: 1,
           }
@@ -39,18 +39,17 @@ export const Experience = () => {
         const marker = item.querySelector(`.${styles.timelineMarker}`);
         const content = item.querySelector(`.${styles.timelineContent}`);
         
-        // Sync item entrance with the exact moment the line hits it (top 50%)
         const itemTl = gsap.timeline({
           scrollTrigger: {
             trigger: item,
-            start: 'top 50%', // Exactly matches the line's progress
+            start: 'top 50%',
             toggleActions: 'play none none reverse'
           }
         });
 
         itemTl.fromTo(marker, 
-          { scale: 0, backgroundColor: '#050505' }, 
-          { scale: 1, backgroundColor: '#D500F9', duration: 0.3, ease: 'back.out(2)' }
+          { scale: 0, backgroundColor: '#FFFFFF' }, 
+          { scale: 1, backgroundColor: '#FF2E54', duration: 0.3, ease: 'back.out(2)' }
         )
         .fromTo(content, 
           { x: item.classList.contains(styles.left) ? -50 : 50, opacity: 0 },
@@ -78,31 +77,36 @@ export const Experience = () => {
   return (
     <section id="experience" className={styles.pathSection} ref={containerRef}>
       <div className={styles.content}>
-        <h2 className={styles.sectionTitle}>
-          <span className={styles.redSlash}>/</span> Experience
-        </h2>
+        
+        {/* Top Header for Experience & Awards */}
+        <div className={styles.sectionHeader}>
+          <h2 className={styles.sectionTitle}>
+            <span className={styles.redSlash}>/</span> Experience & Awards
+          </h2>
+        </div>
 
+        {/* Centered 4-Step Experience Timeline Roadmap */}
         <div className={styles.timeline} ref={timelineRef}>
           <svg className={styles.svgRoadmap} width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <linearGradient id="neonGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#D500F9" stopOpacity="0" />
-                <stop offset="20%" stopColor="#D500F9" stopOpacity="1" />
-                <stop offset="80%" stopColor="#B388FF" stopOpacity="1" />
-                <stop offset="100%" stopColor="#B388FF" stopOpacity="0" />
+                <stop offset="0%" stopColor="#FF2E54" stopOpacity="0" />
+                <stop offset="20%" stopColor="#FF2E54" stopOpacity="1" />
+                <stop offset="80%" stopColor="#FF2E54" stopOpacity="1" />
+                <stop offset="100%" stopColor="#FF2E54" stopOpacity="0" />
               </linearGradient>
             </defs>
             <line 
               ref={lineRef}
               className={styles.svgLine} 
-              x1="50%" y1="0" 
-              x2="50%" y2="100%" 
+              x1="24" y1="0" 
+              x2="24" y2="100%" 
               pathLength="1"
             />
           </svg>
 
           {resumeData.experience.map((exp, index) => (
-            <div key={index} className={`${styles.timelineItem} timelineItem ${index % 2 === 0 ? styles.left : styles.right}`}>
+            <div key={index} className={`${styles.timelineItem} timelineItem`}>
               <div className={styles.timelineMarker}></div>
               <div className={styles.timelineContent}>
                 <h3 className={styles.expTitle}>{exp.title}</h3>
@@ -119,23 +123,29 @@ export const Experience = () => {
               </div>
             </div>
           ))}
+        </div>
 
-          <div className={styles.awardsSection}>
-            <h3 className={styles.awardsTitle}>Awards & Recognition</h3>
-            <div className={styles.awardsGrid}>
-              {resumeData.awards.map((award, index) => (
-                <div key={`award-${index}`} className={styles.awardCard}>
-                  <div className={styles.awardIcon}>
-                    <TrophyIcon />
-                  </div>
+        {/* Single Row Awards Showcase Below Experience */}
+        <div className={styles.awardsSection}>
+          <h3 className={styles.awardsTitle}>
+            <span className={styles.redSlash}>/</span> Awards & Recognition
+          </h3>
+          <div className={styles.awardsGrid}>
+            {resumeData.awards.map((award, index) => (
+              <div key={`award-${index}`} className={styles.awardCard}>
+                <div className={styles.awardIcon}>
+                  <TrophyIcon />
+                </div>
+                <div className={styles.awardContent}>
                   <h4 className={styles.awardName}>{award.title}</h4>
                   {award.organization && <h5 className={styles.awardOrg}>{award.organization}</h5>}
                   <p className={styles.awardDesc}>{award.project || award.achievement}</p>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
+
       </div>
     </section>
   );

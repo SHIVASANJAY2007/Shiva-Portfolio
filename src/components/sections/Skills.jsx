@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './Skills.module.css';
@@ -18,23 +18,11 @@ const allSkills = [
   ...skillsData.tools,
 ];
 
-// Predefined soft pastel glow colors for the background
-const glowColors = [
-  'rgba(255, 224, 130, 0.4)', // Pastel Yellow
-  'rgba(129, 212, 250, 0.4)', // Pastel Light Blue
-  'rgba(144, 202, 249, 0.4)', // Pastel Blue
-  'rgba(206, 147, 216, 0.4)', // Pastel Purple
-  'rgba(165, 214, 167, 0.4)', // Pastel Green
-  'rgba(255, 171, 145, 0.4)', // Pastel Orange
-  'rgba(244, 143, 177, 0.4)'  // Pastel Pink
-];
-
 export const Skills = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const sectionRef = useRef(null);
 
   const activeSkill = useMemo(() => allSkills[activeIndex], [activeIndex]);
-  const activeGlowColor = useMemo(() => glowColors[activeIndex % glowColors.length], [activeIndex]);
 
   // Calculate permanent positions for all skills so they don't re-arrange on click
   const allSkillsWithPositions = useMemo(() => {
@@ -64,7 +52,7 @@ export const Skills = () => {
           trigger: sectionRef.current,
           start: 'top bottom',
           end: 'bottom top',
-          scrub: 1
+          scrub: 1.2
         }
       });
       // Counter-rotate the inner icons to keep them upright
@@ -75,27 +63,74 @@ export const Skills = () => {
           trigger: sectionRef.current,
           start: 'top bottom',
           end: 'bottom top',
-          scrub: 1
+          scrub: 1.2
         }
       });
+
+      // Zero-gravity continuous atmospheric levitation on the skills orbit system
+      const orbitEl = sectionRef.current.querySelector(`.${styles.orbitContainer}`);
+      if (orbitEl) {
+        gsap.to(orbitEl, {
+          y: -14,
+          duration: 3.5,
+          yoyo: true,
+          repeat: -1,
+          ease: 'sine.inOut'
+        });
+      }
+
+      // Kinetic entrance stagger for descriptive typography & CTA button
+      const leftChildren = sectionRef.current.querySelectorAll(`.${styles.sectionTitle}, .${styles.description}, .${styles.contactBtn}`);
+      if (leftChildren.length > 0) {
+        gsap.fromTo(leftChildren,
+          { x: -55, opacity: 0 },
+          {
+            x: 0, opacity: 1,
+            stagger: 0.18, duration: 1.1, ease: 'power4.out',
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: 'top 75%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        );
+      }
     }, sectionRef);
     return () => ctx.revert();
   }, []);
 
   return (
     <section id="skills" className={styles.skillsSection} ref={sectionRef}>
-      {/* Dynamic radial glow background */}
+      {/* Very thin, elegant radial shade of #FF2E54 behind the component */}
       <div 
         className={styles.backgroundGlow}
         style={{
-          background: `radial-gradient(circle at 75% 50%, ${activeGlowColor} 0%, rgba(255,255,255,0) 60%)`
+          background: `radial-gradient(circle at 75% 50%, rgba(255, 46, 84, 0.05) 0%, rgba(255,255,255,0) 65%), radial-gradient(circle at 25% 50%, rgba(255, 46, 84, 0.035) 0%, rgba(255,255,255,0) 65%)`
         }}
       />
 
       <div className={styles.container}>
         {/* Left Column: Text & Info */}
         <div className={styles.leftColumn}>
-          <h2 className={styles.sectionTitle}>My Skills</h2>
+          {/* Giant Ultra-Crisp 4K Vector Watermark Logo Behind My Skills Content */}
+          <div className={styles.watermarkLogoWrap}>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeSkill.name}
+                className={styles.watermarkMotion}
+                initial={{ opacity: 0, scale: 0.88, rotate: -8 }}
+                animate={{ opacity: 0.22, scale: 1, rotate: 0 }}
+                exit={{ opacity: 0, scale: 1.08, rotate: 6, transition: { duration: 0.25, ease: "easeInOut" } }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <img src={activeSkill.logo} alt={activeSkill.name} loading="eager" decoding="async" />
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          <h2 className={styles.sectionTitle}>
+            <span className={styles.redSlash}>/</span> My Skills
+          </h2>
           <p className={styles.description}>
             I leverage a diverse set of modern tools and technologies to build scalable, high-performance applications. My expertise spans across frontend frameworks, robust backend systems, and cutting-edge AI tools to deliver exceptional digital experiences.
           </p>
@@ -123,7 +158,7 @@ export const Skills = () => {
                   title={skill.name}
                 >
                   <div className="iconWrapper" style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <img src={skill.logo} alt={skill.name} className={styles.rotatingIcon} />
+                    <img src={skill.logo} alt={skill.name} className={styles.rotatingIcon} loading="eager" decoding="async" />
                   </div>
                 </motion.div>
               ))}
@@ -138,7 +173,7 @@ export const Skills = () => {
               animate={{ x: 0, y: 0, scale: 1 }}
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
             >
-              <img src={activeSkill.logo} alt={activeSkill.name} />
+              <img src={activeSkill.logo} alt={activeSkill.name} loading="eager" decoding="async" />
               <div className={styles.activeLabel}>{activeSkill.name}</div>
             </motion.div>
           </div>

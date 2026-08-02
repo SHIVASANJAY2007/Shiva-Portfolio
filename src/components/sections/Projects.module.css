@@ -2,23 +2,12 @@
   position: relative;
   min-height: 100vh;
   width: 100%;
-  padding: 10vh 5vw;
+  padding: 3vh 5vw;
   background-color: #000000;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
-}
-
-.backgroundContainer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
   overflow: hidden;
 }
 
@@ -30,12 +19,12 @@
 }
 
 .sectionTitle {
-  text-shadow: 3px 3px 0px #FF9100, -1px -1px 0px #FF910055;
-  font-size: 3.5rem;
+  text-shadow: 3px 3px 0px rgba(255, 46, 84, 0.8), -1px -1px 0px rgba(255, 46, 84, 0.35);
+  font-size: 3rem;
   font-weight: 800;
   text-transform: uppercase;
   color: #FFFFFF;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   letter-spacing: -0.02em;
   text-align: center;
   position: relative;
@@ -45,7 +34,7 @@
 }
 
 .redSlash {
-  color: #FF9100;
+  color: #FF2E54;
   font-weight: 900;
   margin-right: 1rem;
 }

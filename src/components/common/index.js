@@ -2,8 +2,8 @@
  * Common Components Index
  */
 
-export { Navigation } from './Navigation';
+export { Nav as Navigation, Nav } from './Nav';
 export { Footer } from './Footer';
 export { Loader } from './Loader';
 export { default as ClickSpark } from './ClickSpark';
-export { EmojiBackground } from './EmojiBackground';
+export { Carousel } from './Carousel';

@@ -26,7 +26,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(5, 5, 5, 0.7);
+  background: linear-gradient(135deg, rgba(5, 5, 5, 0.28) 0%, rgba(10, 10, 18, 0.22) 100%);
+  backdrop-filter: blur(0.5px);
   z-index: 0;
 }
 
@@ -36,7 +37,7 @@
 }
 
 .sectionTitle {
-  text-shadow: 3px 3px 0px #FF62BB, -1px -1px 0px #FF62BB55;
+  text-shadow: 3px 3px 0px rgba(255, 46, 84, 0.8), -1px -1px 0px rgba(255, 46, 84, 0.35);
   font-size: 4vw;
   font-weight: 900;
   text-transform: uppercase;
@@ -46,15 +47,15 @@
 }
 
 .redSlash {
-  color: #FF62BB;
+  color: #FF2E54;
   font-weight: 900;
   margin-right: 1rem;
 }
 
 .textContent {
-  max-width: 800px;
+  max-width: 850px;
   margin-left: 2rem;
-  border-left: 4px solid #FF62BB;
+  border-left: 4px solid #FF2E54;
   padding-left: 2rem;
 }
 
@@ -66,13 +67,16 @@
 }
 
 .educationBox {
-  margin-top: 5rem;
+  margin-top: 4rem;
   margin-left: 2rem;
+  max-width: 850px;
+  border-left: 4px solid #FF2E54;
+  padding-left: 2rem;
 }
 
 .eduTitle {
   font-size: 1.2rem;
-  color: #FF62BB;
+  color: #FF2E54;
   text-transform: uppercase;
   letter-spacing: 0.2em;
   margin-bottom: 2rem;
@@ -93,7 +97,7 @@
 
 .eduDetails {
   font-family: var(--font-secondary);
-  color: #FF62BB;
+  color: #FF2E54;
   font-size: 0.9rem;
   margin-top: 0.2rem;
 }

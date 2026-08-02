@@ -1,4 +1,6 @@
 .footer {
+  position: relative;
+  z-index: 20;
   background: #FFFFFF;
   border-top: 2px solid #050505;
   padding: var(--space-16) 0;
@@ -63,11 +65,11 @@
   }
 
   &:hover {
-    color: #FF0055;
+    color: #FF2E54;
 
     &::after {
       width: 100%;
-      background: #FF0055;
+      background: #FF2E54;
     }
   }
 }

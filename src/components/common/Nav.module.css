@@ -1,0 +1,363 @@
+/* Nav - Low-code Awwwards Glassmorphism UI/UX Architecture */
+
+.siteHeaderWrapper {
+  position: fixed;
+  top: 2.2rem;
+  right: 2.5rem;
+  z-index: 10000;
+  pointer-events: none;
+  width: auto;
+  height: auto;
+  mix-blend-mode: difference;
+}
+
+.header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.navRow {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1.2rem;
+}
+
+.navCloseBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  border-radius: 50px;
+  padding: 0.65rem 1.8rem;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background 0.35s ease, border-color 0.35s ease;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+  transform: translateZ(0);
+  pointer-events: auto;
+  background: transparent !important;
+  border: 2px solid #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
+.navCloseBtn * {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.navCloseBtn p,
+.navCloseBtn svg,
+.navCloseBtn path {
+  color: #FFFFFF !important;
+  fill: #FFFFFF !important;
+  transition: color 0.35s ease, fill 0.35s ease;
+}
+
+.navCloseBtn:hover {
+  transform: translateY(-2px) scale(1.05) translateZ(0);
+  background: #FFFFFF !important;
+  border-color: #FFFFFF !important;
+}
+
+.navCloseBtn:hover p,
+.navCloseBtn:hover svg,
+.navCloseBtn:hover path {
+  color: #000000 !important;
+  fill: #000000 !important;
+}
+
+/* Open Drawer Override - White Visible Button */
+.headerMenuOpen {
+  mix-blend-mode: normal !important;
+}
+
+.headerMenuOpen .navCloseBtn {
+  background: #FFFFFF !important;
+  border: 2px solid #FFFFFF !important;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.25) !important;
+}
+
+.headerMenuOpen .navCloseBtn p,
+.headerMenuOpen .navCloseBtn svg,
+.headerMenuOpen .navCloseBtn path {
+  color: #000000 !important;
+  fill: #000000 !important;
+  font-weight: 900 !important;
+}
+
+.headerMenuOpen .navCloseBtn:hover {
+  background: #000000 !important;
+  border-color: #000000 !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45) !important;
+  transform: translateY(-2px) scale(1.05) translateZ(0);
+}
+
+.headerMenuOpen .navCloseBtn:hover p,
+.headerMenuOpen .navCloseBtn:hover svg,
+.headerMenuOpen .navCloseBtn:hover path {
+  color: #FFFFFF !important;
+  fill: #FFFFFF !important;
+}
+
+.menuButtonText {
+  position: relative;
+  height: 1.2rem;
+  overflow: hidden;
+}
+
+.pLarge {
+  margin: 0;
+  padding: 0;
+  line-height: 1.2rem;
+  display: block;
+}
+
+.iconWrap {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menuButtonIcon {
+  width: 100%;
+  height: 100%;
+  transform-origin: center;
+  will-change: transform;
+}
+
+/* Fullscreen Menu Container & Overlay */
+.fullscreenMenuContainer {
+  position: relative;
+}
+
+.navOverlayWrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 990;
+  display: none;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+  pointer-events: auto;
+  z-index: 1;
+}
+
+/* Electric Crimson Glassmorphism Menu Drawer */
+.menuContent {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 45vw;
+  min-width: 400px;
+  max-width: 600px;
+  height: 100vh;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  background: rgba(255, 46, 84, 0.65);
+  backdrop-filter: blur(28px) saturate(190%);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  border-left: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: -25px 0 60px rgba(0, 0, 0, 0.6), -4px 0 30px rgba(255, 46, 84, 0.45);
+  transform: translate3d(100%, 0, 0);
+  will-change: transform;
+}
+
+.menuBg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.backdropLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  will-change: transform, opacity;
+}
+
+.backdropLayerFirst {
+  background: #000000;
+}
+
+.backdropLayerSecond {
+  background: #FFFFFF;
+}
+
+/* Content & List Styling */
+.menuContentWrapper {
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
+  padding: 3rem 2.5rem;
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.menuList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.menuListItem {
+  position: relative;
+  cursor: pointer;
+  width: 100%;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  transition: border-color 0.35s ease, background 0.35s ease;
+}
+
+.menuListItem:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  position: relative;
+  padding: 1.2rem 0.5rem;
+  width: 100%;
+  transform: translateZ(0);
+  will-change: transform, opacity;
+}
+
+.navLinkLeft {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.navIndex {
+  font-size: 1.05rem;
+  font-weight: 800;
+  font-family: inherit;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.05em;
+  transition: color 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.navLinkText {
+  font-size: 2.2rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  margin: 0;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  transition: color 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), text-shadow 0.3s ease;
+  transform: translateZ(0);
+}
+
+.navArrow {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #000000;
+  opacity: 0;
+  transform: translate3d(-15px, 0, 0);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.menuListItem:hover .navIndex {
+  color: #000000;
+  transform: translate3d(3px, -2px, 0);
+}
+
+.menuListItem:hover .navLinkText {
+  color: #000000;
+  transform: translate3d(12px, 0, 0);
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+}
+
+.menuListItem:hover .navArrow {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  color: #000000;
+}
+
+.navLinkHoverBg {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: #000000;
+  transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+  z-index: 5;
+}
+
+.menuListItem:hover .navLinkHoverBg {
+  width: 100%;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+}
+
+/* Responsive Rules */
+@media (max-width: 1024px) {
+  .menuContent {
+    width: 60vw;
+    min-width: 350px;
+  }
+  .navLinkText {
+    font-size: 2rem;
+  }
+  .menuContentWrapper {
+    padding: 2.5rem 1.8rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .menuContent {
+    width: 88vw;
+    min-width: 290px;
+  }
+  .navLinkText {
+    font-size: 1.6rem;
+  }
+  .navIndex {
+    font-size: 0.95rem;
+  }
+  .navLinkLeft {
+    gap: 1rem;
+  }
+  .menuContentWrapper {
+    padding: 2rem 1.2rem;
+  }
+}

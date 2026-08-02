@@ -3,7 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './Contact.module.css';
 import { resumeData } from '../../data/resume';
-import { CrowdBackground } from '../ui/CrowdBackground';
+import { Crowd as CrowdBackground } from '../ui/Crowd';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -53,7 +53,9 @@ export const Contact = () => {
       <CrowdBackground />
       <div className={styles.headerContainer}>
         <h1 className={styles.bgTitle}>CONTACT</h1>
-        <h2 className={styles.fgTitle}>GET IN TOUCH</h2>
+        <h2 className={styles.fgTitle}>
+          <span className={styles.redSlash}>/</span> GET IN TOUCH
+        </h2>
       </div>
 
       <div className={styles.contentGrid}>

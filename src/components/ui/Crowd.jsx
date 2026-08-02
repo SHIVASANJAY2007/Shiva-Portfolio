@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
-import styles from './CrowdBackground.module.css';
+import styles from './Crowd.module.css';
 
 const config = {
   src: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/175711/open-peeps-sheet.png',
@@ -19,8 +19,7 @@ const resetPeep = ({ stage, peep }) => {
   const direction = Math.random() > 0.5 ? 1 : -1;
   const offsetY = 100 - 250 * gsap.parseEase('power2.in')(Math.random());
   const startY = stage.height - peep.height + offsetY;
-  let startX;
-  let endX;
+  let startX, endX;
 
   if (direction === 1) {
     startX = -peep.width;
@@ -35,7 +34,6 @@ const resetPeep = ({ stage, peep }) => {
   peep.x = startX;
   peep.y = startY;
   peep.anchorY = startY;
-
   return { startX, startY, endX };
 };
 
@@ -46,18 +44,8 @@ const normalWalk = ({ peep, props }) => {
 
   const tl = gsap.timeline();
   tl.timeScale(randomRange(0.5, 1.5));
-  tl.to(peep, {
-    duration: xDuration,
-    x: endX,
-    ease: 'none',
-  }, 0);
-  tl.to(peep, {
-    duration: yDuration,
-    repeat: xDuration / yDuration,
-    yoyo: true,
-    y: startY - 10,
-  }, 0);
-
+  tl.to(peep, { duration: xDuration, x: endX, ease: 'none' }, 0);
+  tl.to(peep, { duration: yDuration, repeat: xDuration / yDuration, yoyo: true, y: startY - 10 }, 0);
   return tl;
 };
 
@@ -73,14 +61,12 @@ class Peep {
     this.scaleX = 1;
     this.walk = null;
   }
-
   setRect(rect) {
     this.rect = rect;
     this.width = rect[2];
     this.height = rect[3];
     this.drawArgs = [this.image, ...rect, 0, 0, this.width, this.height];
   }
-
   render(ctx) {
     ctx.save();
     ctx.translate(this.x, this.y);
@@ -90,7 +76,7 @@ class Peep {
   }
 }
 
-export const CrowdBackground = () => {
+export const Crowd = () => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -104,10 +90,10 @@ export const CrowdBackground = () => {
     const crowd = [];
 
     const img = document.createElement('img');
-    img.crossOrigin = 'anonymous'; // Important for cross-origin images
+    img.crossOrigin = 'anonymous';
     
     const render = () => {
-      canvas.width = canvas.width; // Clear canvas
+      canvas.width = canvas.width;
       ctx.save();
       ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
       crowd.forEach((peep) => peep.render(ctx));
@@ -139,9 +125,7 @@ export const CrowdBackground = () => {
     const initCrowd = () => {
       while (availablePeeps.length) {
         const peep = addPeepToCrowd();
-        if (peep) {
-          peep.walk.progress(Math.random());
-        }
+        if (peep) peep.walk.progress(Math.random());
       }
     };
 
@@ -170,12 +154,7 @@ export const CrowdBackground = () => {
       for (let i = 0; i < total; i++) {
         allPeeps.push(new Peep({
           image: img,
-          rect: [
-            (i % rows) * rectWidth,
-            ((i / rows) | 0) * rectHeight,
-            rectWidth,
-            rectHeight,
-          ],
+          rect: [(i % rows) * rectWidth, ((i / rows) | 0) * rectHeight, rectWidth, rectHeight],
         }));
       }
     };
@@ -202,4 +181,5 @@ export const CrowdBackground = () => {
   return <canvas ref={canvasRef} className={styles.canvasBackground} />;
 };
 
-export default CrowdBackground;
+export { Crowd as CrowdBackground };
+export default Crowd;
