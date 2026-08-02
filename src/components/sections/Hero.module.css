@@ -56,22 +56,22 @@
   align-items: center;
   pointer-events: none;
   user-select: none;
-  padding: 0 4vw;
+  padding: 0 2vw;
 }
 
-/* Wide separated container for SHIVA and SANJAY */
+/* Balanced container for SHIVA and SANJAY around the narrow helmet */
 .splitTitle {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 96%;
-  max-width: 1780px;
+  width: 76%;
+  max-width: 1380px;
   margin: 0 auto;
 }
 
 .titleLeft, .titleRight {
   font-family: 'Bricolage Grotesque', 'Inter', sans-serif;
-  font-size: clamp(3.6rem, 10.8vw, 12rem);
+  font-size: clamp(3.6rem, 10.5vw, 11.8rem);
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: -0.02em;
@@ -90,18 +90,19 @@
   text-align: right;
 }
 
-/* Separated rotating role switcher beneath the name */
+/* Wide container for rotating roles to comfortably clear the broad 3D shoulder armor */
 .splitSubhead {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 94%;
-  max-width: 1720px;
-  margin-top: 0.8rem;
+  width: 98%;
+  max-width: 1840px;
+  margin: 0.6rem auto 0;
+  padding: 0 1vw;
   font-family: 'Bricolage Grotesque', 'Inter', sans-serif;
-  font-size: clamp(1.6rem, 5.2vw, 5.5rem);
+  font-size: clamp(1.5rem, 4.8vw, 5.2rem);
   font-weight: 500;
-  color: rgba(246, 244, 240, 0.72);
+  color: rgba(246, 244, 240, 0.75);
   letter-spacing: 0.04em;
   text-transform: uppercase;
   line-height: 1;
@@ -253,7 +254,7 @@
   background: linear-gradient(180deg, transparent 0%, rgba(6, 6, 6, 0.95) 100%);
   z-index: 12;
   pointer-events: auto;
-  border: none !important; /* Completely eliminated bottom thin line */
+  border: none !important;
 }
 
 .tickerWrap {
@@ -305,7 +306,7 @@
     top: 13vh;
   }
   .splitTitle, .splitSubhead {
-    width: 98%;
+    width: 96%;
   }
   .foregroundUI {
     padding-bottom: 6.5rem;
@@ -323,7 +324,7 @@
     font-size: clamp(2.4rem, 9.5vw, 4.2rem);
   }
   .splitSubhead {
-    font-size: clamp(1.2rem, 4.5vw, 2.2rem);
+    font-size: clamp(1.1rem, 4.2vw, 2.2rem);
     margin-top: 0.5rem;
   }
   .foregroundUI {

@@ -3,41 +3,41 @@
     {
       "name": "Java",
       "slug": "java",
-      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg"
+      "logo": "https://svgl.app/library/java.svg"
     },
     {
       "name": "JavaScript",
       "slug": "javascript",
-      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg"
+      "logo": "https://svgl.app/library/javascript.svg"
     },
     {
       "name": "Python",
       "slug": "python",
-      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg"
+      "logo": "https://svgl.app/library/python.svg"
     },
     {
       "name": "C",
       "slug": "c",
-      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg"
+      "logo": "https://svgl.app/library/c.svg"
     }
   ],
   "codeEditors": [
     {
       "name": "VS Code",
       "slug": "vscode",
-      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg"
+      "logo": "https://svgl.app/library/vscode.svg"
     }
   ],
   "aiTools": [
     {
       "name": "ChatGPT",
       "slug": "chatgpt",
-      "logo": "https://cdn.simpleicons.org/openai/10A37F"
+      "logo": "https://svgl.app/library/openai.svg"
     },
     {
       "name": "Gemini",
       "slug": "gemini",
-      "logo": "https://cdn.simpleicons.org/googlegemini/8E75B2"
+      "logo": "https://svgl.app/library/gemini.svg"
     },
     {
       "name": "NotebookLM",
@@ -47,85 +47,85 @@
     {
       "name": "GitHub Copilot",
       "slug": "github-copilot",
-      "logo": "https://cdn.simpleicons.org/githubcopilot/181717"
+      "logo": "https://svgl.app/library/copilot.svg"
     }
   ],
   "frontend": [
     {
       "name": "HTML5",
       "slug": "html5",
-      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg"
+      "logo": "https://svgl.app/library/html5.svg"
     },
     {
       "name": "CSS3",
       "slug": "css",
-      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg"
+      "logo": "https://svgl.app/library/css.svg"
     },
     {
       "name": "React",
       "slug": "react",
-      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg"
+      "logo": "https://skillicons.dev/icons?i=react"
     },
     {
       "name": "Tailwind CSS",
       "slug": "tailwindcss",
-      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg"
+      "logo": "https://svgl.app/library/tailwindcss.svg"
     },
     {
       "name": "Bootstrap",
       "slug": "bootstrap",
-      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/bootstrap/bootstrap-original.svg"
+      "logo": "https://svgl.app/library/bootstrap.svg"
     }
   ],
   "backend": [
     {
       "name": "Node.js",
       "slug": "nodejs",
-      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg"
+      "logo": "https://svgl.app/library/nodejs.svg"
     },
     {
       "name": "Express.js",
       "slug": "expressjs",
-      "logo": "https://cdn.simpleicons.org/express/000000"
+      "logo": "https://svgl.app/library/expressjs.svg"
     }
   ],
   "databases": [
     {
       "name": "MongoDB",
       "slug": "mongodb",
-      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg"
+      "logo": "https://skillicons.dev/icons?i=mongodb"
     },
     {
       "name": "PostgreSQL",
       "slug": "postgresql",
-      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg"
+      "logo": "https://svgl.app/library/postgresql.svg"
     },
     {
       "name": "MySQL",
       "slug": "mysql",
-      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg"
+      "logo": "https://skillicons.dev/icons?i=mysql"
     }
   ],
   "tools": [
     {
       "name": "GitHub",
       "slug": "github",
-      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg"
+      "logo": "https://skillicons.dev/icons?i=github"
     },
     {
       "name": "Notion",
       "slug": "notion",
-      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/notion/notion-original.svg"
+      "logo": "https://svgl.app/library/notion.svg"
     },
     {
       "name": "Docker",
       "slug": "docker",
-      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg"
+      "logo": "https://svgl.app/library/docker.svg"
     },
     {
       "name": "n8n",
       "slug": "n8n",
-      "logo": "https://cdn.simpleicons.org/n8n/FF6D5A"
+      "logo": "https://svgl.app/library/n8n.svg"
     },
     {
       "name": "Google Colab",
@@ -135,12 +135,12 @@
     {
       "name": "Microsoft Office",
       "slug": "microsoft-office",
-      "logo": "https://cdn.simpleicons.org/microsoftoffice/D83B01"
+      "logo": "https://svgl.app/library/microsoft-office.svg"
     },
     {
       "name": "Salesforce",
       "slug": "salesforce",
-      "logo": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/salesforce/salesforce-original.svg"
+      "logo": "https://svgl.app/library/salesforce.svg"
     },
     {
       "name": "Odoo",

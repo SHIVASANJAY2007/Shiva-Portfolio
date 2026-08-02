@@ -1,31 +1,34 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy, Suspense } from 'react';
 import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Navigation, Footer, Loader, ClickSpark } from './components/common';
-
-gsap.registerPlugin(ScrollTrigger);
-import { lazy, Suspense } from 'react';
-import Hero from './components/sections/Hero';
-const About = lazy(() => import('./components/sections/About').then(m => ({ default: m.About || m.default })));
-const Skills = lazy(() => import('./components/sections/Skills').then(m => ({ default: m.Skills || m.default })));
-const Projects = lazy(() => import('./components/sections/Projects').then(m => ({ default: m.Projects || m.default })));
-const Experience = lazy(() => import('./components/sections/Experience').then(m => ({ default: m.Experience || m.default })));
-const Contact = lazy(() => import('./components/sections/Contact').then(m => ({ default: m.Contact || m.default })));
 import useScrollScene from './hooks/useScrollScene';
 import './styles/globals.css';
 import StackScroller from './components/sections/StackScroller';
 import TheatreStudio from './components/3D/TheatreStudio';
 import { ModelProvider } from './providers/ModelProvider';
 
+gsap.registerPlugin(ScrollTrigger);
+
+import Hero from './components/sections/Hero';
+const About = lazy(() => import('./components/sections/About').then(m => ({ default: m.About || m.default })));
+const Skills = lazy(() => import('./components/sections/Skills').then(m => ({ default: m.Skills || m.default })));
+const Projects = lazy(() => import('./components/sections/Projects').then(m => ({ default: m.Projects || m.default })));
+const Experience = lazy(() => import('./components/sections/Experience').then(m => ({ default: m.Experience || m.default })));
+const Contact = lazy(() => import('./components/sections/Contact').then(m => ({ default: m.Contact || m.default })));
+
 export default function App() {
   useScrollScene();
 
   useEffect(() => {
+    // Ultra-smooth, luxury gliding scroll configuration
     const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
+      duration: 2.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -12 * t)), 
       smoothWheel: true,
+      wheelMultiplier: 1.05,
+      touchMultiplier: 2.0,
     });
 
     window.lenis = lenis; // Expose Lenis globally for real-time navigation color changing events
