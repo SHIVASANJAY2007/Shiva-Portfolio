@@ -6,6 +6,7 @@ import { Canvas } from '@react-three/fiber';
 import { Environment, PerspectiveCamera } from '@react-three/drei';
 import * as THREE from 'three';
 import { HeroLoader } from '../3D/HeroLoader';
+import { scrollToSection } from '../../lib/scrollToSection';
 
 const Knight = React.lazy(() => import('../3D/Knight').then(module => ({ default: module.Knight })));
 
@@ -129,10 +130,10 @@ export const Hero = () => {
         duration: 0.7
       }, 0.65);
 
-      // Lightweight Hardware Parallax on Scroll
+      // Lightweight Hardware Parallax & Scroll-Based Blend Mode Transition
       gsap.to(titleRef.current, {
         y: -150,
-        opacity: 0.15,
+        opacity: 0.35,
         ease: 'none',
         scrollTrigger: {
           trigger: containerRef.current,
@@ -144,7 +145,7 @@ export const Hero = () => {
 
       gsap.to(bioRef.current, {
         y: -80,
-        opacity: 0,
+        opacity: 0.15,
         ease: 'none',
         scrollTrigger: {
           trigger: containerRef.current,
@@ -175,12 +176,7 @@ export const Hero = () => {
 
   const handleCardClick = (e, targetSection) => {
     e.preventDefault();
-    const el = document.getElementById(targetSection);
-    if (el && window.lenis) {
-      window.lenis.scrollTo(el, { offset: 0, duration: 1.4 });
-    } else if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
+    scrollToSection(targetSection);
   };
 
   const currentRole = rotatingRoles[roleIndex];

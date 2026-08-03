@@ -37,7 +37,8 @@
 }
 
 .sectionTitle {
-  text-shadow: 3px 3px 0px rgba(255, 46, 84, 0.8), -1px -1px 0px rgba(255, 46, 84, 0.35);
+  font-family: 'Bricolage Grotesque', 'Inter', sans-serif;
+  text-shadow: 0 4px 25px rgba(0, 0, 0, 0.5);
   font-size: 4vw;
   font-weight: 900;
   text-transform: uppercase;
@@ -55,14 +56,15 @@
 .textContent {
   max-width: 850px;
   margin-left: 2rem;
-  border-left: 4px solid #FF2E54;
+  border-left: 2px solid rgba(255, 255, 255, 0.25);
   padding-left: 2rem;
 }
 
 .summaryText {
+  font-family: 'Inter', sans-serif;
   font-size: 1.5rem;
   line-height: 1.8;
-  color: #FFFFFF;
+  color: rgba(246, 244, 240, 0.9);
   margin: 0;
 }
 
@@ -70,13 +72,14 @@
   margin-top: 4rem;
   margin-left: 2rem;
   max-width: 850px;
-  border-left: 4px solid #FF2E54;
+  border-left: 2px solid rgba(255, 255, 255, 0.25);
   padding-left: 2rem;
 }
 
 .eduTitle {
+  font-family: 'Bricolage Grotesque', 'Inter', sans-serif;
   font-size: 1.2rem;
-  color: #FF2E54;
+  color: rgba(255, 255, 255, 0.8);
   text-transform: uppercase;
   letter-spacing: 0.2em;
   margin-bottom: 2rem;
@@ -89,6 +92,7 @@
 }
 
 .eduInstitution {
+  font-family: 'Bricolage Grotesque', 'Inter', sans-serif;
   font-size: 1.2rem;
   font-weight: 700;
   color: #FFFFFF;
@@ -96,8 +100,8 @@
 }
 
 .eduDetails {
-  font-family: var(--font-secondary);
-  color: #FF2E54;
+  font-family: 'Inter', sans-serif;
+  color: rgba(255, 255, 255, 0.65);
   font-size: 0.9rem;
   margin-top: 0.2rem;
 }

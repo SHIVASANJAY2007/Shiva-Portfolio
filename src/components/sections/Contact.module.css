@@ -23,10 +23,10 @@
 }
 
 .bgTitle {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Bricolage Grotesque', 'Inter', sans-serif;
   font-size: clamp(4rem, 12vw, 15rem);
   font-weight: 900;
-  color: #222222; /* Dark gray for the background */
+  color: #1A1A1E; /* Dark gray for the background */
   text-transform: uppercase;
   margin: 0;
   position: absolute;
@@ -39,7 +39,7 @@
 }
 
 .fgTitle {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Bricolage Grotesque', 'Inter', sans-serif;
   font-size: clamp(2rem, 5vw, 4.5rem);
   font-weight: 800;
   color: #FFFFFF;
@@ -83,7 +83,7 @@
 }
 
 .shyTitle {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Bricolage Grotesque', 'Inter', sans-serif;
   font-size: 1.8rem;
   font-weight: 800;
   color: #FFFFFF;

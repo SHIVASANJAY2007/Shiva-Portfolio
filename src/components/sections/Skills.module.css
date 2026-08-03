@@ -65,12 +65,13 @@
   width: 95%;
   height: 95%;
   object-fit: contain;
-  filter: drop-shadow(0 0 35px rgba(255, 46, 84, 0.3));
+  filter: drop-shadow(0 0 35px rgba(0, 0, 0, 0.06));
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
 }
 
 .sectionTitle {
+  font-family: 'Bricolage Grotesque', 'Inter', sans-serif;
   font-size: 3.5rem;
   font-weight: 800;
   color: #000000;
@@ -85,29 +86,32 @@
 }
 
 .description {
+  font-family: 'Inter', sans-serif;
   font-size: 1.1rem;
-  color: #333333;
+  color: #222222;
   line-height: 1.6;
   margin-bottom: 2.5rem;
 }
 
 .contactBtn {
   display: inline-block;
-  padding: 0.8rem 2rem;
+  padding: 0.88rem 2.3rem;
   background: #000000;
   color: #FFFFFF;
-  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
   border-radius: 50px;
   text-decoration: none;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.2);
 }
 
 .contactBtn:hover {
-  transform: translateY(-2px) scale(1.04);
-  box-shadow: 0 8px 25px rgba(255, 46, 84, 0.4);
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 8px 28px rgba(255, 46, 84, 0.45);
   background: #FF2E54;
   color: #FFFFFF;
 }
@@ -161,7 +165,7 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  border: 1px dashed rgba(0, 0, 0, 0.15);
+  border: 1px dashed rgba(0, 0, 0, 0.2);
   pointer-events: none;
 }
 
@@ -188,9 +192,10 @@
 
 .activeLabel {
   margin-top: 10px;
+  font-family: 'Inter', sans-serif;
   font-weight: 700;
   font-size: 0.9rem;
-  color: #111;
+  color: #000000;
   text-align: center;
 }
 

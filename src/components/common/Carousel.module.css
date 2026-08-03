@@ -76,14 +76,16 @@
 }
 
 .embla__slide__title {
+  font-family: 'Bricolage Grotesque', 'Inter', sans-serif;
   font-size: 2.5rem;
   font-weight: 700;
   margin: 0;
-  color: #F6F4F0;
+  color: #FFFFFF;
   text-transform: uppercase;
 }
 
 .embla__slide__desc {
+  font-family: 'Inter', sans-serif;
   font-size: 1.1rem;
   line-height: 1.5;
   margin: 0;
@@ -101,6 +103,7 @@
 }
 
 .embla__slide__highlight {
+  font-family: 'Inter', sans-serif;
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: rgba(255, 255, 255, 0.92);
@@ -118,6 +121,7 @@
 }
 
 .embla__slide__btn {
+  font-family: 'Inter', sans-serif;
   display: inline-block;
   background: #FFFFFF;
   color: #000000;

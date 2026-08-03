@@ -48,8 +48,8 @@ export const Experience = () => {
         });
 
         itemTl.fromTo(marker, 
-          { scale: 0, backgroundColor: '#FFFFFF' }, 
-          { scale: 1, backgroundColor: '#FF2E54', duration: 0.3, ease: 'back.out(2)' }
+          { scale: 0, backgroundColor: '#FFFFFF', borderColor: '#FF2E54' }, 
+          { scale: 1, backgroundColor: '#FF2E54', borderColor: '#FF2E54', duration: 0.3, ease: 'back.out(2)' }
         )
         .fromTo(content, 
           { x: item.classList.contains(styles.left) ? -50 : 50, opacity: 0 },

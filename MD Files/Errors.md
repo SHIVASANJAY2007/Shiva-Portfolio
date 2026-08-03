@@ -1,39 +1,8 @@
-installHook.js:1 Theatre.js Studio is hidden. Use the keyboard shortcut 'alt + \' to restore the studio, or call studio.ui.restore().
-vitals.js:6 [Web Vitals] LCP: 528
-vitals.js:6 [Web Vitals] CLS: 0.000019944876821016053
-vitals.js:6 [Web Vitals] CLS: 0.00007019229663935495
-vitals.js:6 [Web Vitals] CLS: 0.000018120502968366066
-Skills.jsx:117 Uncaught ReferenceError: AnimatePresence is not defined
-    at Skills (Skills.jsx:117:14)
-vitals.js:6 [Web Vitals] CLS: 0.00009641400483922408
-Skills.jsx:117 Uncaught ReferenceError: AnimatePresence is not defined
-    at Skills (Skills.jsx:117:14)
-vitals.js:6 [Web Vitals] CLS: 0.00003997185244036919
-vitals.js:6 [Web Vitals] CLS: 0.00004065753692425899
-vitals.js:6 [Web Vitals] CLS: 0.00009002880269023446
-vitals.js:6 [Web Vitals] CLS: 0.00003812052453786788
-Skills.jsx:117 Uncaught ReferenceError: AnimatePresence is not defined
-    at Skills (Skills.jsx:117:14)
-vitals.js:6 [Web Vitals] CLS: 0.00023649511177958182
-Skills.jsx:117 Uncaught ReferenceError: AnimatePresence is not defined
-    at Skills (Skills.jsx:117:14)
-vitals.js:6 [Web Vitals] CLS: 0.000015692432729816073
-Skills.jsx:117 Uncaught ReferenceError: AnimatePresence is not defined
-    at Skills (Skills.jsx:117:14)
-vitals.js:6 [Web Vitals] CLS: 0.00006257669231880393
-Skills.jsx:117 Uncaught ReferenceError: AnimatePresence is not defined
-    at Skills (Skills.jsx:117:14)
-vitals.js:6 [Web Vitals] CLS: 0.000036562791060308695
-Skills.jsx:117 Uncaught ReferenceError: AnimatePresence is not defined
-    at Skills (Skills.jsx:117:14)
-vitals.js:6 [Web Vitals] CLS: 0.000022662343571740628
-vitals.js:6 [Web Vitals] CLS: 0.000033219910433796605
-2
-Skills.jsx:117 Uncaught ReferenceError: AnimatePresence is not defined
-    at Skills (Skills.jsx:117:14)
-installHook.js:1 The above error occurred in the <Skills> component:
+GET http://localhost:3000/node_modules/.vite/deps/@lobehub_icons_es_NotebookLM.js?v=aa6ddcb9 net::ERR_ABORTED 504 (Outdated Optimize Dep)
+2chunk-I773Y2XN.js?v=7dabfc35:903 Uncaught TypeError: Failed to fetch dynamically imported module: http://localhost:3000/src/components/sections/Skills.jsx?t=1785742104682
+installHook.js:1 The above error occurred in one of your React components:
 
-    at Skills (http://localhost:3000/src/components/sections/Skills.jsx?t=1785651929741:36:41)
+    at Lazy
     at section
     at StickyCard (http://localhost:3000/src/components/sections/StackScroller.jsx:20:23)
     at section
@@ -43,17 +12,72 @@ installHook.js:1 The above error occurred in the <Skills> component:
     at main
     at div
     at ModelProvider (http://localhost:3000/src/providers/ModelProvider.jsx:21:33)
-    at App (http://localhost:3000/src/App.jsx?t=1785651929741:43:3)
+    at App (http://localhost:3000/src/App.jsx?t=1785742104682:42:3)
 
 Consider adding an error boundary to your tree to customize error handling behavior.
 Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
-chunk-TBL4OAGS.js?v=7dabfc35:19413 Uncaught ReferenceError: AnimatePresence is not defined
-    at Skills (Skills.jsx:117:14)
-vitals.js:6 [Web Vitals] CLS: 0.000005698715711162224
-vitals.js:6 [Web Vitals] INP: 0.2000000011175871
-vitals.js:6 [Web Vitals] INP: 0
-vitals.js:6 [Web Vitals] INP: 0.09999999962747097
-6
-vitals.js:6 [Web Vitals] INP: 0
-﻿
-
+overrideMethod @ installHook.js:1
+console.error @ chunk-ZGCSFGVV.js?v=7dabfc35:17705
+logCapturedError @ chunk-TBL4OAGS.js?v=7dabfc35:14032
+update.callback @ chunk-TBL4OAGS.js?v=7dabfc35:14052
+callCallback @ chunk-TBL4OAGS.js?v=7dabfc35:11248
+commitUpdateQueue @ chunk-TBL4OAGS.js?v=7dabfc35:11265
+commitLayoutEffectOnFiber @ chunk-TBL4OAGS.js?v=7dabfc35:17093
+commitLayoutMountEffects_complete @ chunk-TBL4OAGS.js?v=7dabfc35:17980
+commitLayoutEffects_begin @ chunk-TBL4OAGS.js?v=7dabfc35:17969
+commitLayoutEffects @ chunk-TBL4OAGS.js?v=7dabfc35:17920
+commitRootImpl @ chunk-TBL4OAGS.js?v=7dabfc35:19353
+commitRoot @ chunk-TBL4OAGS.js?v=7dabfc35:19277
+finishConcurrentRender @ chunk-TBL4OAGS.js?v=7dabfc35:18760
+performConcurrentWorkOnRoot @ chunk-TBL4OAGS.js?v=7dabfc35:18718
+workLoop @ chunk-TBL4OAGS.js?v=7dabfc35:197
+flushWork @ chunk-TBL4OAGS.js?v=7dabfc35:176
+performWorkUntilDeadline @ chunk-TBL4OAGS.js?v=7dabfc35:384
+postMessage
+schedulePerformWorkUntilDeadline @ chunk-TBL4OAGS.js?v=7dabfc35:407
+performWorkUntilDeadline @ chunk-TBL4OAGS.js?v=7dabfc35:387
+postMessage
+schedulePerformWorkUntilDeadline @ chunk-TBL4OAGS.js?v=7dabfc35:407
+requestHostCallback @ chunk-TBL4OAGS.js?v=7dabfc35:418
+unstable_scheduleCallback @ chunk-TBL4OAGS.js?v=7dabfc35:330
+scheduleCallback$1 @ chunk-TBL4OAGS.js?v=7dabfc35:19826
+ensureRootIsScheduled @ chunk-TBL4OAGS.js?v=7dabfc35:18652
+retryTimedOutBoundary @ chunk-TBL4OAGS.js?v=7dabfc35:19619
+resolveRetryWakeable @ chunk-TBL4OAGS.js?v=7dabfc35:19650
+Promise.then
+(anonymous) @ chunk-TBL4OAGS.js?v=7dabfc35:17654
+attachSuspenseRetryListeners @ chunk-TBL4OAGS.js?v=7dabfc35:17641
+commitMutationEffectsOnFiber @ chunk-TBL4OAGS.js?v=7dabfc35:17839
+recursivelyTraverseMutationEffects @ chunk-TBL4OAGS.js?v=7dabfc35:17685
+commitMutationEffectsOnFiber @ chunk-TBL4OAGS.js?v=7dabfc35:17737
+recursivelyTraverseMutationEffects @ chunk-TBL4OAGS.js?v=7dabfc35:17685
+commitMutationEffectsOnFiber @ chunk-TBL4OAGS.js?v=7dabfc35:17737
+recursivelyTraverseMutationEffects @ chunk-TBL4OAGS.js?v=7dabfc35:17685
+commitMutationEffectsOnFiber @ chunk-TBL4OAGS.js?v=7dabfc35:17896
+recursivelyTraverseMutationEffects @ chunk-TBL4OAGS.js?v=7dabfc35:17685
+commitMutationEffectsOnFiber @ chunk-TBL4OAGS.js?v=7dabfc35:17699
+recursivelyTraverseMutationEffects @ chunk-TBL4OAGS.js?v=7dabfc35:17685
+commitMutationEffectsOnFiber @ chunk-TBL4OAGS.js?v=7dabfc35:17699
+recursivelyTraverseMutationEffects @ chunk-TBL4OAGS.js?v=7dabfc35:17685
+commitMutationEffectsOnFiber @ chunk-TBL4OAGS.js?v=7dabfc35:17896
+recursivelyTraverseMutationEffects @ chunk-TBL4OAGS.js?v=7dabfc35:17685
+commitMutationEffectsOnFiber @ chunk-TBL4OAGS.js?v=7dabfc35:17794
+commitMutationEffects @ chunk-TBL4OAGS.js?v=7dabfc35:17663
+commitRootImpl @ chunk-TBL4OAGS.js?v=7dabfc35:19347
+commitRoot @ chunk-TBL4OAGS.js?v=7dabfc35:19277
+finishConcurrentRender @ chunk-TBL4OAGS.js?v=7dabfc35:18783
+performConcurrentWorkOnRoot @ chunk-TBL4OAGS.js?v=7dabfc35:18718
+workLoop @ chunk-TBL4OAGS.js?v=7dabfc35:197
+flushWork @ chunk-TBL4OAGS.js?v=7dabfc35:176
+performWorkUntilDeadline @ chunk-TBL4OAGS.js?v=7dabfc35:384
+postMessage
+schedulePerformWorkUntilDeadline @ chunk-TBL4OAGS.js?v=7dabfc35:407
+requestHostCallback @ chunk-TBL4OAGS.js?v=7dabfc35:418
+unstable_scheduleCallback @ chunk-TBL4OAGS.js?v=7dabfc35:330
+scheduleCallback$1 @ chunk-TBL4OAGS.js?v=7dabfc35:19826
+ensureRootIsScheduled @ chunk-TBL4OAGS.js?v=7dabfc35:18652
+scheduleUpdateOnFiber @ chunk-TBL4OAGS.js?v=7dabfc35:18562
+updateContainer @ chunk-TBL4OAGS.js?v=7dabfc35:20776
+ReactDOMHydrationRoot.render.ReactDOMRoot.render @ chunk-TBL4OAGS.js?v=7dabfc35:21116
+(anonymous) @ main.jsx:9
+chunk-TBL4OAGS.js?v=7dabfc35:19413 Uncaught TypeError: Failed to fetch dynamically imported module: http://localhost:3000/src/components/sections/Skills.jsx?t=1785742104682

@@ -4,8 +4,37 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './Skills.module.css';
 import skillsData from '../../data/skills.json';
+import { scrollToSection } from '../../lib/scrollToSection';
 
 gsap.registerPlugin(ScrollTrigger);
+
+// Direct vector adaptation of NotebookLM from @lobehub/icons to eliminate Vite optimizer timeouts (504 Outdated Optimize Dep)
+const NotebookLM = ({ size = 56, style, ...props }) => (
+  <svg
+    fill="currentColor"
+    fillRule="evenodd"
+    height={size}
+    width={size}
+    viewBox="0 0 24 24"
+    style={{ flex: 'none', lineHeight: 1, ...style }}
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <title>NotebookLM</title>
+    <path d="M11.999 3.14C5.372 3.14 0 8.588 0 15.312v5.828h2.212v-.58c0-2.728 2.178-4.938 4.866-4.938 2.688 0 4.866 2.21 4.866 4.937v.581h2.212v-.58c0-3.967-3.17-7.18-7.078-7.18a6.966 6.966 0 00-4.086 1.318C4.2 12.262 6.687 10.59 9.56 10.59c4.057 0 7.347 3.338 7.347 7.453v3.097h2.212v-3.097c0-5.355-4.28-9.698-9.56-9.698a9.438 9.438 0 00-6.217 2.332C4.984 7.528 8.244 5.383 12 5.383c5.406 0 9.788 4.446 9.788 9.93v5.827H24v-5.828C23.999 8.588 18.627 3.14 11.999 3.14z" />
+  </svg>
+);
+
+const SkillIcon = ({ skill, className, size = 56 }) => {
+  if (skill.slug === 'notebooklm' || skill.name === 'NotebookLM') {
+    return (
+      <span className={className} style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+        <NotebookLM size={size} />
+      </span>
+    );
+  }
+  return <img src={skill.logo} alt={skill.name} className={className} loading="eager" decoding="async" />;
+};
 
 // Flatten the skills.json into a single array
 const allSkills = [
@@ -123,7 +152,7 @@ export const Skills = () => {
                 exit={{ opacity: 0, scale: 1.08, rotate: 6, transition: { duration: 0.25, ease: "easeInOut" } }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               >
-                <img src={activeSkill.logo} alt={activeSkill.name} loading="eager" decoding="async" />
+                <SkillIcon skill={activeSkill} size={450} />
               </motion.div>
             </AnimatePresence>
           </div>
@@ -134,7 +163,7 @@ export const Skills = () => {
           <p className={styles.description}>
             I leverage a diverse set of modern tools and technologies to build scalable, high-performance applications. My expertise spans across frontend frameworks, robust backend systems, and cutting-edge AI tools to deliver exceptional digital experiences.
           </p>
-          <a href="#contact" className={styles.contactBtn}>Contact Me</a>
+          <a href="#contact" onClick={(e) => { e.preventDefault(); scrollToSection('contact'); }} className={styles.contactBtn}>Contact Me</a>
         </div>
 
         {/* Right Column: Orbit */}
@@ -158,7 +187,7 @@ export const Skills = () => {
                   title={skill.name}
                 >
                   <div className="iconWrapper" style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <img src={skill.logo} alt={skill.name} className={styles.rotatingIcon} loading="eager" decoding="async" />
+                    <SkillIcon skill={skill} className={styles.rotatingIcon} size={36} />
                   </div>
                 </motion.div>
               ))}
@@ -173,7 +202,7 @@ export const Skills = () => {
               animate={{ x: 0, y: 0, scale: 1 }}
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
             >
-              <img src={activeSkill.logo} alt={activeSkill.name} loading="eager" decoding="async" />
+              <SkillIcon skill={activeSkill} size={84} />
               <div className={styles.activeLabel}>{activeSkill.name}</div>
             </motion.div>
           </div>

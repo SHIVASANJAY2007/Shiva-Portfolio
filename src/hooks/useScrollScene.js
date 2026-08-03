@@ -1,34 +1,33 @@
 import { useEffect } from 'react';
 import { useSceneStore } from '../store/sceneStore';
+import { getActiveSection } from '../lib/scrollToSection';
 
 export default function useScrollScene() {
   const setMode = useSceneStore((state) => state.setMode);
 
   useEffect(() => {
-    const validModes = ['hero', 'about', 'skills', 'projects', 'experience', 'contact'];
-    
-    const observer = new IntersectionObserver(
-      (entries) => {
-        // Find the entry that is most visible if multiple are intersecting
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const id = entry.target.id;
-            if (id && validModes.includes(id)) {
-              setMode(id);
-            }
-          }
-        });
-      },
-      {
-        rootMargin: '-30% 0px -30% 0px', // Trigger when section is prominent in viewport
-        threshold: 0
+    let lastActive = '';
+    const checkScene = () => {
+      const current = getActiveSection();
+      if (current && current !== lastActive) {
+        lastActive = current;
+        setMode(current);
       }
-    );
+    };
 
-    // Observe all sections
-    const sections = document.querySelectorAll('section[id]');
-    sections.forEach((sec) => observer.observe(sec));
+    if (typeof window !== 'undefined') {
+      if (window.lenis) {
+        window.lenis.on('scroll', checkScene);
+      }
+      window.addEventListener('scroll', checkScene, { passive: true });
+      const timer = setInterval(checkScene, 150);
+      checkScene();
 
-    return () => observer.disconnect();
+      return () => {
+        if (window.lenis) window.lenis.off('scroll', checkScene);
+        window.removeEventListener('scroll', checkScene);
+        clearInterval(timer);
+      };
+    }
   }, [setMode]);
 }

@@ -329,6 +329,35 @@
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
 }
 
+/* Active Section Indicator */
+.activeItem {
+  background: rgba(255, 255, 255, 0.12);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.35);
+}
+
+.activeItem .navIndex {
+  color: #000000;
+  font-weight: 900;
+  transform: translate3d(4px, -2px, 0);
+}
+
+.activeItem .navLinkText {
+  color: #000000;
+  transform: translate3d(12px, 0, 0);
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.activeItem .navArrow {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  color: #000000;
+}
+
+.activeItem .navLinkHoverBg {
+  width: 100%;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+}
+
 /* Responsive Rules */
 @media (max-width: 1024px) {
   .menuContent {

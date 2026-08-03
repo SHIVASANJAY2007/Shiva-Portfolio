@@ -5,6 +5,8 @@
  * Japanese aesthetic with minimalist elegance
  */
 
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -20,9 +22,9 @@
   --color-surface: #FFFFFF; /* Pure white for components */
 
   /* Typography */
-  --font-primary: 'Syne', sans-serif;
-  --font-secondary: 'Space Mono', monospace;
-  --font-heading: 'Syne', sans-serif;
+  --font-primary: 'Bricolage Grotesque', 'Inter', sans-serif;
+  --font-secondary: 'Inter', sans-serif;
+  --font-heading: 'Bricolage Grotesque', 'Inter', sans-serif;
 
   /* Typography Scale */
   --text-h1: 64px;

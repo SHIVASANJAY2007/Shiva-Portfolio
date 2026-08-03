@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import styles from "./Nav.module.css";
+import { scrollToSection, getActiveSection } from "../../lib/scrollToSection";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -11,28 +12,15 @@ export const Nav = () => {
   const containerRef = useRef(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeTheme, setActiveTheme] = useState("dark");
+  const [activeSection, setActiveSection] = useState("hero");
 
   // Dedicated Lenis JS Library & GSAP ScrollTrigger Color Changing Engine
   useEffect(() => {
     const checkActiveTheme = () => {
-      let isOverLightSection = false;
-      const sectionIds = ["hero", "about", "skills", "projects", "experience", "contact"];
-      let topmostSectionId = "hero";
+      const currentActive = getActiveSection();
+      setActiveSection(currentActive);
 
-      for (const id of sectionIds) {
-        const el = document.getElementById(id);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= 120 && rect.bottom >= 80) {
-            topmostSectionId = id;
-          }
-        }
-      }
-
-      if (topmostSectionId === "skills" || topmostSectionId === "experience") {
-        isOverLightSection = true;
-      }
-
+      const isOverLightSection = currentActive === "skills" || currentActive === "experience";
       setActiveTheme(isOverLightSection && !isMenuOpen ? "light" : "dark");
     };
 
@@ -109,20 +97,9 @@ export const Nav = () => {
     e.preventDefault();
     closeMenu();
     const targetId = href.slice(1);
-    const element = document.getElementById(targetId);
-    if (element) {
-      setTimeout(() => {
-        if (window.lenis) {
-          window.lenis.scrollTo(element, {
-            offset: 0,
-            duration: 1.4,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-          });
-        } else {
-          element.scrollIntoView({ behavior: "smooth" });
-        }
-      }, 350);
-    }
+    setTimeout(() => {
+      scrollToSection(targetId);
+    }, 220);
   };
 
   const navItems = [
@@ -175,18 +152,22 @@ export const Nav = () => {
 
             <div className={styles.menuContentWrapper}>
               <ul className={styles.menuList}>
-                {navItems.map((item, index) => (
-                  <li key={item.href} className={`${styles.menuListItem} menu-list-item`}>
-                    <a href={item.href} onClick={(e) => handleLinkClick(e, item.href)} className={`${styles.navLink} nav-link`}>
-                      <div className={styles.navLinkLeft}>
-                        <span className={styles.navIndex}>0{index + 1}</span>
-                        <p className={styles.navLinkText}>{item.label}</p>
-                      </div>
-                      <span className={styles.navArrow}>↗</span>
-                      <div className={styles.navLinkHoverBg}></div>
-                    </a>
-                  </li>
-                ))}
+                {navItems.map((item, index) => {
+                  const itemSectionId = item.href.slice(1);
+                  const isCurrent = activeSection === itemSectionId;
+                  return (
+                    <li key={item.href} className={`${styles.menuListItem} ${isCurrent ? styles.activeItem : ""} menu-list-item`}>
+                      <a href={item.href} onClick={(e) => handleLinkClick(e, item.href)} className={`${styles.navLink} nav-link`}>
+                        <div className={styles.navLinkLeft}>
+                          <span className={styles.navIndex}>0{index + 1}</span>
+                          <p className={styles.navLinkText}>{item.label}</p>
+                        </div>
+                        <span className={styles.navArrow}>↗</span>
+                        <div className={styles.navLinkHoverBg}></div>
+                      </a>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           </nav>
