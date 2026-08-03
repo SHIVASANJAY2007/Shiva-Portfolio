@@ -1,83 +1,46 @@
-GET http://localhost:3000/node_modules/.vite/deps/@lobehub_icons_es_NotebookLM.js?v=aa6ddcb9 net::ERR_ABORTED 504 (Outdated Optimize Dep)
-2chunk-I773Y2XN.js?v=7dabfc35:903 Uncaught TypeError: Failed to fetch dynamically imported module: http://localhost:3000/src/components/sections/Skills.jsx?t=1785742104682
-installHook.js:1 The above error occurred in one of your React components:
+Errors in Vercel dashboard of shivasanjay.vercel.app
 
-    at Lazy
-    at section
-    at StickyCard (http://localhost:3000/src/components/sections/StackScroller.jsx:20:23)
-    at section
-    at main
-    at StackScroller (http://localhost:3000/src/components/sections/StackScroller.jsx:76:33)
-    at Suspense
-    at main
-    at div
-    at ModelProvider (http://localhost:3000/src/providers/ModelProvider.jsx:21:33)
-    at App (http://localhost:3000/src/App.jsx?t=1785742104682:42:3)
-
-Consider adding an error boundary to your tree to customize error handling behavior.
-Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
-overrideMethod @ installHook.js:1
-console.error @ chunk-ZGCSFGVV.js?v=7dabfc35:17705
-logCapturedError @ chunk-TBL4OAGS.js?v=7dabfc35:14032
-update.callback @ chunk-TBL4OAGS.js?v=7dabfc35:14052
-callCallback @ chunk-TBL4OAGS.js?v=7dabfc35:11248
-commitUpdateQueue @ chunk-TBL4OAGS.js?v=7dabfc35:11265
-commitLayoutEffectOnFiber @ chunk-TBL4OAGS.js?v=7dabfc35:17093
-commitLayoutMountEffects_complete @ chunk-TBL4OAGS.js?v=7dabfc35:17980
-commitLayoutEffects_begin @ chunk-TBL4OAGS.js?v=7dabfc35:17969
-commitLayoutEffects @ chunk-TBL4OAGS.js?v=7dabfc35:17920
-commitRootImpl @ chunk-TBL4OAGS.js?v=7dabfc35:19353
-commitRoot @ chunk-TBL4OAGS.js?v=7dabfc35:19277
-finishConcurrentRender @ chunk-TBL4OAGS.js?v=7dabfc35:18760
-performConcurrentWorkOnRoot @ chunk-TBL4OAGS.js?v=7dabfc35:18718
-workLoop @ chunk-TBL4OAGS.js?v=7dabfc35:197
-flushWork @ chunk-TBL4OAGS.js?v=7dabfc35:176
-performWorkUntilDeadline @ chunk-TBL4OAGS.js?v=7dabfc35:384
-postMessage
-schedulePerformWorkUntilDeadline @ chunk-TBL4OAGS.js?v=7dabfc35:407
-performWorkUntilDeadline @ chunk-TBL4OAGS.js?v=7dabfc35:387
-postMessage
-schedulePerformWorkUntilDeadline @ chunk-TBL4OAGS.js?v=7dabfc35:407
-requestHostCallback @ chunk-TBL4OAGS.js?v=7dabfc35:418
-unstable_scheduleCallback @ chunk-TBL4OAGS.js?v=7dabfc35:330
-scheduleCallback$1 @ chunk-TBL4OAGS.js?v=7dabfc35:19826
-ensureRootIsScheduled @ chunk-TBL4OAGS.js?v=7dabfc35:18652
-retryTimedOutBoundary @ chunk-TBL4OAGS.js?v=7dabfc35:19619
-resolveRetryWakeable @ chunk-TBL4OAGS.js?v=7dabfc35:19650
-Promise.then
-(anonymous) @ chunk-TBL4OAGS.js?v=7dabfc35:17654
-attachSuspenseRetryListeners @ chunk-TBL4OAGS.js?v=7dabfc35:17641
-commitMutationEffectsOnFiber @ chunk-TBL4OAGS.js?v=7dabfc35:17839
-recursivelyTraverseMutationEffects @ chunk-TBL4OAGS.js?v=7dabfc35:17685
-commitMutationEffectsOnFiber @ chunk-TBL4OAGS.js?v=7dabfc35:17737
-recursivelyTraverseMutationEffects @ chunk-TBL4OAGS.js?v=7dabfc35:17685
-commitMutationEffectsOnFiber @ chunk-TBL4OAGS.js?v=7dabfc35:17737
-recursivelyTraverseMutationEffects @ chunk-TBL4OAGS.js?v=7dabfc35:17685
-commitMutationEffectsOnFiber @ chunk-TBL4OAGS.js?v=7dabfc35:17896
-recursivelyTraverseMutationEffects @ chunk-TBL4OAGS.js?v=7dabfc35:17685
-commitMutationEffectsOnFiber @ chunk-TBL4OAGS.js?v=7dabfc35:17699
-recursivelyTraverseMutationEffects @ chunk-TBL4OAGS.js?v=7dabfc35:17685
-commitMutationEffectsOnFiber @ chunk-TBL4OAGS.js?v=7dabfc35:17699
-recursivelyTraverseMutationEffects @ chunk-TBL4OAGS.js?v=7dabfc35:17685
-commitMutationEffectsOnFiber @ chunk-TBL4OAGS.js?v=7dabfc35:17896
-recursivelyTraverseMutationEffects @ chunk-TBL4OAGS.js?v=7dabfc35:17685
-commitMutationEffectsOnFiber @ chunk-TBL4OAGS.js?v=7dabfc35:17794
-commitMutationEffects @ chunk-TBL4OAGS.js?v=7dabfc35:17663
-commitRootImpl @ chunk-TBL4OAGS.js?v=7dabfc35:19347
-commitRoot @ chunk-TBL4OAGS.js?v=7dabfc35:19277
-finishConcurrentRender @ chunk-TBL4OAGS.js?v=7dabfc35:18783
-performConcurrentWorkOnRoot @ chunk-TBL4OAGS.js?v=7dabfc35:18718
-workLoop @ chunk-TBL4OAGS.js?v=7dabfc35:197
-flushWork @ chunk-TBL4OAGS.js?v=7dabfc35:176
-performWorkUntilDeadline @ chunk-TBL4OAGS.js?v=7dabfc35:384
-postMessage
-schedulePerformWorkUntilDeadline @ chunk-TBL4OAGS.js?v=7dabfc35:407
-requestHostCallback @ chunk-TBL4OAGS.js?v=7dabfc35:418
-unstable_scheduleCallback @ chunk-TBL4OAGS.js?v=7dabfc35:330
-scheduleCallback$1 @ chunk-TBL4OAGS.js?v=7dabfc35:19826
-ensureRootIsScheduled @ chunk-TBL4OAGS.js?v=7dabfc35:18652
-scheduleUpdateOnFiber @ chunk-TBL4OAGS.js?v=7dabfc35:18562
-updateContainer @ chunk-TBL4OAGS.js?v=7dabfc35:20776
-ReactDOMHydrationRoot.render.ReactDOMRoot.render @ chunk-TBL4OAGS.js?v=7dabfc35:21116
-(anonymous) @ main.jsx:9
-chunk-TBL4OAGS.js?v=7dabfc35:19413 Uncaught TypeError: Failed to fetch dynamically imported module: http://localhost:3000/src/components/sections/Skills.jsx?t=1785742104682
+02:11:44.463 Running build in Washington, D.C., USA (East) – iad1
+02:11:44.464 Build machine configuration: 2 cores, 8 GB
+02:11:44.596 Cloning github.com/SHIVASANJAY2007/Shiva-Portfolio (Branch: vercel, Commit: d5d024c)
+02:11:47.753 Cloning completed: 3.157s
+02:11:47.970 Restored build cache from previous deployment (59jKHpMpSyNmj6Kyacoqz3kSuRd8)
+02:11:48.202 Running "vercel build"
+02:11:48.215 Vercel CLI 58.1.0
+02:11:49.048 Installing dependencies...
+02:11:51.160 npm error code ERESOLVE
+02:11:51.161 npm error ERESOLVE could not resolve
+02:11:51.162 npm error
+02:11:51.163 npm error While resolving: @lobehub/icons@5.15.0
+02:11:51.163 npm error Found: react@18.3.1
+02:11:51.163 npm error node_modules/react
+02:11:51.164 npm error   react@"^18.2.0" from the root project
+02:11:51.164 npm error   peer react@">=16.0.0" from @ant-design/cssinjs@2.1.2
+02:11:51.164 npm error   node_modules/@ant-design/cssinjs
+02:11:51.164 npm error     @ant-design/cssinjs@"^2.0.0" from antd-style@4.1.0
+02:11:51.164 npm error     node_modules/antd-style
+02:11:51.164 npm error       antd-style@"^4.1.0" from @lobehub/icons@5.15.0
+02:11:51.164 npm error       node_modules/@lobehub/icons
+02:11:51.165 npm error         @lobehub/icons@"^5.15.0" from the root project
+02:11:51.165 npm error   26 more (@emotion/react, ...)
+02:11:51.165 npm error
+02:11:51.166 npm error Could not resolve dependency:
+02:11:51.166 npm error peer @lobehub/ui@"^5.0.0" from @lobehub/icons@5.15.0
+02:11:51.166 npm error node_modules/@lobehub/icons
+02:11:51.166 npm error   @lobehub/icons@"^5.15.0" from the root project
+02:11:51.166 npm error
+02:11:51.166 npm error Conflicting peer dependency: react@19.2.8
+02:11:51.166 npm error node_modules/react
+02:11:51.166 npm error   peer react@"^19.0.0" from @lobehub/ui@5.27.0
+02:11:51.166 npm error   node_modules/@lobehub/ui
+02:11:51.166 npm error     peer @lobehub/ui@"^5.0.0" from @lobehub/icons@5.15.0
+02:11:51.167 npm error     node_modules/@lobehub/icons
+02:11:51.167 npm error       @lobehub/icons@"^5.15.0" from the root project
+02:11:51.167 npm error
+02:11:51.167 npm error Fix the upstream dependency conflict, or retry this command with --force or --legacy-peer-deps to accept an incorrect (and potentially broken) dependency resolution.
+02:11:51.167 npm error
+02:11:51.167 npm error
+02:11:51.167 npm error For a full report see:
+02:11:51.167 npm error /vercel/.npm/_logs/2026-08-03T20_41_49_429Z-eresolve-report.txt
+02:11:51.167 npm error A complete log of this run can be found in: /vercel/.npm/_logs/2026-08-03T20_41_49_429Z-debug-0.log
+02:11:51.204 Error: Command "npm install" exited with 1
