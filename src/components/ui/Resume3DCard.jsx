@@ -12,6 +12,76 @@ export const Resume3DCard = () => {
   const [glarePos, setGlarePos] = useState({ x: 50, y: 50, opacity: 0 });
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // Resume viewer interactive tool state ('select' | 'hand'), zoom level, and pan drag tracking
+  const [viewMode, setViewMode] = useState('select');
+  const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
+  const [zoomLevel, setZoomLevel] = useState(1);
+  const [isDragging, setIsDragging] = useState(false);
+  const dragStartRef = useRef({ x: 0, y: 0 });
+
+  const handleZoomIn = () => setZoomLevel((z) => Math.min(Number((z + 0.25).toFixed(2)), 3.5));
+  const handleZoomOut = () => setZoomLevel((z) => Math.max(Number((z - 0.25).toFixed(2)), 0.5));
+  const handleResetZoom = () => {
+    setZoomLevel(1);
+    setPanOffset({ x: 0, y: 0 });
+  };
+
+  const handleWheelZoom = (e) => {
+    e.stopPropagation();
+    if (e.deltaY < 0) {
+      setZoomLevel((z) => Math.min(Number((z + 0.15).toFixed(2)), 3.5));
+    } else if (e.deltaY > 0) {
+      setZoomLevel((z) => Math.max(Number((z - 0.15).toFixed(2)), 0.5));
+    }
+  };
+
+
+  // Keyboard zoom controls operable during both Hand and Select tools
+  useEffect(() => {
+    if (!isModalOpen) return;
+    const handleKeyDown = (e) => {
+      if ((e.ctrlKey || e.metaKey) && (e.key === '=' || e.key === '+')) {
+        e.preventDefault();
+        handleZoomIn();
+      } else if ((e.ctrlKey || e.metaKey) && e.key === '-') {
+        e.preventDefault();
+        handleZoomOut();
+      } else if ((e.ctrlKey || e.metaKey) && e.key === '0') {
+        e.preventDefault();
+        handleResetZoom();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isModalOpen]);
+
+  useEffect(() => {
+    const handleWindowMove = (e) => {
+      if (!isDragging) return;
+      setPanOffset({
+        x: e.clientX - dragStartRef.current.x,
+        y: e.clientY - dragStartRef.current.y
+      });
+    };
+    const handleWindowUp = () => {
+      setIsDragging(false);
+    };
+    if (isDragging) {
+      window.addEventListener('mousemove', handleWindowMove);
+      window.addEventListener('mouseup', handleWindowUp);
+    }
+    return () => {
+      window.removeEventListener('mousemove', handleWindowMove);
+      window.removeEventListener('mouseup', handleWindowUp);
+    };
+  }, [isDragging]);
+
+  const handleDragStart = (e) => {
+    if (viewMode !== 'hand') return;
+    setIsDragging(true);
+    dragStartRef.current = { x: e.clientX - panOffset.x, y: e.clientY - panOffset.y };
+  };
+
   // Dynamically load PDF.js to render the resume as a pure HD Canvas image texture,
   // completely bypassing browser iframes, Chromium grey background margins, and border artifacts.
   useEffect(() => {
@@ -142,6 +212,7 @@ export const Resume3DCard = () => {
       <div 
         className={styles.modalContainer} 
         onClick={(e) => e.stopPropagation()}
+        onWheel={handleWheelZoom}
       >
         {/* Top Control Toolbar */}
         <div className={styles.modalToolbar}>
@@ -151,6 +222,72 @@ export const Resume3DCard = () => {
           </div>
           
           <div className={styles.toolbarActions}>
+            {/* Tool Selection Toggle (Hand Pan vs Select Text/Links) */}
+            <div className={styles.toolToggleGroup}>
+              <button
+                type="button"
+                className={`${styles.toolBtn} ${viewMode === 'hand' ? styles.toolBtnActive : ''}`}
+                onClick={() => setViewMode('hand')}
+                title="Hand Tool: Click and drag to reposition and pan resume"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"></path>
+                  <path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"></path>
+                  <path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"></path>
+                  <path d="M18 11a4 4 0 0 1 4 4v2a6 6 0 0 1-6 6h-2.2a6 6 0 0 1-4.2-1.7l-4.2-4.2a1 1 0 0 1 0-1.4l1.3-1.3a1 1 0 0 1 1.4 0L10 15.5V9a2 2 0 0 1 2-2v0a2 2 0 0 1 2 2"></path>
+                </svg>
+                <span>Hand</span>
+              </button>
+              
+              <button
+                type="button"
+                className={`${styles.toolBtn} ${viewMode === 'select' ? styles.toolBtnActive : ''}`}
+                onClick={() => setViewMode('select')}
+                title="Select Tool: Highlight text and click interactive hyperlinks"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"></path>
+                  <path d="M13 13l6 6"></path>
+                </svg>
+                <span>Select</span>
+              </button>
+            </div>
+
+            {/* Zoom Controls usable in BOTH Hand Tool and Select Tool */}
+            <div className={styles.zoomControlsGroup}>
+              <button
+                type="button"
+                className={styles.zoomBtn}
+                onClick={handleZoomOut}
+                disabled={zoomLevel <= 0.5}
+                title="Zoom Out (Ctrl -)"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </button>
+              <button
+                type="button"
+                className={styles.zoomPercentageBtn}
+                onClick={handleResetZoom}
+                title="Reset Zoom and Position (Ctrl 0)"
+              >
+                {Math.round(zoomLevel * 100)}%
+              </button>
+              <button
+                type="button"
+                className={styles.zoomBtn}
+                onClick={handleZoomIn}
+                disabled={zoomLevel >= 3.5}
+                title="Zoom In (Ctrl +)"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </button>
+            </div>
+
             <a 
               href={resumePdf} 
               target="_blank" 
@@ -179,22 +316,38 @@ export const Resume3DCard = () => {
         </div>
 
         {/* High-Resolution Embedded PDF Viewer in Modal */}
-        <div className={styles.iframeContainer}>
-          <iframe
-            src={`${resumePdf}#toolbar=0&navpanes=0&scrollbar=0&view=Fit`}
-            className={styles.iframeViewer}
-            title="Shiva Sanjay Resume Viewer"
-            allow="fullscreen"
-            frameBorder="0"
-            style={{ border: '0px none', outline: '0px none' }}
+        <div className={styles.iframeContainer} onWheel={handleWheelZoom}>
+          {viewMode === 'hand' && (
+            <div 
+              className={`${styles.dragOverlay} ${isDragging ? styles.dragOverlayDragging : ''}`}
+              onMouseDown={handleDragStart}
+              onWheel={handleWheelZoom}
+              title="Hand tool active: click and hold to pan resume"
+            />
+          )}
+          <div 
+            className={styles.iframeTransformWrapper}
+            style={{ 
+              transform: `translate3d(${panOffset.x}px, ${panOffset.y}px, 0) scale(${zoomLevel})`,
+              transformOrigin: 'center center'
+            }}
           >
-            <p style={{ color: '#fff', padding: '2rem', textAlign: 'center' }}>
-              Your browser does not support embedded PDF rendering. 
-              <a href={resumePdf} target="_blank" rel="noopener noreferrer" style={{ color: '#FF2E54', marginLeft: '0.5rem', textDecoration: 'underline' }}>
-                Click here to view or download the PDF directly.
-              </a>
-            </p>
-          </iframe>
+            <iframe
+              src={`${resumePdf}#toolbar=0&navpanes=0&scrollbar=0&view=Fit`}
+              className={styles.iframeViewer}
+              title="Shiva Sanjay Resume Viewer"
+              allow="fullscreen"
+              frameBorder="0"
+              style={{ border: '0px none', outline: '0px none' }}
+            >
+              <p style={{ color: '#fff', padding: '2rem', textAlign: 'center' }}>
+                Your browser does not support embedded PDF rendering. 
+                <a href={resumePdf} target="_blank" rel="noopener noreferrer" style={{ color: '#FF2E54', marginLeft: '0.5rem', textDecoration: 'underline' }}>
+                  Click here to view or download the PDF directly.
+                </a>
+              </p>
+            </iframe>
+          </div>
         </div>
       </div>
     </div>

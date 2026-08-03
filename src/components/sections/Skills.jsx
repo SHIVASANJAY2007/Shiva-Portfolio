@@ -5,6 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './Skills.module.css';
 import skillsData from '../../data/skills.json';
 import { scrollToSection } from '../../lib/scrollToSection';
+import ScrollVelocity from '../ui/ScrollVelocity';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -113,14 +114,13 @@ export const Skills = () => {
       const leftChildren = sectionRef.current.querySelectorAll(`.${styles.sectionTitle}, .${styles.description}, .${styles.contactBtn}`);
       if (leftChildren.length > 0) {
         gsap.fromTo(leftChildren,
-          { x: -55, opacity: 0 },
+          { x: -35 },
           {
-            x: 0, opacity: 1,
-            stagger: 0.18, duration: 1.1, ease: 'power4.out',
+            x: 0,
+            stagger: 0.15, duration: 1.0, ease: 'power3.out',
             scrollTrigger: {
               trigger: sectionRef.current,
-              start: 'top 75%',
-              toggleActions: 'play none none reverse'
+              start: 'top 85%',
             }
           }
         );
@@ -138,6 +138,15 @@ export const Skills = () => {
           background: `radial-gradient(circle at 75% 50%, rgba(255, 46, 84, 0.05) 0%, rgba(255,255,255,0) 65%), radial-gradient(circle at 25% 50%, rgba(255, 46, 84, 0.035) 0%, rgba(255,255,255,0) 65%)`
         }}
       />
+
+      {/* Infinite running kinetic typography background for the active skill, smoothly fading out as it reaches the left big logo */}
+      <div className={styles.velocityBackground}>
+        <ScrollVelocity 
+          texts={Array(7).fill(activeSkill.name)} 
+          velocity={60} 
+          numCopies={20} 
+        />
+      </div>
 
       <div className={styles.container}>
         {/* Left Column: Text & Info */}
@@ -167,7 +176,7 @@ export const Skills = () => {
           <a href="#contact" onClick={(e) => { e.preventDefault(); scrollToSection('contact'); }} className={styles.contactBtn}>Contact Me</a>
         </div>
 
-        {/* Right Column: Orbit */}
+        {/* Right Column: Orbit System */}
         <div className={styles.rightColumn}>
           <div className={styles.orbitContainer}>
             {/* The Orbit Ring and Items inside the rotating wrapper */}

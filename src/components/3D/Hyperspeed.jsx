@@ -358,7 +358,10 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
 
         this.renderer = new THREE.WebGLRenderer({
           antialias: false,
-          alpha: true
+          alpha: true,
+          powerPreference: 'high-performance',
+          stencil: false,
+          depth: false
         });
         this.renderer.setSize(initW, initH, false);
         this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
@@ -447,7 +450,7 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
           new BloomEffect({
             luminanceThreshold: 0.2,
             luminanceSmoothing: 0,
-            resolutionScale: 1
+            resolutionScale: 0.5
           })
         );
 
@@ -589,6 +592,7 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
 
       dispose() {
         this.disposed = true;
+        if (this.rafId) cancelAnimationFrame(this.rafId);
 
         if (this.scene) {
           this.scene.traverse(object => {
@@ -642,6 +646,12 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
       tick() {
         if (this.disposed || !this.container) return;
 
+        // Pause WebGL rendering loop when the Hero section is out of view to preserve GPU performance
+        if (window.scrollY > window.innerHeight * 1.3) {
+          this.rafId = requestAnimationFrame(this.tick);
+          return;
+        }
+
         if (!this.hasValidSize) {
           const w = this.container.offsetWidth;
           const h = this.container.offsetHeight;
@@ -652,7 +662,7 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
             this.composer.setSize(w, h);
             this.hasValidSize = true;
           } else {
-            requestAnimationFrame(this.tick);
+            this.rafId = requestAnimationFrame(this.tick);
             return;
           }
         }
@@ -671,7 +681,7 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
           this.update(delta);
         }
 
-        requestAnimationFrame(this.tick);
+        this.rafId = requestAnimationFrame(this.tick);
       }
     }
 

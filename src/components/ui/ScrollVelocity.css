@@ -1,0 +1,32 @@
+.parallax {
+  position: relative;
+  overflow: hidden;
+  margin: 0.2rem 0;
+}
+
+.scroller {
+  display: flex;
+  white-space: nowrap;
+  text-align: center;
+  font-family: var(--font-primary, system-ui, -apple-system, sans-serif);
+  font-size: 2.8rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  color: #000000;
+  opacity: 0.13; /* Elegant black watermark aesthetic */
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.scroller span {
+  flex-shrink: 0;
+  display: inline-block;
+  margin-right: 3rem;
+}
+
+@media (min-width: 768px) {
+  .scroller {
+    font-size: 5.8rem;
+    line-height: 1.05;
+  }
+}

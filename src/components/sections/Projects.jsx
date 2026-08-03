@@ -88,17 +88,15 @@ export const Projects = () => {
       if (headingEl) {
         gsap.fromTo(
           headingEl,
-          { scale: 0.85, opacity: 0, y: 40 },
+          { scale: 0.95, y: 20 },
           {
             scale: 1,
-            opacity: 1,
             y: 0,
-            duration: 1.1,
+            duration: 1.0,
             ease: 'power3.out',
             scrollTrigger: {
               trigger: sectionRef.current,
-              start: 'top 80%',
-              toggleActions: 'play none none reverse',
+              start: 'top 90%',
             },
           }
         );
@@ -134,8 +132,8 @@ export const Projects = () => {
                   initial={false}
                   animate={{
                     x: '-50%',
-                    y: offset === 0 ? 0 : -offset * 36,
-                    width: offset === 0 ? '100%' : `calc(100% - ${offset * 26}px)`,
+                    y: offset === 0 ? 0 : -offset * 56,
+                    width: offset === 0 ? '100%' : `calc(100% - ${offset * 20}px)`,
                   }}
                   transition={{
                     type: 'spring',

@@ -17,7 +17,7 @@ export const resumeData = {
     github: 'https://github.com/SHIVASANJAY2007/',
     linkedin: 'https://www.linkedin.com/in/shiva-sanjay-610512320/',
     portfolio: 'https://shivasanjay.vercel.app/',
-    instagram: 'https://www.instagram.com/',
+    instagram: 'https://www.instagram.com/_.kho_kho._.shivuuu._?utm_source=qr&igsh=MXF4amFzYXUycDBrbg%3D%3D',
   },
   education: [
     {

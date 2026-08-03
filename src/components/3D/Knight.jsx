@@ -13,6 +13,7 @@ function KnightModel({ scene, invalidate }) {
   const initialHeadRotation = useRef(new THREE.Euler());
   const isPointerActive = useRef(false);
   const globalMouse = useRef({ x: 0, y: 0 });
+  const smoothedMouse = useRef({ x: 0, y: 0 });
 
   // ── Step 2: Traverse to find head bone & apply shadows ─────────────────────
   useEffect(() => {
@@ -25,12 +26,17 @@ function KnightModel({ scene, invalidate }) {
         child.receiveShadow = true;
       }
 
-      // 2. Find the head/neck bone
+      // 2. Find strictly the primary head bone to prevent distorting lower neck/shoulder armor rigging
       if (!foundHead && child.isBone) {
         const name = child.name.toLowerCase();
-        if (name.includes('head') || name.includes('neck')) {
+        if (name.includes('head') || name === 'head') {
           headBoneRef.current = child;
-          initialHeadRotation.current.copy(child.rotation);
+          // Prevent cumulative rotation drift across unmount/remount transitions by caching original rest angle in userData
+          if (!child.userData.initialRotation) {
+            child.userData.initialRotation = child.rotation.clone();
+          }
+          initialHeadRotation.current.copy(child.userData.initialRotation);
+          child.rotation.copy(child.userData.initialRotation);
           foundHead = true;
         }
       }
@@ -42,16 +48,16 @@ function KnightModel({ scene, invalidate }) {
     const onMouseMove = (e) => {
       if (window.scrollY > window.innerHeight) return;
       isPointerActive.current = true;
-      globalMouse.current.x = (e.clientX / window.innerWidth) * 2 - 1;
-      globalMouse.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
+      globalMouse.current.x = Math.max(-1, Math.min(1, (e.clientX / window.innerWidth) * 2 - 1));
+      globalMouse.current.y = Math.max(-1, Math.min(1, -(e.clientY / window.innerHeight) * 2 + 1));
       invalidate();
     };
     const onMouseLeave = () => {
       isPointerActive.current = false;
       invalidate();
     };
-    window.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseleave', onMouseLeave);
+    window.addEventListener('mousemove', onMouseMove, { passive: true });
+    document.addEventListener('mouseleave', onMouseLeave, { passive: true });
 
     if (navigator.maxTouchPoints === 0) isPointerActive.current = true;
     return () => {
@@ -77,12 +83,17 @@ function KnightModel({ scene, invalidate }) {
   useFrame((state) => {
     if (!headBoneRef.current) return;
 
+    // Two-stage damped smooth tracking to eliminate DOM mouse jitter while retaining snappy responsiveness
+    smoothedMouse.current.x = THREE.MathUtils.lerp(smoothedMouse.current.x, globalMouse.current.x, 0.35);
+    smoothedMouse.current.y = THREE.MathUtils.lerp(smoothedMouse.current.y, globalMouse.current.y, 0.35);
+
     let targetYaw = 0;
     let targetPitch = 0;
 
     if (isPointerActive.current) {
-      targetYaw = globalMouse.current.x * (45 * Math.PI / 180);
-      targetPitch = -globalMouse.current.y * (20 * Math.PI / 180);
+      // Strictly restricted to a refined 10° horizontal and 5° vertical tilt, preventing unnatural twisting or rigging deformation
+      targetYaw = smoothedMouse.current.x * (10 * Math.PI / 180);
+      targetPitch = -smoothedMouse.current.y * (5 * Math.PI / 180);
     }
 
     const head = headBoneRef.current;
@@ -90,19 +101,21 @@ function KnightModel({ scene, invalidate }) {
     const finalYaw = init.y + targetYaw;
     const finalPitch = init.x + targetPitch;
 
-    head.rotation.y = THREE.MathUtils.lerp(head.rotation.y, finalYaw, 0.15);
-    head.rotation.x = THREE.MathUtils.lerp(head.rotation.x, finalPitch, 0.15);
+    head.rotation.y = THREE.MathUtils.lerp(head.rotation.y, finalYaw, 0.25);
+    head.rotation.x = THREE.MathUtils.lerp(head.rotation.x, finalPitch, 0.25);
 
     if (
-      Math.abs(head.rotation.y - finalYaw) > 0.001 ||
-      Math.abs(head.rotation.x - finalPitch) > 0.001
+      Math.abs(head.rotation.y - finalYaw) > 0.0001 ||
+      Math.abs(head.rotation.x - finalPitch) > 0.0001 ||
+      Math.abs(smoothedMouse.current.x - globalMouse.current.x) > 0.0001 ||
+      Math.abs(smoothedMouse.current.y - globalMouse.current.y) > 0.0001
     ) {
       invalidate();
     }
   });
 
   return (
-    <group ref={meshRef} position={[0, -1.76, 0]} scale={1.72} dispose={null}>
+    <group ref={meshRef} position={[0, -1.56, 0]} scale={1.6} dispose={null}>
       <primitive object={scene} />
     </group>
   );

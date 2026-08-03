@@ -18,13 +18,15 @@ export default defineConfig({
     outDir: 'dist',
     sourcemap: false,
     minify: 'esbuild',
-    chunkSizeWarningLimit: 1500,
+    target: 'esnext',
+    cssCodeSplit: true,
+    chunkSizeWarningLimit: 1200,
     rollupOptions: {
       output: {
         manualChunks: {
           reactVendor: ['react', 'react-dom'],
           three: ['three', '@react-three/fiber', '@react-three/drei'],
-          vendor: ['framer-motion', 'gsap'],
+          animationVendor: ['framer-motion', 'gsap', 'lenis'],
         },
       },
     },

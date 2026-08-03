@@ -14,14 +14,15 @@ const ClickSpark = ({
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    // Request hardware-desynchronized low-latency 2D rendering context
+    const ctx = canvas.getContext('2d', { alpha: true, desynchronized: true });
 
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     };
     
-    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener('resize', resizeCanvas, { passive: true });
     resizeCanvas();
 
     let sparks = [];
@@ -88,7 +89,7 @@ const ClickSpark = ({
       }
     };
 
-    window.addEventListener('click', handleClick);
+    window.addEventListener('click', handleClick, { passive: true });
 
     return () => {
       window.removeEventListener('resize', resizeCanvas);
@@ -112,4 +113,4 @@ const ClickSpark = ({
   );
 };
 
-export default ClickSpark;
+export default React.memo(ClickSpark);

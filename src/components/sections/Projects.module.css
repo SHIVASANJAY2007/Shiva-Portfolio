@@ -2,7 +2,8 @@
   position: relative;
   min-height: auto;
   width: 100%;
-  padding: 4vh 5vw 7vh;
+  padding: 6.5vh 5vw 7.5vh;
+  /* Balanced, moderate separation from next page module */
   background-color: #000000;
   display: flex;
   flex-direction: column;
@@ -26,7 +27,10 @@
   font-weight: 800;
   text-transform: uppercase;
   color: #FFFFFF;
-  margin-bottom: 2.8rem; /* Clear padding breathing space between title and content cards */
+  margin-top: 0.5rem;
+  /* Aligned slightly up as requested */
+  margin-bottom: 0.5rem;
+  /* Compact margin so cards stack upward neatly underneath */
   letter-spacing: -0.02em;
   text-align: center;
   position: relative;
@@ -44,60 +48,62 @@
 
 .stackContainer {
   width: 100%;
-  max-width: 1060px; /* Increased slightly for a more prominent presentation */
+  max-width: 1060px;
+  /* Increased slightly for a more prominent presentation */
   margin: 0 auto;
   position: relative;
-  padding-top: 240px; /* Ample separation between title above and stacked cards below */
-  padding-bottom: 2rem;
+  padding-top: 350px;
+  /* Perfectly calibrated for 6 stacked tabs spaced at 56px intervals */
+  padding-bottom: 2.8rem;
+  /* Balanced golden ratio separation beneath the active card */
   perspective: 1500px;
 }
 
 .stackDeck {
   position: relative;
   width: 100%;
-  min-height: 460px; /* Proportionally expanded height */
+  min-height: 510px;
+  /* Perfectly calibrated buffer below active card */
 }
 
 .projectCard {
   position: absolute;
   top: 0;
   left: 50%;
-  background: rgba(13, 13, 20, 0.95);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: #FFFFFF;
   border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.12);
   overflow: hidden;
-  box-shadow: 0 -12px 35px rgba(0, 0, 0, 0.6), 0 0 25px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.06), 0 4px 25px rgba(0, 0, 0, 0.05);
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .projectCard[data-stacked="true"]:hover {
-  border-color: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 -12px 40px rgba(255, 46, 84, 0.2), 0 0 30px rgba(255, 46, 84, 0.1);
-  background: rgba(22, 22, 35, 0.96);
+  border-color: rgba(255, 46, 84, 0.4);
+  box-shadow: 0 -10px 35px rgba(0, 0, 0, 0.1), 0 0 20px rgba(0, 0, 0, 0.04);
+  background: #FAFAFC;
 }
 
 .activeCard {
-  border-color: rgba(255, 46, 84, 0.55);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85), 0 0 45px rgba(255, 46, 84, 0.22);
-  background: radial-gradient(circle at 80% 20%, rgba(255, 46, 84, 0.08), rgba(13, 13, 20, 0.96));
+  border-color: #FF2E54;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12), 0 4px 20px rgba(0, 0, 0, 0.06);
+  background: #FFFFFF;
 }
 
 .cardHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 15px 26px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 13px 28px;
+  background: #F8F9FB;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   cursor: pointer;
   user-select: none;
   transition: background 0.3s ease, padding 0.3s ease;
 }
 
 .cardHeader:hover {
-  background: linear-gradient(135deg, rgba(255, 46, 84, 0.1), rgba(255, 255, 255, 0.02));
+  background: #FFF5F7;
 }
 
 .headerLeft {
@@ -110,24 +116,25 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   border-radius: 9px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  font-size: 1.05rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  font-size: 1.1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
 }
 
 .cardHeader:hover .iconBadge {
-  transform: scale(1.1) rotate(-4deg);
+  transform: scale(1.08) rotate(-3deg);
 }
 
 .headerTitle {
   font-family: 'Bricolage Grotesque', 'Inter', sans-serif;
-  font-size: 1.22rem;
-  font-weight: 700;
-  color: #FFFFFF;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #000000;
   letter-spacing: -0.01em;
   margin: 0;
   transition: color 0.3s ease;
@@ -138,35 +145,38 @@
 }
 
 .activeCard .headerTitle {
-  color: #FFFFFF;
+  color: #FF2E54;
+  font-weight: 900;
 }
 
 .headerYear {
-  font-size: 0.78rem;
-  font-weight: 700;
-  padding: 4px 14px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #B0B0C0;
-  letter-spacing: 0.06em;
+  font-size: 0.82rem;
+  font-weight: 800;
+  padding: 5px 16px;
+  border-radius: 6px;
+  background: rgba(255, 46, 84, 0.08);
+  border: 1px solid rgba(255, 46, 84, 0.22);
+  color: #FF2E54;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
+  box-shadow: none;
 }
 
 .activeCard .headerYear {
-  background: rgba(255, 46, 84, 0.15);
-  border-color: rgba(255, 46, 84, 0.4);
-  color: #FF2E54;
-  box-shadow: 0 0 15px rgba(255, 46, 84, 0.2);
+  background: #FF2E54;
+  border-color: #FF2E54;
+  color: #FFFFFF;
+  box-shadow: none;
 }
 
 .cardBody {
-  padding: 34px 38px;
+  padding: 38px 42px;
   display: grid;
   grid-template-columns: 1.15fr 1fr;
   gap: 42px;
   align-items: center;
   min-height: 380px;
+  background: #FFFFFF;
 }
 
 .infoColumn {
@@ -178,48 +188,49 @@
 
 .projectTitleDisplay {
   font-family: 'Bricolage Grotesque', 'Inter', sans-serif;
-  font-size: 2rem;
-  font-weight: 800;
-  color: #FFFFFF;
-  margin-bottom: 14px;
+  font-size: 2.3rem;
+  font-weight: 900;
+  color: #000000;
+  margin-bottom: 16px;
   line-height: 1.15;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
 }
 
 .projectDescription {
-  font-size: 1.02rem;
-  line-height: 1.65;
-  color: #B2B2BE;
-  margin-bottom: 24px;
-  font-weight: 400;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #222222;
+  margin-bottom: 26px;
+  font-weight: 500;
 }
 
 .highlightsWrapper {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 32px;
 }
 
 .highlightPill {
   padding: 6px 14px;
-  background: rgba(255, 46, 84, 0.08);
-  border: 1px solid rgba(255, 46, 84, 0.3);
-  border-radius: 30px;
+  background: rgba(255, 46, 84, 0.06);
+  border: 1px solid rgba(255, 46, 84, 0.28);
+  border-radius: 6px;
   font-size: 0.8rem;
-  font-weight: 600;
-  color: #FF4A6B;
+  font-weight: 700;
+  color: #FF2E54;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  box-shadow: 0 0 15px rgba(255, 46, 84, 0.12);
-  transition: all 0.3s ease;
+  box-shadow: none;
+  transition: all 0.25s ease;
 }
 
 .highlightPill:hover {
-  background: rgba(255, 46, 84, 0.18);
-  border-color: rgba(255, 46, 84, 0.6);
+  background: #FF2E54;
+  color: #FFFFFF;
   transform: translateY(-2px);
-  box-shadow: 0 5px 18px rgba(255, 46, 84, 0.25);
+  box-shadow: 0 4px 14px rgba(255, 46, 84, 0.25);
 }
 
 .actionRow {
@@ -232,25 +243,26 @@
   display: inline-flex;
   align-items: center;
   gap: 11px;
-  padding: 13px 30px;
-  background: linear-gradient(135deg, #FF2E54, #D11D40);
+  padding: 14px 32px;
+  background: #000000;
   color: #FFFFFF;
-  font-weight: 700;
+  font-weight: 800;
   font-size: 0.92rem;
-  border-radius: 11px;
+  border-radius: 8px;
   text-decoration: none;
   border: none;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 8px 26px rgba(255, 46, 84, 0.4);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
 }
 
 .viewButton:hover {
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 12px 36px rgba(255, 46, 84, 0.6);
-  background: linear-gradient(135deg, #FF4568, #E22047);
+  box-shadow: 0 8px 25px rgba(255, 46, 84, 0.35);
+  background: #FF2E54;
+  color: #FFFFFF;
 }
 
 .previewColumn {
@@ -267,49 +279,52 @@
   width: 100%;
   max-width: 480px;
   height: 280px;
-  border-radius: 15px;
+  border-radius: 14px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.7);
-  background: #12121B;
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  background: #F2F2F5;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .imageFrame:hover {
-  border-color: rgba(255, 46, 84, 0.6);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 32px rgba(255, 46, 84, 0.25);
-  transform: scale(1.02) rotate(0.5deg);
+  border-color: #FF2E54;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+  transform: scale(1.02);
 }
 
 .previewImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-  filter: contrast(1.05) brightness(0.95);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .imageFrame:hover .previewImage {
-  transform: scale(1.08);
-  filter: contrast(1.1) brightness(1.05);
+  transform: scale(1.06);
 }
 
 @media (max-width: 960px) {
   .stackContainer {
-    padding-top: 230px;
+    padding-top: 350px;
+    padding-bottom: 2.8rem;
     max-width: 680px;
   }
+
   .stackDeck {
-    min-height: 600px;
+    min-height: 610px;
   }
+
   .cardBody {
     grid-template-columns: 1fr;
     gap: 26px;
     padding: 26px 24px;
   }
+
   .projectTitleDisplay {
     font-size: 1.6rem;
   }
+
   .imageFrame {
     height: 240px;
   }
@@ -318,32 +333,41 @@
 @media (max-width: 600px) {
   .sectionTitle {
     font-size: 2.1rem;
-    margin-bottom: 2rem;
+    margin-bottom: 0.5rem;
   }
+
   .stackContainer {
-    padding-top: 210px;
+    padding-top: 340px;
+    padding-bottom: 2.3rem;
   }
+
   .stackDeck {
-    min-height: 640px;
+    min-height: 650px;
   }
+
   .cardHeader {
     padding: 12px 18px;
   }
+
   .headerTitle {
     font-size: 1.05rem;
   }
+
   .headerYear {
     font-size: 0.72rem;
     padding: 4px 11px;
   }
+
   .iconBadge {
     width: 28px;
     height: 28px;
     font-size: 0.95rem;
   }
+
   .cardBody {
     padding: 22px 20px;
   }
+
   .viewButton {
     padding: 12px 24px;
     font-size: 0.88rem;

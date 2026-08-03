@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './StackScroller.css';
 
-const StickyCard = ({ child }) => {
+const StickyCard = React.memo(({ child }) => {
   const ref = useRef(null);
   const [top, setTop] = useState(0);
 
@@ -21,7 +21,7 @@ const StickyCard = ({ child }) => {
       observer.observe(ref.current);
     }
 
-    window.addEventListener('resize', updateTop);
+    window.addEventListener('resize', updateTop, { passive: true });
 
     return () => {
       observer.disconnect();
@@ -38,9 +38,9 @@ const StickyCard = ({ child }) => {
       {child}
     </section>
   );
-};
+});
 
-export const StackScroller = ({ children }) => {
+export const StackScroller = React.memo(({ children }) => {
   const containerRef = useRef(null);
 
   useEffect(() => {
@@ -76,6 +76,6 @@ export const StackScroller = ({ children }) => {
       </section>
     </main>
   );
-};
+});
 
 export default StackScroller;

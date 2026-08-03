@@ -10,6 +10,43 @@ import { scrollToSection } from '../../lib/scrollToSection';
 import { resumeData } from '../../data/resume';
 import Hyperspeed from '../3D/Hyperspeed';
 
+// Optimized static configuration to prevent unnecessary re-renders and WebGL scene recreations as specified in implementation.md
+const HYPERSPEED_PRESET_OPTIONS = {
+  distortion: 'turbulentDistortion',
+  length: 400,
+  roadWidth: 10,
+  islandWidth: 2,
+  lanesPerRoad: 3,
+  fov: 90,
+  fovSpeedUp: 150,
+  speedUp: 2,
+  carLightsFade: 0.4,
+  totalSideLightSticks: 20,
+  lightPairsPerRoadWay: 30,
+  shoulderLinesWidthPercentage: 0.05,
+  brokenLinesWidthPercentage: 0.1,
+  brokenLinesLengthPercentage: 0.5,
+  lightStickWidth: [0.12, 0.5],
+  lightStickHeight: [1.3, 1.7],
+  movingAwaySpeed: [60, 80],
+  movingCloserSpeed: [-120, -160],
+  carLightsLength: [12, 80],
+  carLightsRadius: [0.05, 0.14],
+  carWidthPercentage: [0.3, 0.5],
+  carShiftX: [-0.8, 0.8],
+  carFloorSeparation: [0, 5],
+  colors: {
+    roadColor: 0x080808,
+    islandColor: 0x0a0a0a,
+    background: 0x000000,
+    shoulderLines: 0xffffff,
+    brokenLines: 0xffffff,
+    leftCars: [0xff2e54, 0xa855f7, 0xec4899], // Custom portfolio palette: Crimson Red, Purple, Neon Pink
+    rightCars: [0x00f5d4, 0x3b82f6, 0x10b981], // Custom portfolio palette: Electric Cyan, Blue, Emerald
+    sticks: 0xff2e54
+  }
+};
+
 const Knight = React.lazy(() => import('../3D/Knight').then(module => ({ default: module.Knight })));
 
 // Preserved CameraRig for 3D Model
@@ -59,7 +96,6 @@ export const Hero = () => {
   const containerRef = useRef(null);
   const titleRef = useRef(null);
   const bioRef = useRef(null);
-  const stripRef = useRef(null);
   const roleRef = useRef(null);
   const overlayTitleRef = useRef(null);
   const overlayRoleRef = useRef(null);
@@ -79,14 +115,6 @@ export const Hero = () => {
     { left: "UI/UX & REACT", right: "DESIGNER" },
     { left: "ENTERPRISE CRM", right: "INTEGRATOR" },
     { left: "PYTHON & AI", right: "SOLUTIONS" }
-  ];
-
-  const specializations = [
-    { role: "Web Development", icon: "💻", target: "skills" },
-    { role: "AI Automation (n8n)", icon: "🤖", target: "skills" },
-    { role: "Odoo & Salesforce CRM", icon: "⚡", target: "skills" },
-    { role: "Trainer & Mentor", icon: "🎯", target: "about" },
-    { role: "Sportsman & Leader", icon: "🏆", target: "about" }
   ];
 
   // High-performance Dynamic Role Rotator Interval & Animation
@@ -127,7 +155,6 @@ export const Hero = () => {
       const overlayLeft = overlayTitleRef.current?.querySelector(`.${styles.titleLeft}`) || null;
       const overlayRight = overlayTitleRef.current?.querySelector(`.${styles.titleRight}`) || null;
       const bioChildren = bioRef.current?.children || [];
-      const stripItems = stripRef.current?.querySelectorAll(`.${styles.stripItem}`) || [];
 
       const tl = gsap.timeline({
         defaults: { ease: 'power3.out' },
@@ -161,13 +188,6 @@ export const Hero = () => {
         stagger: 0.12,
         duration: 0.85
       }, 0.4);
-
-      tl.from(stripItems, {
-        y: 20,
-        opacity: 0,
-        stagger: 0.06,
-        duration: 0.7
-      }, 0.65);
 
     }, containerRef);
 
@@ -245,7 +265,7 @@ export const Hero = () => {
       <div className={`${styles.bgContainer} ${showBackground ? styles.bgContainerActive : ''}`}>
         {showBackground && (
           <WebGLErrorBoundary key="hyperspeed-view">
-            <Hyperspeed />
+            <Hyperspeed effectOptions={HYPERSPEED_PRESET_OPTIONS} />
           </WebGLErrorBoundary>
         )}
       </div>
@@ -361,17 +381,6 @@ export const Hero = () => {
         
       </div>
 
-      {/* Bottom Horizontal Specializations Ticker Strip */}
-      <div className={styles.bottomStrip} ref={stripRef}>
-        <div className={styles.tickerWrap}>
-          {specializations.map((item) => (
-            <div key={item.role} className={styles.stripItem} onClick={(e) => handleCardClick(e, item.target)}>
-              <span className={styles.stripIcon}>{item.icon}</span>
-              <span className={styles.stripRole}>{item.role}</span>
-            </div>
-          ))}
-        </div>
-      </div>
     </section>
   );
 };

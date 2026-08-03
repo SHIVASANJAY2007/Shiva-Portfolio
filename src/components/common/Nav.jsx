@@ -243,7 +243,7 @@ export const Nav = () => {
                   <LinkedInIcon />
                 </a>
                 <a
-                  href={resumeData.profiles?.instagram || "https://www.instagram.com/"}
+                  href={resumeData.profiles?.instagram || "https://www.instagram.com/_.kho_kho._.shivuuu._?utm_source=qr&igsh=MXF4amFzYXUycDBrbg%3D%3D"}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`${styles.menuSocialBtn} menu-social-btn`}
