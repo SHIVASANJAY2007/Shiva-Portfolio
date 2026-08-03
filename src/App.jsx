@@ -24,10 +24,10 @@ export default function App() {
   useEffect(() => {
     // Ultra-smooth, luxury gliding scroll configuration
     const lenis = new Lenis({
-      duration: 2.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -12 * t)), 
+      duration: 1.1,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      wheelMultiplier: 1.05,
+      wheelMultiplier: 1.1,
       touchMultiplier: 2.0,
     });
 

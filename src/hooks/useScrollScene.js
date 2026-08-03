@@ -16,17 +16,13 @@ export default function useScrollScene() {
     };
 
     if (typeof window !== 'undefined') {
-      if (window.lenis) {
-        window.lenis.on('scroll', checkScene);
-      }
+      window.lenis?.on('scroll', checkScene);
       window.addEventListener('scroll', checkScene, { passive: true });
-      const timer = setInterval(checkScene, 150);
       checkScene();
 
       return () => {
-        if (window.lenis) window.lenis.off('scroll', checkScene);
+        window.lenis?.off('scroll', checkScene);
         window.removeEventListener('scroll', checkScene);
-        clearInterval(timer);
       };
     }
   }, [setMode]);

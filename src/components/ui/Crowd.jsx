@@ -159,10 +159,25 @@ export const Crowd = () => {
       }
     };
 
+    let isIntersecting = false;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        isIntersecting = entry.isIntersecting;
+        if (isIntersecting) {
+          gsap.ticker.add(render);
+        } else {
+          gsap.ticker.remove(render);
+        }
+      });
+    }, { threshold: 0.05 });
+    observer.observe(canvas);
+
     const init = () => {
       createPeeps();
       resize();
-      gsap.ticker.add(render);
+      if (isIntersecting) {
+        gsap.ticker.add(render);
+      }
       window.addEventListener('resize', resize);
     };
 
@@ -170,6 +185,7 @@ export const Crowd = () => {
     img.src = config.src;
 
     return () => {
+      observer.disconnect();
       window.removeEventListener('resize', resize);
       gsap.ticker.remove(render);
       crowd.forEach((peep) => {

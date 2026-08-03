@@ -46,18 +46,118 @@
 }
 
 /* ─── Layer 2: Separated Background Typography (Behind 3D Model) ─── */
+.bgContainer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: scale(1.05);
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 1.2s ease;
+}
+
+.bgContainerActive {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: scale(1);
+}
+
+.modelContainer {
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 1;
+  transform: scale(1);
+  z-index: 5 !important; /* Strictly above/in front of title and roles at z-index 2 */
+  mix-blend-mode: normal !important; /* Preserve 100% original natural metallic colors without ugly blending */
+}
+
+.modelHidden {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  z-index: -50 !important;
+  transform: scale(0.95);
+  mix-blend-mode: normal !important;
+}
+
 .bgTypography {
   position: absolute;
   top: 11vh;
   width: 100%;
-  z-index: 5;
+  z-index: 2; /* Directly behind/under the 3D model at z-index 5 */
   display: flex;
   flex-direction: column;
   align-items: center;
   pointer-events: none;
   user-select: none;
   padding: 0 2vw;
-  mix-blend-mode: difference;
+  mix-blend-mode: normal;
+}
+
+/* ─── 3D Model Section: Pure White Typography behind 3D Model ─── */
+.bgTypography3D {
+  z-index: 2 !important; /* Strictly under the 3D Model at z-index 5 */
+  mix-blend-mode: normal !important;
+  will-change: transform, opacity;
+}
+
+/* Pure White Text with NO Neon Effects */
+.bgTypography3D .titleLeft,
+.bgTypography3D .titleRight,
+.bgTypography3D .subLeft,
+.bgTypography3D .subRight {
+  color: #FFFFFF !important;
+  text-shadow: none !important;
+  transition: opacity 0.4s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ─── Layer 3.5: X-Ray Overlay (Makes text visible over 3D model while keeping model colors 100% original) ─── */
+.xrayOverlay {
+  position: absolute;
+  top: 11vh;
+  width: 100%;
+  z-index: 6 !important; /* Strictly above the 3D model at z-index: 5 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+  user-select: none;
+  padding: 0 2vw;
+  mix-blend-mode: normal !important;
+  will-change: transform, opacity;
+}
+
+.xrayOverlay .titleLeft,
+.xrayOverlay .titleRight {
+  color: rgba(255, 255, 255, 0.25) !important; /* Translucent white ghost layer */
+  -webkit-text-stroke: 1.2px rgba(255, 255, 255, 0.75) !important; /* Crisp structural wireframe outline */
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.2) !important;
+}
+
+.xrayOverlay .subLeft,
+.xrayOverlay .subRight {
+  color: rgba(255, 255, 255, 0.35) !important;
+  -webkit-text-stroke: 0.5px rgba(255, 255, 255, 0.65) !important;
+  text-shadow: none !important;
+}
+
+/* ─── Hyperspeed Mode: Disable All Blend & Overlay Effects ─── */
+.bgTypographyMagic {
+  mix-blend-mode: normal !important;
+  filter: none !important;
+  z-index: 10 !important;
+}
+
+.bgTypographyMagic .titleLeft,
+.bgTypographyMagic .titleRight,
+.bgTypographyMagic .subLeft,
+.bgTypographyMagic .subRight {
+  mix-blend-mode: normal !important;
+  filter: none !important;
+  color: #FFFFFF !important;
+  text-shadow: 0 4px 25px rgba(0, 0, 0, 0.8), 0 1px 4px rgba(0, 0, 0, 0.6) !important;
 }
 
 /* Balanced container for SHIVA and SANJAY around the narrow helmet */
@@ -68,6 +168,13 @@
   width: 76%;
   max-width: 1380px;
   margin: 0 auto;
+  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1), gap 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.splitTitleCenter {
+  justify-content: center !important;
+  width: 100% !important;
+  gap: clamp(1.5rem, 4vw, 3.5rem);
 }
 
 .titleLeft, .titleRight {
@@ -81,6 +188,7 @@
   margin: 0;
   white-space: nowrap;
   will-change: transform, opacity;
+  transition: left 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .titleLeft {
@@ -91,6 +199,10 @@
   text-align: right;
   position: relative;
   left: clamp(14px, 1.8vw, 28px);
+}
+
+.splitTitleCenter .titleRight {
+  left: 0;
 }
 
 /* Wide container for rotating roles to comfortably clear the broad 3D shoulder armor */
@@ -109,7 +221,17 @@
   letter-spacing: 0.04em;
   text-transform: uppercase;
   line-height: 1;
-  mix-blend-mode: difference;
+  mix-blend-mode: inherit;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.65);
+  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1), gap 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.splitSubheadCenter {
+  justify-content: center !important;
+  width: 100% !important;
+  gap: clamp(1.2rem, 2.5vw, 2.8rem);
+  mix-blend-mode: normal !important;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.7), 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .subLeft {
@@ -138,7 +260,45 @@
   padding: 0 clamp(2rem, 5vw, 4.5rem) 5rem;
   max-width: 1780px;
   margin: 0 auto;
-  mix-blend-mode: difference;
+  mix-blend-mode: normal;
+}
+
+.foregroundUI3D {
+  z-index: 12 !important;
+  mix-blend-mode: normal !important;
+  transition: filter 0.4s ease, opacity 0.4s ease;
+}
+
+.foregroundUI3D .bioText,
+.foregroundUI3D .statusText {
+  color: #FFFFFF;
+  mix-blend-mode: normal !important;
+}
+
+.foregroundUIMagic {
+  mix-blend-mode: normal !important;
+  filter: none !important;
+  z-index: 15 !important;
+}
+
+.foregroundUIMagic .bioText {
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.8), 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+.foregroundUIMagic .statusBadge {
+  background: rgba(10, 10, 15, 0.65);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+}
+
+.foregroundUIMagic .resumeButton {
+  background: rgba(15, 15, 20, 0.65);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
 }
 
 /* Lower-left Bio Widget */
@@ -304,6 +464,238 @@
   transform: scale(1.2);
 }
 
+/* ─── Uiverse Shutter Toggle Button (Bottom Right) ───────────── */
+.btnWrapper {
+  position: absolute;
+  right: clamp(1.5rem, 4vw, 4.5rem);
+  bottom: 5.5rem;
+  z-index: 25;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  user-select: none;
+  filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.35));
+  pointer-events: auto;
+  padding-bottom: 22px;
+}
+
+.message {
+  position: absolute;
+  bottom: 0px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.5);
+  filter: drop-shadow(0 -6px 8px #ffffff);
+  white-space: nowrap;
+}
+
+.warning {
+  color: rgba(255, 46, 84, 0.95);
+  font-weight: 600;
+}
+
+.btn {
+  --color-1: 200, 220, 250;
+  --color-bg: 20, 0, 30;
+  --color-fg: 230, 230, 230;
+  --border-radius: 100px / 200px;
+  --pad: 1px;
+
+  cursor: pointer;
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  color: rgba(230, 230, 230, 0.265);
+  text-shadow: 0 0 2px rgba(200, 220, 250, 0.5);
+  text-transform: uppercase;
+  position: relative;
+  padding: 15px 40px;
+  background: radial-gradient(circle at center, transparent 30%, rgba(255, 255, 255, 0.06) 41%, transparent 43%),
+    radial-gradient(circle at center, transparent 50%, rgba(255, 255, 255, 0.06) 55%, transparent 60%),
+    radial-gradient(circle at 75% 15%, rgba(255, 255, 255, 0.4) 0.5%, transparent 2%),
+    radial-gradient(circle at 78% 5%, rgba(255, 255, 255, 0.2) 1%, transparent 10%),
+    conic-gradient(
+      from 135deg at 50% 50%,
+      transparent,
+      rgba(200, 220, 250, 0.15),
+      transparent,
+      rgba(200, 220, 250, 0.1),
+      transparent
+    ),
+    radial-gradient(circle at center, #000 70%, rgba(255, 255, 255, 0.06)),
+    conic-gradient(
+      from 85deg at 50% 40%,
+      transparent,
+      rgba(255, 0, 100, 1),
+      transparent,
+      rgba(200, 220, 250, 0.5),
+      transparent
+    ),
+    rgba(20, 0, 30, 0.5);
+  border: none;
+  border-radius: var(--border-radius);
+  overflow: clip;
+  overflow-clip-margin: var(--pad);
+  margin-bottom: 8px;
+  transition: color 0.3s ease, border-radius 0.3s ease;
+  display: inline-flex;
+}
+
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: calc(-1 * var(--pad));
+  background: rgba(200, 220, 250, 0.15);
+  border-radius: calc(var(--border-radius) + var(--pad));
+  z-index: -1;
+}
+
+.btn::after {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 50%;
+  top: 25%;
+  left: -50%;
+  background: rgba(255, 255, 255, 0.5) linear-gradient(to left, rgba(200, 220, 250, 1), rgba(255, 255, 255, 0.6));
+  border-radius: calc(var(--border-radius) + var(--pad));
+  z-index: -1;
+  filter: blur(4px) drop-shadow(0 -20px 20px rgba(200, 220, 250, 0.75)) drop-shadow(0 -10px 0 rgba(200, 220, 250, 0.75));
+  animation: rotateGlow 3s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.letter {
+  display: inline-block;
+  position: relative;
+  animation: letterGlow 1.7s ease infinite;
+}
+
+.letter:nth-child(1) { animation-delay: 0.3s; }
+.letter:nth-child(2) { animation-delay: 0.2s; }
+.letter:nth-child(3) { animation-delay: 0.1s; }
+.letter:nth-child(4) { animation-delay: 0s; }
+.letter:nth-child(5) { animation-delay: 0.1s; }
+.letter:nth-child(6) { animation-delay: 0.2s; }
+.letter:nth-child(7) { animation-delay: 0.3s; }
+
+@keyframes letterGlow {
+  50% {
+    color: rgba(230, 230, 230, 1);
+    background-position-y: 20px;
+  }
+}
+
+.btnCbox {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.flash {
+  position: absolute;
+  inset: 0;
+  border-radius: 30px / 100px;
+  background: rgb(255, 255, 255);
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.shutterWrapper {
+  --angle: 120deg;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform: rotate(var(--angle));
+}
+
+.shutter {
+  position: absolute;
+  width: 100%;
+  aspect-ratio: 1;
+  align-self: center;
+  left: 50%;
+  background: url(data:image/png;base64,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),
+    linear-gradient(to top, #000, 0%, #000, 50%, #666660);
+  background-position: 0px 0px, 0 0;
+  mask-image: radial-gradient(circle at -50% -20%, transparent 66%, white 66.3%),
+    radial-gradient(circle at -50% 50%, transparent 90%, white 91%);
+  mask-composite: subtract;
+  mask-position: 0px 0px, 0px 100%;
+  mask-size: 100% 100%;
+  transition: mask-position 0.2s ease, mask-size 0.2s ease, transform 0.3s ease, opacity 0.3s ease;
+  pointer-events: none;
+  transform-origin: center left;
+}
+
+.s1 { z-index: 1; transform: rotate(0deg); }
+.s2 { z-index: 2; transform: rotate(60deg); }
+.s3 { z-index: 3; transform: rotate(120deg); }
+.s4 { z-index: 4; transform: rotate(180deg); }
+.s5 { z-index: 5; transform: rotate(240deg); }
+.s6 { z-index: 6; transform: rotate(300deg); }
+
+.btn:hover .shutterWrapper {
+  opacity: 0.9;
+  transform: rotate(calc(var(--angle) - 5deg));
+}
+
+.btn:hover .shutter {
+  mask-position: -25px 0%, 0% 100%;
+}
+
+.btn:hover {
+  --border-radius: 100px / 1000px;
+  color: rgba(230, 230, 230, 1);
+  text-shadow: 0 0 2px rgba(230, 230, 230, 1);
+}
+
+.btn:hover::after {
+  opacity: 1;
+}
+
+.btn:active .shutterWrapper {
+  opacity: 1;
+  transform: rotate(calc(var(--angle) - 25deg));
+}
+
+.btn:active .shutter {
+  mask-position: -109px 0%, 0% 100%;
+  mask-size: 120% 100%;
+}
+
+.btnCbox:checked + .btn + .flash {
+  opacity: 1;
+  animation: flashEffect 0.5s ease-out forwards;
+  animation-delay: -0.15s;
+}
+
+@keyframes flashEffect {
+  0% { opacity: 0; }
+  20% { opacity: 0.7; filter: blur(40px); }
+  40% { opacity: 0.5; filter: blur(20px); }
+  80% { opacity: 1; filter: blur(80px); }
+  100% { opacity: 0; }
+}
+
+@keyframes rotateGlow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(-360deg); }
+}
+
 /* ─── Responsive Adaptation ────────────────────────────────── */
 @media (max-width: 1024px) {
   .bgTypography {
@@ -317,6 +709,10 @@
   }
   .bioWidget {
     max-width: 380px;
+  }
+  .btnWrapper {
+    bottom: 5.5rem;
+    right: 2rem;
   }
 }
 
@@ -357,10 +753,18 @@
   .stripItem {
     font-size: 0.82rem;
   }
+  .btnWrapper {
+    right: 1.5rem;
+    bottom: 6rem;
+  }
+  .btn {
+    padding: 12px 30px;
+    font-size: 14px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .statusDot, .blobLeft, .blobRight {
+  .statusDot, .blobLeft, .blobRight, .letter, .btn::after {
     animation: none;
   }
 }

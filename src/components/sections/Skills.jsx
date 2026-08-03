@@ -25,7 +25,7 @@ const NotebookLM = ({ size = 56, style, ...props }) => (
   </svg>
 );
 
-const SkillIcon = ({ skill, className, size = 56 }) => {
+const SkillIcon = React.memo(({ skill, className, size = 56 }) => {
   if (skill.slug === 'notebooklm' || skill.name === 'NotebookLM') {
     return (
       <span className={className} style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -33,8 +33,9 @@ const SkillIcon = ({ skill, className, size = 56 }) => {
       </span>
     );
   }
-  return <img src={skill.logo} alt={skill.name} className={className} loading="eager" decoding="async" />;
-};
+  return <img src={skill.logo} alt={skill.name} className={className} loading="lazy" decoding="async" />;
+});
+SkillIcon.displayName = 'SkillIcon';
 
 // Flatten the skills.json into a single array
 const allSkills = [
@@ -81,7 +82,7 @@ export const Skills = () => {
           trigger: sectionRef.current,
           start: 'top bottom',
           end: 'bottom top',
-          scrub: 1.2
+          scrub: 0.6
         }
       });
       // Counter-rotate the inner icons to keep them upright
@@ -92,7 +93,7 @@ export const Skills = () => {
           trigger: sectionRef.current,
           start: 'top bottom',
           end: 'bottom top',
-          scrub: 1.2
+          scrub: 0.6
         }
       });
 

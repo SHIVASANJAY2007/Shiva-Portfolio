@@ -6,16 +6,18 @@
 export const resumeData = {
   personal: {
     name: 'Shiva Sanjay N D',
-    title: 'Fresher',
-    email: 'sanjudragon2007@gmail.com',
+    title: 'Fresher, AI & Web Developer, Technical and Non-Technical Trainer',
+    email: 'shivasanjay9255@gmail.com',
     phone: '+91 7373382999',
-    location: 'ERODE',
+    location: 'Perundurai, Tamilnadu, India',
     summary:
-      'Tech-driven individual with strong foundations in programming languages and hands-on experience in web development and building practical digital solutions. Familiar with Odoo, Salesforce (CRM basics), cybersecurity fundamentals, prompt engineering, and workflow automation using n8n. Active state-level Kho Kho player demonstrating leadership, discipline, and strong team collaboration skills. Passionate about innovation, problem-solving, and continuous professional growth.',
+      'What drives me is building solutions that work in the real world. I have a strong foundation in programming and web development, with knowledge of Odoo, Salesforce (CRM), n8n workflows, and Cybersecurity. I enjoy exploring emerging technologies to build practical, user-focused solutions. Beyond development, I stay consistent with fitness and Kho Kho, where I actively lead a team, strengthening leadership, discipline, and teamwork.',
   },
   profiles: {
-    github: 'https://github.com/Shiva_Sanjay',
-    linkedin: 'https://linkedin.com/in/shiva-sanjay-n-d',
+    github: 'https://github.com/SHIVASANJAY2007/',
+    linkedin: 'https://www.linkedin.com/in/shiva-sanjay-610512320/',
+    portfolio: 'https://shivasanjay.vercel.app/',
+    instagram: 'https://www.instagram.com/',
   },
   education: [
     {
@@ -122,7 +124,7 @@ export const resumeData = {
       id: 'ingres',
       name: 'INGRES',
       image: '/projects/ingres.webp',
-      year: 2025,
+      year: 2026,
       description:
         'Modern TypeScript-based web application built with cutting-edge development practices. Features rapid development setup, modular architecture, and optimized build configuration using Vite. Designed for scalability and maintainability with TypeScript type safety.',
       highlights: [
@@ -134,10 +136,12 @@ export const resumeData = {
   ],
   skills: {
     programming: [
-      { name: 'Java', level: 3 },
-      { name: 'C', level: 2 },
-      { name: 'Python', level: 2 },
+      { name: 'Java', level: 4 },
+      { name: 'Full Stack Dev', level: 4 },
+      { name: 'C', level: 3 },
+      { name: 'Python', level: 3 },
       { name: 'n8n', level: 2 },
+      { name: 'Salesforce', level: 2 },
     ],
     other: [
       'Odoo',
@@ -149,13 +153,13 @@ export const resumeData = {
   },
   experience: [
     {
-      title: 'Intern',
-      organization: 'Xenovex Technologies',
-      period: '1 Month (2026)',
-      location: 'Chennai'
+      title: 'Class Representative',
+      organization: 'Kongu Engineering College',
+      period: '2024',
+      location: 'Erode'
     },
     {
-      title: 'Class Representative',
+      title: 'Kho Kho Team Captain',
       organization: 'Kongu Engineering College',
       period: '2024',
       location: 'Erode'
@@ -167,40 +171,54 @@ export const resumeData = {
       location: 'Erode'
     },
     {
-      title: 'Kho Kho Team Captain',
-      organization: 'Kongu Engineering College',
-      period: '2024-2027',
-      location: 'Erode'
+      title: 'Intern',
+      organization: 'Xenovex Technologies',
+      period: '2026',
+      location: 'Chennai (1 Month)'
     }
   ],
   awards: [
     {
-      title: '1st Prize in POC',
-      organization: 'Kongu Engineering College',
-      project: 'Fitlee',
-      date: '2025',
+      title: 'Winners in Kho Kho',
+      organization: 'Colleges around Tamilnadu',
+      achievement: 'Multiple Winners in State Level Tournaments',
+      date: '2024-2027'
     },
     {
-      title: 'Xackathon 2k25 Winner',
+      title: 'Proof of Concept (1st Prize)',
+      organization: 'Dept. HOD / Kongu Engineering College',
+      project: 'Fitlee',
+      date: '2025'
+    },
+    {
+      title: 'Xackathon-2025 Winner',
       organization: 'Xenovex Technologies',
       project: 'Zyvox AI',
-      date: '2025',
+      date: '2025'
     },
     {
-      title: 'Marketing Event Winner',
-      organization: 'Xenovex Technologies',
+      title: 'Winners in Marketing Events',
+      organization: 'KEC Faculty',
       achievement: 'Back-to-back victories',
-      date: '2025',
+      date: '2025'
     },
     {
-      title: 'State-Level Kho Kho Champion',
-      achievement: 'Multiple tournament victories',
-    },
+      title: 'Java Certified Foundations Associate',
+      organization: 'Oracle',
+      date: '2026'
+    }
   ],
-  interests: ['Playing Kho Kho', 'Innovation', 'Problem-solving', 'Web Development'],
+  interests: [
+    'Fitness and Sports',
+    'Cybersecurity',
+    'Indie Game Testing',
+    'Notion & Note Making',
+    'Mentoring & Coaching',
+    'Playing Kho Kho',
+  ],
   languages: [
     { name: 'Tamil', level: 5 },
-    { name: 'English', level: 3 },
+    { name: 'English', level: 4 },
   ],
 };
 

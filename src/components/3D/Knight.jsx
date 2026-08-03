@@ -40,6 +40,7 @@ function KnightModel({ scene, invalidate }) {
   // ── Step 3: Single global mouse/leave listener ─────────────────────────────
   useEffect(() => {
     const onMouseMove = (e) => {
+      if (window.scrollY > window.innerHeight) return;
       isPointerActive.current = true;
       globalMouse.current.x = (e.clientX / window.innerWidth) * 2 - 1;
       globalMouse.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
@@ -59,26 +60,17 @@ function KnightModel({ scene, invalidate }) {
     };
   }, [invalidate]);
 
-  // ── Step 4: Material Fade-in ───────────────────────────────────────────────
+  // ── Step 4: Solid Unbreakable Material Visibility ──────────────────────────
   useEffect(() => {
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReduced) return;
-
     scene.traverse((child) => {
       if (child.isMesh && child.material) {
-        child.material = child.material.clone();
-        child.material.transparent = true;
-        child.material.opacity = 0;
-
-        gsap.to(child.material, {
-          opacity: 1,
-          duration: 1.4,
-          ease: 'power2.out',
-          delay: 0.4,
-          onUpdate: invalidate,
-        });
+        // Guarantee full visibility without getting trapped in zero-opacity animation states upon mode re-navigation
+        child.material.opacity = 1;
+        child.material.transparent = false;
+        child.material.needsUpdate = true;
       }
     });
+    invalidate();
   }, [scene, invalidate]);
 
   // ── Step 5: Per-frame head lerp & idle float ───────────────────────────────
@@ -110,7 +102,7 @@ function KnightModel({ scene, invalidate }) {
   });
 
   return (
-    <group ref={meshRef} position={[0, -1.56, 0]} scale={1.6} dispose={null}>
+    <group ref={meshRef} position={[0, -1.76, 0]} scale={1.72} dispose={null}>
       <primitive object={scene} />
     </group>
   );

@@ -106,8 +106,7 @@ const ClickSpark = ({
         width: '100vw',
         height: '100vh',
         pointerEvents: 'none',
-        zIndex: 99999,
-        mixBlendMode: 'difference' // Magic for contrasting against light/dark backgrounds
+        zIndex: 99999
       }}
     />
   );

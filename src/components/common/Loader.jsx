@@ -1,10 +1,8 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { useProgress } from '@react-three/drei';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './Loader.module.css';
 
 export const Loader = () => {
-  const { progress: actualProgress } = useProgress();
   const [show, setShow] = useState(true);
   const [displayProgress, setDisplayProgress] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);

@@ -5,6 +5,21 @@
  */
 
 /**
+ * Recursively sums offsetTop values up the offsetParent chain.
+ * @param {HTMLElement} element - Target element
+ * @returns {number} Absolute top offset
+ */
+function getElementTop(element) {
+  let top = 0;
+  let curr = element;
+  while (curr) {
+    top += curr.offsetTop || 0;
+    curr = curr.offsetParent;
+  }
+  return top;
+}
+
+/**
  * Calculates the true absolute document Y coordinate for any section or element,
  * regardless of current sticky / transforms in the viewport.
  * @param {string} targetId - Section ID (with or without #)
@@ -25,32 +40,18 @@ export function getSectionScrollTop(targetId) {
     const cardIndex = siblings.indexOf(card);
 
     if (cardIndex !== -1) {
-      let containerTop = 0;
-      let curr = container;
-      while (curr) {
-        containerTop += curr.offsetTop || 0;
-        curr = curr.offsetParent;
-      }
-
-      let precedingHeight = 0;
-      for (let i = 0; i < cardIndex; i++) {
-        const sibling = siblings[i];
-        // offsetHeight accurately reflects total layout height without sticky distortions
-        precedingHeight += sibling.offsetHeight || 0;
-      }
+      const containerTop = getElementTop(container);
+      // offsetHeight accurately reflects total layout height without sticky distortions
+      const precedingHeight = siblings
+        .slice(0, cardIndex)
+        .reduce((sum, sibling) => sum + (sibling.offsetHeight || 0), 0);
       
       return containerTop + precedingHeight;
     }
   }
 
   // Fallback calculation for standard elements not wrapped in a sticky stack card
-  let top = 0;
-  let curr = element.closest('.card__conceal') || element;
-  while (curr) {
-    top += curr.offsetTop || 0;
-    curr = curr.offsetParent;
-  }
-  return top;
+  return getElementTop(element.closest('.card__conceal') || element);
 }
 
 /**
@@ -67,7 +68,7 @@ export function scrollToSection(targetId, callback) {
       duration: 1.5,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       onComplete: () => {
-        if (callback) callback();
+        callback?.();
       }
     });
   } else if (typeof window !== 'undefined') {
@@ -79,6 +80,30 @@ export function scrollToSection(targetId, callback) {
       setTimeout(callback, 700);
     }
   }
+}
+
+// Performance Cache: Prevents forced reflow / layout thrashing during scroll events
+let sectionTopCache = {};
+let lastCacheTime = 0;
+const CACHE_TTL = 2000; // Refresh cache at most once every 2 seconds
+
+if (typeof window !== 'undefined') {
+  window.addEventListener('resize', () => {
+    sectionTopCache = {};
+    lastCacheTime = 0;
+  }, { passive: true });
+}
+
+function getCachedSectionTop(id) {
+  const now = Date.now();
+  if (now - lastCacheTime > CACHE_TTL) {
+    sectionTopCache = {};
+    lastCacheTime = now;
+  }
+  if (sectionTopCache[id] === undefined) {
+    sectionTopCache[id] = getSectionScrollTop(id);
+  }
+  return sectionTopCache[id];
 }
 
 /**
@@ -94,7 +119,7 @@ export function getActiveSection() {
 
   let activeId = 'hero';
   for (const id of sectionIds) {
-    const sectionTop = getSectionScrollTop(id);
+    const sectionTop = getCachedSectionTop(id);
     if (triggerPoint >= sectionTop - 20) {
       activeId = id;
     }

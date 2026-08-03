@@ -9,39 +9,23 @@ const StickyCard = ({ child }) => {
     // We use a ResizeObserver to dynamically calculate the top sticky offset.
     // If a card is taller than the viewport (like Experience or About), we set top to a negative value
     // so it only sticks after the user has scrolled all the way to the bottom of the card!
-    const observer = new ResizeObserver(() => {
-      if (ref.current) {
-        const height = ref.current.getBoundingClientRect().height;
-        const viewportHeight = window.innerHeight;
-        if (height > viewportHeight) {
-          setTop(viewportHeight - height);
-        } else {
-          setTop(0);
-        }
-      }
-    });
+    const updateTop = () => {
+      if (!ref.current) return;
+      const height = ref.current.getBoundingClientRect().height;
+      const viewportHeight = window.innerHeight;
+      setTop(height > viewportHeight ? viewportHeight - height : 0);
+    };
 
+    const observer = new ResizeObserver(updateTop);
     if (ref.current) {
       observer.observe(ref.current);
     }
 
-    // Also observe window resizes
-    const handleResize = () => {
-      if (ref.current) {
-        const height = ref.current.getBoundingClientRect().height;
-        const viewportHeight = window.innerHeight;
-        if (height > viewportHeight) {
-          setTop(viewportHeight - height);
-        } else {
-          setTop(0);
-        }
-      }
-    };
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', updateTop);
 
     return () => {
       observer.disconnect();
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('resize', updateTop);
     };
   }, []);
 

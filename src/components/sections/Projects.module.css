@@ -1,53 +1,353 @@
 .missionsSection {
   position: relative;
-  min-height: 100vh;
+  min-height: auto;
   width: 100%;
-  padding: 3vh 5vw;
+  padding: 4vh 5vw 7vh;
   background-color: #000000;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   overflow: hidden;
+  z-index: 1;
 }
 
 .content {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   width: 100%;
-  max-width: 1400px;
+  max-width: 1280px;
+  margin: 0 auto;
 }
 
 .sectionTitle {
   font-family: 'Bricolage Grotesque', 'Inter', sans-serif;
-  font-size: 3rem;
+  font-size: 2.8rem;
   font-weight: 800;
   text-transform: uppercase;
   color: #FFFFFF;
-  margin-bottom: 1rem;
+  margin-bottom: 2.8rem; /* Clear padding breathing space between title and content cards */
   letter-spacing: -0.02em;
   text-align: center;
   position: relative;
   width: 100%;
-  z-index: 10;
+  z-index: 30;
   pointer-events: none;
 }
 
 .redSlash {
   color: #FF2E54;
   font-weight: 900;
-  margin-right: 1rem;
+  margin-right: 0.8rem;
+  text-shadow: 0 0 20px rgba(255, 46, 84, 0.6);
 }
 
-.carouselWrapper {
+.stackContainer {
   width: 100%;
+  max-width: 1060px; /* Increased slightly for a more prominent presentation */
   margin: 0 auto;
   position: relative;
-  z-index: 2;
+  padding-top: 240px; /* Ample separation between title above and stacked cards below */
+  padding-bottom: 2rem;
+  perspective: 1500px;
+}
+
+.stackDeck {
+  position: relative;
+  width: 100%;
+  min-height: 460px; /* Proportionally expanded height */
+}
+
+.projectCard {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  background: rgba(13, 13, 20, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  box-shadow: 0 -12px 35px rgba(0, 0, 0, 0.6), 0 0 25px rgba(0, 0, 0, 0.3);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.projectCard[data-stacked="true"]:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 -12px 40px rgba(255, 46, 84, 0.2), 0 0 30px rgba(255, 46, 84, 0.1);
+  background: rgba(22, 22, 35, 0.96);
+}
+
+.activeCard {
+  border-color: rgba(255, 46, 84, 0.55);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85), 0 0 45px rgba(255, 46, 84, 0.22);
+  background: radial-gradient(circle at 80% 20%, rgba(255, 46, 84, 0.08), rgba(13, 13, 20, 0.96));
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 26px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.3s ease, padding 0.3s ease;
+}
+
+.cardHeader:hover {
+  background: linear-gradient(135deg, rgba(255, 46, 84, 0.1), rgba(255, 255, 255, 0.02));
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.iconBadge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 1.05rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cardHeader:hover .iconBadge {
+  transform: scale(1.1) rotate(-4deg);
+}
+
+.headerTitle {
+  font-family: 'Bricolage Grotesque', 'Inter', sans-serif;
+  font-size: 1.22rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: -0.01em;
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+.cardHeader:hover .headerTitle {
+  color: #FF2E54;
+}
+
+.activeCard .headerTitle {
+  color: #FFFFFF;
+}
+
+.headerYear {
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #B0B0C0;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.activeCard .headerYear {
+  background: rgba(255, 46, 84, 0.15);
+  border-color: rgba(255, 46, 84, 0.4);
+  color: #FF2E54;
+  box-shadow: 0 0 15px rgba(255, 46, 84, 0.2);
+}
+
+.cardBody {
+  padding: 34px 38px;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 42px;
+  align-items: center;
+  min-height: 380px;
+}
+
+.infoColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.projectTitleDisplay {
+  font-family: 'Bricolage Grotesque', 'Inter', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin-bottom: 14px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.projectDescription {
+  font-size: 1.02rem;
+  line-height: 1.65;
+  color: #B2B2BE;
+  margin-bottom: 24px;
+  font-weight: 400;
+}
+
+.highlightsWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.highlightPill {
+  padding: 6px 14px;
+  background: rgba(255, 46, 84, 0.08);
+  border: 1px solid rgba(255, 46, 84, 0.3);
+  border-radius: 30px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #FF4A6B;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  box-shadow: 0 0 15px rgba(255, 46, 84, 0.12);
+  transition: all 0.3s ease;
+}
+
+.highlightPill:hover {
+  background: rgba(255, 46, 84, 0.18);
+  border-color: rgba(255, 46, 84, 0.6);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 18px rgba(255, 46, 84, 0.25);
+}
+
+.actionRow {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+
+.viewButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  padding: 13px 30px;
+  background: linear-gradient(135deg, #FF2E54, #D11D40);
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 0.92rem;
+  border-radius: 11px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 8px 26px rgba(255, 46, 84, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.viewButton:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 36px rgba(255, 46, 84, 0.6);
+  background: linear-gradient(135deg, #FF4568, #E22047);
+}
+
+.previewColumn {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.imageFrame {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  height: 280px;
+  border-radius: 15px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.7);
+  background: #12121B;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.imageFrame:hover {
+  border-color: rgba(255, 46, 84, 0.6);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 32px rgba(255, 46, 84, 0.25);
+  transform: scale(1.02) rotate(0.5deg);
+}
+
+.previewImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: contrast(1.05) brightness(0.95);
+}
+
+.imageFrame:hover .previewImage {
+  transform: scale(1.08);
+  filter: contrast(1.1) brightness(1.05);
+}
+
+@media (max-width: 960px) {
+  .stackContainer {
+    padding-top: 230px;
+    max-width: 680px;
+  }
+  .stackDeck {
+    min-height: 600px;
+  }
+  .cardBody {
+    grid-template-columns: 1fr;
+    gap: 26px;
+    padding: 26px 24px;
+  }
+  .projectTitleDisplay {
+    font-size: 1.6rem;
+  }
+  .imageFrame {
+    height: 240px;
+  }
 }
 
 @media (max-width: 600px) {
   .sectionTitle {
-    font-size: 2rem;
+    font-size: 2.1rem;
+    margin-bottom: 2rem;
+  }
+  .stackContainer {
+    padding-top: 210px;
+  }
+  .stackDeck {
+    min-height: 640px;
+  }
+  .cardHeader {
+    padding: 12px 18px;
+  }
+  .headerTitle {
+    font-size: 1.05rem;
+  }
+  .headerYear {
+    font-size: 0.72rem;
+    padding: 4px 11px;
+  }
+  .iconBadge {
+    width: 28px;
+    height: 28px;
+    font-size: 0.95rem;
+  }
+  .cardBody {
+    padding: 22px 20px;
+  }
+  .viewButton {
+    padding: 12px 24px;
+    font-size: 0.88rem;
+    width: 100%;
+    justify-content: center;
   }
 }
