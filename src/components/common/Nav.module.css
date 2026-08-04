@@ -95,7 +95,7 @@
   text-transform: uppercase;
   line-height: 1;
   transition: color 0.35s ease;
-  padding-top: 0.05rem;
+  transform: translateY(0.1em);
 }
 
 .brandLogo:hover .logoText {
