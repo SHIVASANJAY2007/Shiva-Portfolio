@@ -5,7 +5,17 @@
  * Japanese aesthetic with minimalist elegance
  */
 
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800&family=Bebas+Neue&display=swap');
+
+@font-face {
+  font-family: 'Bebas Neue Local';
+  src: url('../components/font/bebas_neue/BebasNeue-Regular.woff2') format('woff2'),
+       url('../components/font/bebas_neue/BebasNeue-Regular.woff') format('woff'),
+       url('../components/font/bebas_neue/BebasNeue-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
 @tailwind base;
 @tailwind components;

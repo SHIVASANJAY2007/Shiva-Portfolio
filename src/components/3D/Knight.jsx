@@ -83,17 +83,17 @@ function KnightModel({ scene, invalidate }) {
   useFrame((state) => {
     if (!headBoneRef.current) return;
 
-    // Two-stage damped smooth tracking to eliminate DOM mouse jitter while retaining snappy responsiveness
-    smoothedMouse.current.x = THREE.MathUtils.lerp(smoothedMouse.current.x, globalMouse.current.x, 0.35);
-    smoothedMouse.current.y = THREE.MathUtils.lerp(smoothedMouse.current.y, globalMouse.current.y, 0.35);
+    // Silky smooth two-stage damped tracking: lower lerp = smoother, more cinematic follow
+    smoothedMouse.current.x = THREE.MathUtils.lerp(smoothedMouse.current.x, globalMouse.current.x, 0.12);
+    smoothedMouse.current.y = THREE.MathUtils.lerp(smoothedMouse.current.y, globalMouse.current.y, 0.12);
 
     let targetYaw = 0;
     let targetPitch = 0;
 
     if (isPointerActive.current) {
-      // Strictly restricted to a refined 10° horizontal and 5° vertical tilt, preventing unnatural twisting or rigging deformation
-      targetYaw = smoothedMouse.current.x * (10 * Math.PI / 180);
-      targetPitch = -smoothedMouse.current.y * (5 * Math.PI / 180);
+      // Expanded to 22° horizontal and 12° vertical for a noticeably responsive yet natural head follow
+      targetYaw = smoothedMouse.current.x * (22 * Math.PI / 180);
+      targetPitch = -smoothedMouse.current.y * (12 * Math.PI / 180);
     }
 
     const head = headBoneRef.current;
@@ -101,8 +101,9 @@ function KnightModel({ scene, invalidate }) {
     const finalYaw = init.y + targetYaw;
     const finalPitch = init.x + targetPitch;
 
-    head.rotation.y = THREE.MathUtils.lerp(head.rotation.y, finalYaw, 0.25);
-    head.rotation.x = THREE.MathUtils.lerp(head.rotation.x, finalPitch, 0.25);
+    // Smooth final bone rotation with a gentle lerp for buttery animation
+    head.rotation.y = THREE.MathUtils.lerp(head.rotation.y, finalYaw, 0.14);
+    head.rotation.x = THREE.MathUtils.lerp(head.rotation.x, finalPitch, 0.14);
 
     if (
       Math.abs(head.rotation.y - finalYaw) > 0.0001 ||

@@ -137,6 +137,24 @@ export const Nav = () => {
 
   return (
     <div ref={containerRef} style={{ pointerEvents: "none" }}>
+      {/* Top Left Floating Portfolio Logo */}
+      <div className={`${styles.siteLogoWrapper} ${isMenuOpen ? styles.headerMenuOpen : ""}`}>
+        <a
+          href="#hero"
+          onClick={(e) => handleLinkClick(e, "#hero")}
+          className={styles.brandLogo}
+          style={{ pointerEvents: "auto" }}
+          title="Navigate to Hero Section"
+          aria-label="SHIVA Portfolio Logo"
+        >
+          <div className={styles.logoImgWrapper}>
+            <img src="/favicon.png" alt="Shiva Logo" className={styles.logoImg} />
+          </div>
+          <span className={styles.logoText}>SHIVA</span>
+        </a>
+      </div>
+
+      {/* Top Right Floating Header Controls */}
       <div className={`${styles.siteHeaderWrapper} ${isMenuOpen ? styles.headerMenuOpen : ""}`}>
         <header className={styles.header}>
           <div className={styles.navRow}>
