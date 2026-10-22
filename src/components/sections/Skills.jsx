@@ -142,9 +142,9 @@ export const Skills = () => {
       {/* Infinite running kinetic typography background for the active skill, smoothly fading out as it reaches the left big logo */}
       <div className={styles.velocityBackground}>
         <ScrollVelocity 
-          texts={Array(7).fill(activeSkill.name)} 
-          velocity={60} 
-          numCopies={20} 
+          texts={Array(3).fill(activeSkill.name)} 
+          velocity={50} 
+          numCopies={8} 
         />
       </div>
 

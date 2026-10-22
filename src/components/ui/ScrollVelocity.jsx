@@ -1,4 +1,4 @@
-import React, { useRef, useLayoutEffect, useState } from 'react';
+import React, { useRef, useLayoutEffect, useState, useEffect } from 'react';
 import {
   motion,
   useScroll,
@@ -38,8 +38,20 @@ function VelocityText({
   scrollerStyle
 }) {
   const baseX = useMotionValue(0);
+  const containerRef = useRef(null);
   const copyRef = useRef(null);
   const copyWidth = useElementWidth(copyRef, children);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsInView(entry.isIntersecting);
+    }, { threshold: 0.01 });
+
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   function wrap(min, max, v) {
     const range = max - min;
@@ -53,6 +65,7 @@ function VelocityText({
   });
 
   useAnimationFrame((t, delta) => {
+    if (!isInView) return;
     const smoothDelta = Math.min(delta, 50);
     const moveBy = baseVelocity * (smoothDelta / 1000);
     baseX.set(baseX.get() + moveBy);
@@ -68,7 +81,7 @@ function VelocityText({
   }
 
   return (
-    <div className={parallaxClassName} style={parallaxStyle}>
+    <div ref={containerRef} className={parallaxClassName} style={parallaxStyle}>
       <motion.div className={scrollerClassName} style={{ x, ...scrollerStyle }}>
         {spans}
       </motion.div>

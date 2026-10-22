@@ -3,12 +3,15 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './Hero.module.css';
 import { Canvas } from '@react-three/fiber';
-import { Environment, PerspectiveCamera } from '@react-three/drei';
+import { Environment, PerspectiveCamera, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 import { HeroLoader } from '../3D/HeroLoader';
 import { scrollToSection } from '../../lib/scrollToSection';
 import { resumeData } from '../../data/resume';
 import Hyperspeed from '../3D/Hyperspeed';
+
+const KNIGHT_MODEL_URL = '/models/knight-opt.glb';
+useGLTF.preload(KNIGHT_MODEL_URL, false, true);
 
 // Optimized static configuration to prevent unnecessary re-renders and WebGL scene recreations as specified in implementation.md
 const HYPERSPEED_PRESET_OPTIONS = {
@@ -102,6 +105,18 @@ export const Hero = () => {
 
   const [roleIndex, setRoleIndex] = useState(0);
   const [showBackground, setShowBackground] = useState(false);
+  const [isHeroVisible, setIsHeroVisible] = useState(true);
+
+  // Monitor viewport visibility to pause Three.js GPU cycles when scrolled away
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsHeroVisible(entry.isIntersecting);
+    }, { threshold: 0.02 });
+
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   // Resume-driven dynamic role catalog
   const rotatingRoles = [
@@ -289,6 +304,7 @@ export const Hero = () => {
         <div className={`canvas-container ${styles.modelContainer}`} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 5, pointerEvents: 'none' }}>
           <WebGLErrorBoundary key="3d-sculpture-view">
             <Canvas
+              frameloop={isHeroVisible ? "always" : "never"}
               shadows
               gl={{
                 alpha: true,
@@ -297,7 +313,7 @@ export const Hero = () => {
                 toneMapping: THREE.ACESFilmicToneMapping,
                 toneMappingExposure: 1.1,
               }}
-              dpr={[1, 1.35]}
+              dpr={[1, 1.25]}
             >
               <HeroCameraRig />
               <ambientLight intensity={0.6} />
@@ -305,11 +321,11 @@ export const Hero = () => {
                 position={[5, 5, 5]}
                 intensity={1.2}
                 castShadow
-                shadow-mapSize={[1024, 1024]}
+                shadow-mapSize={[512, 512]}
                 shadow-bias={-0.0001}
               />
               <directionalLight position={[-5, 3, -5]} intensity={0.5} />
-              <Environment preset="city" resolution={256} />
+              <Environment files="/models/potsdamer_platz_1k.hdr" resolution={256} />
 
               <HeroLoader />
               <Suspense fallback={null}>
