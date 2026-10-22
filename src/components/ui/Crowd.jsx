@@ -92,8 +92,10 @@ export const Crowd = () => {
     const img = document.createElement('img');
     img.crossOrigin = 'anonymous';
     
+    const MAX_CROWD = 28;
+
     const render = () => {
-      canvas.width = canvas.width;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.save();
       ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
       crowd.forEach((peep) => peep.render(ctx));
@@ -101,7 +103,7 @@ export const Crowd = () => {
     };
 
     const addPeepToCrowd = () => {
-      if (!availablePeeps.length) return;
+      if (!availablePeeps.length || crowd.length >= MAX_CROWD) return;
       const peep = removeRandomFromArray(availablePeeps);
       const walk = getRandomFromArray(walks)({
         peep,
@@ -123,7 +125,7 @@ export const Crowd = () => {
     };
 
     const initCrowd = () => {
-      while (availablePeeps.length) {
+      while (availablePeeps.length && crowd.length < MAX_CROWD) {
         const peep = addPeepToCrowd();
         if (peep) peep.walk.progress(Math.random());
       }

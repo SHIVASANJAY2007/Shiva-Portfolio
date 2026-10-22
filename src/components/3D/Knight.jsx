@@ -83,6 +83,7 @@ function KnightModel({ scene, invalidate }) {
   // ── Step 5: Per-frame head lerp & idle float ───────────────────────────────
   useFrame((state) => {
     if (!headBoneRef.current) return;
+    if (window.scrollY > window.innerHeight) return;
 
     // Silky smooth two-stage damped tracking: lower lerp = smoother, more cinematic follow
     smoothedMouse.current.x = THREE.MathUtils.lerp(smoothedMouse.current.x, globalMouse.current.x, 0.12);
