@@ -132,7 +132,7 @@ export const Experience = () => {
   // Ascending chronological order: 2024 -> 2025 -> 2026
   const experienceItems = [
     {
-      title: 'Class Representative',
+      title: 'Former Class Representative',
       organization: 'Kongu Engineering College',
       year: '2024',
       description: 'Serving as the primary academic interface between engineering faculty and student body in Erode, maintaining organizational discipline and leadership.',
@@ -141,12 +141,12 @@ export const Experience = () => {
     {
       title: 'Kho Kho Team Captain',
       organization: 'Kongu Engineering College',
-      year: '2024',
+      year: '2024 - 2026',
       description: 'Actively leading the collegiate athletic team with agility, athletic resilience, speed, strategic coordination, and competitive teamwork.',
       tagline: 'TEAM LEADERSHIP.'
     },
     {
-      title: 'Former Joint Secretary',
+      title: 'Former Association Joint Secretary',
       organization: 'Kongu Engineering College',
       year: '2025',
       description: 'Coordinating high-impact national technical symposia, practical leadership workshops, and student community innovation initiatives.',
@@ -166,7 +166,7 @@ export const Experience = () => {
     {
       title: 'State Kho Kho Winner',
       organization: 'Colleges around Tamilnadu',
-      date: '2024-2027',
+      date: '2024 - Present',
       description: 'Multiple athletic tournament victories in State Level Kho Kho Tournaments across Tamilnadu, demonstrating endurance and peak perseverance.',
       tagline: 'STATE TOURNAMENTS.'
     },

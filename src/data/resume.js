@@ -21,21 +21,22 @@ export const resumeData = {
   },
   education: [
     {
-      institution: 'Kongu engineering college, Perundurai',
+      institution: 'Kongu Engineering College, Erode',
       degree: 'B.Sc Information Systems',
       status: 'Pursuing',
-      score: '8.54 CGPA',
+      score: '8.54 / 10 CGPA',
+      period: '2024 - 2027',
     },
     {
-      institution: 'Kongu vellaler matriculation higher secondary school, Perundurai',
-      program: 'He. Sec - CS-Maths',
+      institution: 'Kongu Vellaler Matriculation Higher Secondary School, Erode',
+      program: 'HSC (CS - Maths)',
       score: '82%',
       date: 'March 2024',
     },
     {
-      institution: 'Kongu vellaler matriculation higher secondary school, Perundurai',
+      institution: 'Kongu Vellaler Matriculation Higher Secondary School, Erode',
       program: 'SSLC',
-      score: '83.4',
+      score: '83.4%',
       date: 'May 2022',
     },
   ],
