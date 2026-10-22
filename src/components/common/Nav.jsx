@@ -4,7 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import styles from "./Nav.module.css";
 import { scrollToSection, getActiveSection } from "../../lib/scrollToSection";
 import { resumeData } from "../../data/resume";
-import resumePdf from "../../data/24BIR050 - Shiva Sanjay N D - Resume.pdf";
+import resumePdf from "../../data/Shiva Sanjay N D Resume.pdf";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);

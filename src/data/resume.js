@@ -140,8 +140,8 @@ export const resumeData = {
       { name: 'Full Stack Dev', level: 4 },
       { name: 'C', level: 3 },
       { name: 'Python', level: 3 },
-      { name: 'n8n', level: 2 },
-      { name: 'Salesforce', level: 2 },
+      { name: 'n8n', level: 4 },
+      { name: 'Oratory', level: 3 },
     ],
     other: [
       'Odoo',
@@ -153,7 +153,7 @@ export const resumeData = {
   },
   experience: [
     {
-      title: 'Class Representative',
+      title: 'Former Class Representative',
       organization: 'Kongu Engineering College',
       period: '2024',
       location: 'Erode'
@@ -161,11 +161,11 @@ export const resumeData = {
     {
       title: 'Kho Kho Team Captain',
       organization: 'Kongu Engineering College',
-      period: '2024',
+      period: '2024 - 2026',
       location: 'Erode'
     },
     {
-      title: 'Association Joint Secretary',
+      title: 'Former Association Joint Secretary',
       organization: 'Kongu Engineering College',
       period: '2025',
       location: 'Erode'
@@ -182,7 +182,7 @@ export const resumeData = {
       title: 'Winners in Kho Kho',
       organization: 'Colleges around Tamilnadu',
       achievement: 'Multiple Winners in State Level Tournaments',
-      date: '2024-2027'
+      date: '2024-Present'
     },
     {
       title: 'Proof of Concept (1st Prize)',

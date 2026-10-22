@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import styles from './Resume3DCard.module.css';
-import resumePdf from '../../data/24BIR050 - Shiva Sanjay N D - Resume.pdf';
+import resumePdf from '../../data/Shiva Sanjay N D Resume.pdf';
 
 export const Resume3DCard = () => {
   const cardRef = useRef(null);
@@ -218,7 +218,7 @@ export const Resume3DCard = () => {
         <div className={styles.modalToolbar}>
           <div className={styles.docInfo}>
             <span className={styles.pdfIconBadge}>PDF</span>
-            <span className={styles.docTitle}>24BIR050 - Shiva Sanjay N D - Resume.pdf</span>
+            <span className={styles.docTitle}>Shiva Sanjay N D Resume.pdf</span>
           </div>
           
           <div className={styles.toolbarActions}>

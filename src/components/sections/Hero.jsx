@@ -7,13 +7,13 @@ import { Environment, PerspectiveCamera, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 import { HeroLoader } from '../3D/HeroLoader';
 import { scrollToSection } from '../../lib/scrollToSection';
+import { resumeData } from '../../data/resume';
+import Hyperspeed from '../3D/Hyperspeed';
 
 const KNIGHT_MODEL_URL = '/models/knight-opt.glb';
 
 // High-priority early preload trigger for the 3D model
 useGLTF.preload(KNIGHT_MODEL_URL, false, true);
-import { resumeData } from '../../data/resume';
-import Hyperspeed from '../3D/Hyperspeed';
 
 // Optimized static configuration to prevent unnecessary re-renders and WebGL scene recreations as specified in implementation.md
 const HYPERSPEED_PRESET_OPTIONS = {

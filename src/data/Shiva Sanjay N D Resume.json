@@ -1,6 +1,7 @@
 {
   "picture": {
     "hidden": false,
+    "fit": "cover",
     "url": "",
     "size": 80,
     "rotation": 0,
@@ -278,20 +279,22 @@
           "iconColor": "rgba(231, 0, 11, 1)",
           "name": "n8n",
           "proficiency": "",
-          "level": 2,
+          "level": 4,
           "keywords": []
         },
         {
-          "id": "019fa24d-9bd4-732a-a84d-cbc067b88f7d",
+          "id": "01a0e1ab-c3a0-7311-a9ab-3cfbf57a25f3",
           "hidden": false,
-          "icon": "mountains",
+          "icon": "acorn",
           "iconColor": "",
-          "name": "Salesforce",
+          "name": "Oratory",
           "proficiency": "",
-          "level": 2,
+          "level": 3,
           "keywords": []
         }
-      ]
+      ],
+      "keywordLayout": "inline",
+      "layout": "default"
     },
     "languages": {
       "title": "",
@@ -419,7 +422,7 @@
           "hidden": false,
           "title": "Winners in Kho Kho",
           "awarder": "Colleges around Tamilnadu",
-          "date": "2024-2027",
+          "date": "2024-Present",
           "website": {
             "url": "",
             "label": "",
@@ -494,7 +497,7 @@
         {
           "id": "019fa275-13a5-7694-a36e-1bb3e5d118d3",
           "hidden": false,
-          "company": "Class Representative",
+          "company": "Former Class Representative",
           "position": "Kongu Engineering College",
           "location": "Erode",
           "period": "2024",
@@ -509,7 +512,7 @@
         {
           "id": "019fa275-e57a-74d9-a907-70bd2777d319",
           "hidden": false,
-          "company": "Association Joint Secretary",
+          "company": "Former Association Joint Secretary",
           "position": "Kongu Engineering College",
           "location": "Erode",
           "period": "2025",
@@ -527,7 +530,7 @@
           "company": "Kho Kho Team Captain",
           "position": "Kongu Engineering College",
           "location": "Erode",
-          "period": "2024",
+          "period": "2024 - 2026",
           "website": {
             "url": "",
             "label": "",
