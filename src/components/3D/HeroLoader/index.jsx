@@ -31,10 +31,11 @@ export function HeroLoader({ onComplete }) {
   }, [progress]);
 
   useEffect(() => {
+    const isReady = fakeProgress >= 99.9;
     const tween = gsap.to(progressRef.current, {
       val: fakeProgress,
-      duration: 0.5,
-      ease: 'power3.out',
+      duration: isReady ? 0.25 : 0.4,
+      ease: isReady ? 'power2.inOut' : 'power3.out',
       onUpdate: () => {
         setSmoothProgress(progressRef.current.val);
       },
@@ -42,7 +43,7 @@ export function HeroLoader({ onComplete }) {
         if (progressRef.current.val >= 99.9) {
           gsap.to({ val: 1 }, {
             val: 0,
-            duration: 0.6,
+            duration: 0.35,
             ease: 'power2.inOut',
             onUpdate: function () {
               setOpacity(this.targets()[0].val);

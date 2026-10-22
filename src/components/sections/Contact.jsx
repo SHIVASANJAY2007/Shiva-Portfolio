@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import confetti from 'canvas-confetti';
-import emailjs from '@emailjs/browser';
 import styles from './Contact.module.css';
 import { resumeData } from '../../data/resume';
 import { Crowd as CrowdBackground } from '../ui/Crowd';
@@ -59,7 +58,12 @@ export const Contact = () => {
   // Submitting directly via native HTML form POST into an invisible target iframe eliminates JavaScript AJAX fetch calls,
   // completely bypassing Kaspersky Cloud Protection data-leakage heuristics while preventing tab switching or popup windows.
   const handleFormSubmit = (e) => {
-    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
+    const trimmedName = formData.name.trim();
+    const trimmedEmail = formData.email.trim();
+    const trimmedMessage = formData.message.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!trimmedName || !trimmedEmail || !trimmedMessage || !emailRegex.test(trimmedEmail)) {
       e.preventDefault();
       return;
     }
@@ -151,6 +155,7 @@ export const Contact = () => {
             <input type="hidden" name="_subject" value={`New Portfolio Inquiry from ${formData.name || 'Visitor'}`} />
             <input type="hidden" name="_template" value="table" />
             <input type="hidden" name="_captcha" value="false" />
+            <input type="text" name="_honey" style={{ display: 'none' }} tabIndex="-1" autoComplete="off" />
             
             <input 
               type="text" 

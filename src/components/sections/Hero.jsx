@@ -3,10 +3,15 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './Hero.module.css';
 import { Canvas } from '@react-three/fiber';
-import { Environment, PerspectiveCamera } from '@react-three/drei';
+import { Environment, PerspectiveCamera, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 import { HeroLoader } from '../3D/HeroLoader';
 import { scrollToSection } from '../../lib/scrollToSection';
+
+const KNIGHT_MODEL_URL = '/models/knight-opt.glb';
+
+// High-priority early preload trigger for the 3D model
+useGLTF.preload(KNIGHT_MODEL_URL, false, true);
 import { resumeData } from '../../data/resume';
 import Hyperspeed from '../3D/Hyperspeed';
 
@@ -111,7 +116,7 @@ export const Hero = () => {
     { left: "SPORTSMAN", right: "KHO KHO CAPTAIN" },
     { left: "FULL-STACK", right: "ENGINEER" },
     { left: "N8N WORKFLOW", right: "ARCHITECT" },
-    { left: "ODOO & SALESFORCE", right: "DEVELOPER" },
+    { left: "ODOO & SALESFORCE", right: "INTERESTED" },
     { left: "UI/UX & REACT", right: "DESIGNER" },
     { left: "ENTERPRISE CRM", right: "INTEGRATOR" },
     { left: "PYTHON & AI", right: "SOLUTIONS" }
@@ -163,8 +168,8 @@ export const Hero = () => {
 
       const targets = [titleLeft, titleRight, overlayLeft, overlayRight].filter(Boolean);
       if (targets.length) {
-        tl.fromTo(targets, 
-          { y: 40, opacity: 0, scale: 0.98 }, 
+        tl.fromTo(targets,
+          { y: 40, opacity: 0, scale: 0.98 },
           { y: 0, opacity: 1, scale: 1, duration: 1.1, stagger: 0.15 },
           0
         );
@@ -276,7 +281,7 @@ export const Hero = () => {
           <h1 className={styles.titleLeft}>SHIVA</h1>
           <h1 className={styles.titleRight}>SANJAY</h1>
         </div>
-        
+
         {/* Dynamic Rotating Role Switcher */}
         <div className={`${styles.splitSubhead} ${showBackground ? styles.splitSubheadCenter : ''}`} ref={roleRef}>
           <span className={styles.subLeft}>{currentRole.left}</span>
@@ -309,7 +314,7 @@ export const Hero = () => {
                 shadow-bias={-0.0001}
               />
               <directionalLight position={[-5, 3, -5]} intensity={0.5} />
-              <Environment preset="city" resolution={256} />
+              <Environment files="/models/potsdamer_platz_1k.hdr" resolution={256} />
 
               <HeroLoader />
               <Suspense fallback={null}>
@@ -378,7 +383,7 @@ export const Hero = () => {
           </div>
         </label>
         <div className={styles.flash}></div>
-        
+
       </div>
 
     </section>

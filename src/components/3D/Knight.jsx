@@ -2,8 +2,9 @@ import React, { useRef, useEffect } from 'react';
 import * as THREE from 'three';
 import { useFrame, useThree } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
-import knightModelUrl from './knight-hd-opt.glb?url';
 import gsap from 'gsap';
+
+export const KNIGHT_MODEL_URL = '/models/knight-opt.glb';
 
 function KnightModel({ scene, invalidate }) {
   const meshRef = useRef();
@@ -124,10 +125,10 @@ function KnightModel({ scene, invalidate }) {
 
 export function Knight() {
   const { invalidate } = useThree();
-  const { scene } = useGLTF(knightModelUrl, 'https://www.gstatic.com/draco/versioned/decoders/1.5.6/');
+  const { scene } = useGLTF(KNIGHT_MODEL_URL, false, true);
 
   return <KnightModel scene={scene} invalidate={invalidate} />;
 }
 
-// Preload the model so it starts downloading immediately
-useGLTF.preload(knightModelUrl, 'https://www.gstatic.com/draco/versioned/decoders/1.5.6/');
+// Preload the model so it begins streaming immediately without waiting for mount
+useGLTF.preload(KNIGHT_MODEL_URL, false, true);
