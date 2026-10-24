@@ -14,7 +14,7 @@
   },
   "basics": {
     "name": "Shiva Sanjay N D",
-    "headline": "Fresher, AI & Web Developer, Technical and Non-Technical Trainer",
+    "headline": "Fresher, AI & Web Developer",
     "email": "shivasanjay9255@gmail.com",
     "phone": "7373382999",
     "location": "Perundurai, Tamilnadu, India",
@@ -29,6 +29,7 @@
     "icon": "article",
     "columns": 1,
     "hidden": false,
+    "showHeading": true,
     "keepTogether": false,
     "startOnNewPage": false,
     "content": "<p>What drives me is building solutions that work in the real world. I have a strong foundation in programming and web development, with knowledge of Odoo, Salesforce (CRM), n8n workflows, and Cybersecurity. I enjoy exploring emerging technologies to build practical, user-focused solutions. Beyond development, I stay consistent with fitness and Kho Kho, where I actively lead a team, strengthening leadership, discipline, and teamwork.</p>"
@@ -39,6 +40,7 @@
       "icon": "messenger-logo",
       "columns": 3,
       "hidden": false,
+      "showHeading": true,
       "keepTogether": false,
       "startOnNewPage": false,
       "items": [
@@ -88,6 +90,7 @@
       "icon": "briefcase",
       "columns": 1,
       "hidden": false,
+      "showHeading": true,
       "keepTogether": false,
       "startOnNewPage": false,
       "items": [
@@ -95,9 +98,14 @@
           "id": "019fa238-c8c7-7628-a088-1e87b4bf1cff",
           "hidden": false,
           "company": "Xenovex Technologies",
-          "position": "Intern",
-          "location": "Chennai",
-          "period": "1 Month",
+          "position": "ReactJS Intern",
+          "location": "1 Month - Chennai",
+          "period": "Jul 2026 – Aug 2026",
+          "dates": {
+            "start": "2026-07",
+            "end": "2026-08",
+            "present": false
+          },
           "website": {
             "url": "",
             "label": "",
@@ -113,18 +121,24 @@
       "icon": "graduation-cap",
       "columns": 1,
       "hidden": false,
+      "showHeading": true,
       "keepTogether": false,
       "startOnNewPage": false,
       "items": [
         {
-          "id": "019fa239-2344-722b-862a-506ef4edd006",
+          "id": "019fa243-778a-76f3-bb88-c9affaec1217",
           "hidden": false,
-          "school": "Kongu Vellaler Matriculation Higher Secondary School, Erode",
-          "degree": "",
-          "area": "HSC (CS - Maths)",
-          "grade": "82%",
+          "school": "Kongu Engineering College, Erode",
+          "degree": "(Pursuing)",
+          "area": "B.Sc Information Systems",
+          "grade": "8.54/10",
           "location": "Erode",
-          "period": "2024",
+          "period": "2024 – 2027",
+          "dates": {
+            "start": "2024",
+            "end": "2027",
+            "present": false
+          },
           "website": {
             "url": "",
             "label": "",
@@ -141,6 +155,11 @@
           "grade": "83.4%",
           "location": "Erode",
           "period": "2022",
+          "dates": {
+            "start": "2022",
+            "end": null,
+            "present": false
+          },
           "website": {
             "url": "",
             "label": "",
@@ -149,14 +168,19 @@
           "description": ""
         },
         {
-          "id": "019fa243-778a-76f3-bb88-c9affaec1217",
+          "id": "019fa239-2344-722b-862a-506ef4edd006",
           "hidden": false,
-          "school": "Kongu Engineering College, Erode",
-          "degree": "B.Sc Information Systems",
-          "area": "",
-          "grade": "8.54/10",
+          "school": "Kongu Vellaler Matriculation Higher Secondary School, Erode",
+          "degree": "",
+          "area": "HSC (CS - Maths)",
+          "grade": "82%",
           "location": "Erode",
-          "period": "2024 - 2027",
+          "period": "2024",
+          "dates": {
+            "start": "2024",
+            "end": null,
+            "present": false
+          },
           "website": {
             "url": "",
             "label": "",
@@ -171,56 +195,77 @@
       "icon": "code-simple",
       "columns": 1,
       "hidden": false,
+      "showHeading": true,
       "keepTogether": false,
       "startOnNewPage": false,
       "items": [
         {
-          "id": "019fa246-0a2a-767e-a0a8-ee4fb2aa94ea",
+          "id": "01a12aae-1d0a-74bd-8e94-10c2d06aadae",
           "hidden": false,
-          "name": "Fitlee",
-          "period": "2025",
+          "name": "FINEXA AI",
+          "period": "2026",
+          "dates": {
+            "start": null,
+            "end": "2026",
+            "present": false
+          },
           "website": {
-            "url": "",
+            "url": "https://finexa-ai-demo.vercel.app",
             "label": "",
             "inlineLink": false
           },
-          "description": "<p>Prize-winning fitness web application featuring an NFT-based reward system to gamify user engagement and milestone tracking. Integrated an AI chatbot for personalized fitness guidance with a focus on usability and innovation.</p>"
+          "description": "<p data-resume-whitespace=\"preserve\">AI-powered financial advisory platform featuring n8n chatbot automation, Automated Business Intelligence reporting, GWO-based portfolio rebalancing, live market intelligence, actuarial calculators, and a quantitative finance academy.</p>"
         },
         {
           "id": "019fa246-4081-717c-8615-faa677fee85b",
           "hidden": false,
-          "name": "Zyvox AI",
+          "name": "ZYVOX AI",
           "period": "2025",
+          "dates": {
+            "start": "2025",
+            "end": null,
+            "present": false
+          },
           "website": {
-            "url": "",
+            "url": "https://zyvox-ai-demo.vercel.app/",
             "label": "",
             "inlineLink": false
           },
-          "description": "<p>Team-developed AI travel assistant built using n8n to automate personalized trip planning workflows. Deployed as a WhatsApp Business bot to provide users with real-time travel suggestions and itinerary generation.</p>"
+          "description": "<p data-resume-whitespace=\"preserve\">An AI travel assistant using n8n to automate personalized trip planning, deployed as a web chatbot and WhatsApp Business bot for real-time travel suggestions and itinerary generation.</p>"
+        },
+        {
+          "id": "019fa246-0a2a-767e-a0a8-ee4fb2aa94ea",
+          "hidden": false,
+          "name": "Fit-Lee",
+          "period": "2025",
+          "dates": {
+            "start": "2025",
+            "end": null,
+            "present": false
+          },
+          "website": {
+            "url": "https://fit-lee.vercel.app/",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": "<p data-resume-whitespace=\"preserve\">Developed an award-winning fitness web app with NFT-based rewards, milestone tracking, and an AI chatbot for personalized fitness guidance.</p>"
         },
         {
           "id": "019fa27b-472c-76af-b4b1-9c4a619a52c3",
           "hidden": false,
           "name": "FADE",
           "period": "2025",
+          "dates": {
+            "start": "2025",
+            "end": null,
+            "present": false
+          },
           "website": {
             "url": "",
             "label": "",
             "inlineLink": false
           },
-          "description": "<p>Developed an Instagram Fake Account Detection Engine using machine learning to analyze profile authenticity, generate real-time risk scores, and identify suspicious accounts through an interactive 3D user interface.</p>"
-        },
-        {
-          "id": "019fa282-1e3d-7129-9107-7661cf9edd6f",
-          "hidden": false,
-          "name": "INGRES",
-          "period": "2026",
-          "website": {
-            "url": "",
-            "label": "",
-            "inlineLink": false
-          },
-          "description": "<p>Designed and developed an AI-powered chatbot for the INGRES platform, enabling intelligent groundwater data retrieval through natural language queries with multilingual support.</p>"
+          "description": "<p data-resume-whitespace=\"preserve\">Developed FADE, an Instagram Fake Account Detection Engine that analyzes user-provided profile details using predefined rules to calculate risk scores and flag suspicious accounts.</p>"
         }
       ]
     },
@@ -229,6 +274,7 @@
       "icon": "compass-tool",
       "columns": 2,
       "hidden": false,
+      "showHeading": true,
       "keepTogether": false,
       "startOnNewPage": false,
       "items": [
@@ -301,6 +347,7 @@
       "icon": "translate",
       "columns": 2,
       "hidden": false,
+      "showHeading": true,
       "keepTogether": false,
       "startOnNewPage": false,
       "items": [
@@ -325,6 +372,7 @@
       "icon": "football",
       "columns": 1,
       "hidden": false,
+      "showHeading": true,
       "keepTogether": false,
       "startOnNewPage": false,
       "items": [
@@ -349,7 +397,7 @@
           "hidden": false,
           "icon": "game-controller",
           "iconColor": "rgba(0, 146, 184, 1)",
-          "name": "Indie Game Testing",
+          "name": "Trying Indie Games",
           "keywords": []
         },
         {
@@ -375,6 +423,7 @@
       "icon": "trophy",
       "columns": 1,
       "hidden": false,
+      "showHeading": true,
       "keepTogether": false,
       "startOnNewPage": false,
       "items": [
@@ -382,8 +431,13 @@
           "id": "019fa260-920d-7278-8aa0-30b5e1fe84aa",
           "hidden": false,
           "title": "Proof of Concept",
-          "awarder": "Dept. HOD",
-          "date": "2025",
+          "awarder": "Dept. HOD  | 2025",
+          "date": "",
+          "dates": {
+            "start": null,
+            "end": null,
+            "present": false
+          },
           "website": {
             "url": "",
             "label": "",
@@ -395,8 +449,13 @@
           "id": "019fa261-3937-725b-9534-ecf89fafc75f",
           "hidden": false,
           "title": "Xackathon-2025 Winner",
-          "awarder": "Xenovex Technologies",
-          "date": "2025",
+          "awarder": "Xenovex Technologies | 2025",
+          "date": "",
+          "dates": {
+            "start": null,
+            "end": null,
+            "present": false
+          },
           "website": {
             "url": "",
             "label": "",
@@ -408,8 +467,13 @@
           "id": "019fa263-3389-706a-896d-be177b2a89c2",
           "hidden": false,
           "title": "Winners in Marketing Events",
-          "awarder": "KEC Faculty",
-          "date": "2025",
+          "awarder": "KEC Faculty | 2025",
+          "date": "",
+          "dates": {
+            "start": null,
+            "end": null,
+            "present": false
+          },
           "website": {
             "url": "",
             "label": "",
@@ -420,15 +484,38 @@
         {
           "id": "019fa264-3cb9-7205-9b35-5c3c3121fe1d",
           "hidden": false,
-          "title": "Winners in Kho Kho",
-          "awarder": "Colleges around Tamilnadu",
-          "date": "2024-Present",
+          "title": "Multiple Kho Kho Tournament Winners",
+          "awarder": "",
+          "date": "",
+          "dates": {
+            "start": null,
+            "end": null,
+            "present": false
+          },
           "website": {
             "url": "",
             "label": "",
             "inlineLink": false
           },
-          "description": "<p>Multiple Winners in State Level Kho Kho Tournaments in Tamilnadu</p>"
+          "description": "<p data-resume-whitespace=\"preserve\">State-Level Tournaments, Tamil Nadu | 2024 - Present</p>"
+        },
+        {
+          "id": "01a15cc8-ef98-759a-9b4c-e4f89c59cff3",
+          "hidden": false,
+          "title": "Participated in Multiple Hackathons, Paper presentations and Project Presentations.",
+          "awarder": "",
+          "date": "",
+          "dates": {
+            "start": null,
+            "end": null,
+            "present": false
+          },
+          "website": {
+            "url": "",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": ""
         }
       ]
     },
@@ -437,6 +524,7 @@
       "icon": "certificate",
       "columns": 1,
       "hidden": false,
+      "showHeading": true,
       "keepTogether": false,
       "startOnNewPage": false,
       "items": [
@@ -446,6 +534,11 @@
           "title": "Java Certified Foundations Associate",
           "issuer": "Oracle",
           "date": "2026",
+          "dates": {
+            "start": "2026",
+            "end": null,
+            "present": false
+          },
           "website": {
             "url": "",
             "label": "",
@@ -460,6 +553,7 @@
       "icon": "books",
       "columns": 1,
       "hidden": false,
+      "showHeading": true,
       "keepTogether": false,
       "startOnNewPage": false,
       "items": []
@@ -469,6 +563,7 @@
       "icon": "hand-heart",
       "columns": 1,
       "hidden": false,
+      "showHeading": true,
       "keepTogether": false,
       "startOnNewPage": false,
       "items": []
@@ -478,6 +573,7 @@
       "icon": "phone",
       "columns": 1,
       "hidden": false,
+      "showHeading": true,
       "keepTogether": false,
       "startOnNewPage": false,
       "items": []
@@ -489,6 +585,7 @@
       "icon": "head-circuit",
       "columns": 1,
       "hidden": false,
+      "showHeading": true,
       "keepTogether": false,
       "startOnNewPage": false,
       "id": "019fa274-7661-75d4-9f3d-5ebb94c9fac9",
@@ -501,6 +598,11 @@
           "position": "Kongu Engineering College",
           "location": "Erode",
           "period": "2024",
+          "dates": {
+            "start": "2024",
+            "end": null,
+            "present": false
+          },
           "website": {
             "url": "",
             "label": "",
@@ -513,9 +615,14 @@
           "id": "019fa275-e57a-74d9-a907-70bd2777d319",
           "hidden": false,
           "company": "Former Association Joint Secretary",
-          "position": "Kongu Engineering College",
+          "position": "Dept. of CT-UG | Kongu Engineering College",
           "location": "Erode",
           "period": "2025",
+          "dates": {
+            "start": "2025",
+            "end": null,
+            "present": false
+          },
           "website": {
             "url": "",
             "label": "",
@@ -528,9 +635,14 @@
           "id": "019fa277-d0c9-7779-849a-994381c155a1",
           "hidden": false,
           "company": "Kho Kho Team Captain",
-          "position": "Kongu Engineering College",
-          "location": "Erode",
-          "period": "2024 - 2026",
+          "position": "Independent Kho Kho Club",
+          "location": "Perundurai, Erode",
+          "period": "2024 – 2026",
+          "dates": {
+            "start": "2024",
+            "end": "2026",
+            "present": false
+          },
           "website": {
             "url": "",
             "label": "",
@@ -545,7 +657,7 @@
   "metadata": {
     "template": "gengar",
     "layout": {
-      "sidebarWidth": 35,
+      "sidebarWidth": 33,
       "pages": [
         {
           "fullWidth": false,
@@ -572,11 +684,12 @@
     },
     "page": {
       "gapX": 4,
-      "gapY": 6,
-      "marginX": 14,
-      "marginY": 12,
+      "gapY": 4,
+      "marginX": 10,
+      "marginY": 8,
       "format": "a4",
       "locale": "en-US",
+      "dateFormat": "short",
       "hideLinkUnderline": false,
       "hideIcons": false,
       "hideSectionIcons": true
@@ -599,16 +712,16 @@
           "400",
           "500"
         ],
-        "fontSize": 10,
-        "lineHeight": 1.5
+        "fontSize": 10.5,
+        "lineHeight": 1.35
       },
       "heading": {
         "fontFamily": "IBM Plex Serif",
         "fontWeights": [
           "600"
         ],
-        "fontSize": 14,
-        "lineHeight": 1.5
+        "fontSize": 13.5,
+        "lineHeight": 1.6
       }
     },
     "notes": "",
