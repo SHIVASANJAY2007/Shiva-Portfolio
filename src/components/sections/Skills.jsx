@@ -26,6 +26,8 @@ const NotebookLM = ({ size = 56, style, ...props }) => (
   </svg>
 );
 
+const iconMap = import.meta.glob('../../assets/icons/*.svg', { eager: true, import: 'default' });
+
 const SkillIcon = React.memo(({ skill, className, size = 56 }) => {
   if (skill.slug === 'notebooklm' || skill.name === 'NotebookLM') {
     return (
@@ -34,7 +36,8 @@ const SkillIcon = React.memo(({ skill, className, size = 56 }) => {
       </span>
     );
   }
-  return <img src={skill.logo} alt={skill.name} className={className} loading="lazy" decoding="async" />;
+  const localIcon = iconMap[`../../assets/icons/${skill.slug}.svg`];
+  return <img src={localIcon || skill.logo} alt={skill.name} className={className} loading="lazy" decoding="async" />;
 });
 SkillIcon.displayName = 'SkillIcon';
 

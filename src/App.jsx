@@ -8,7 +8,7 @@ import StackScroller from './components/sections/StackScroller';
 
 gsap.registerPlugin(ScrollTrigger);
 
-import Hero from './components/sections/Hero';
+const Hero = lazy(() => import('./components/sections/Hero').then(m => ({ default: m.Hero || m.default })));
 const About = lazy(() => import('./components/sections/About').then(m => ({ default: m.About || m.default })));
 const Skills = lazy(() => import('./components/sections/Skills').then(m => ({ default: m.Skills || m.default })));
 const Projects = lazy(() => import('./components/sections/Projects').then(m => ({ default: m.Projects || m.default })));

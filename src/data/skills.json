@@ -3,149 +3,149 @@
     {
       "name": "Java",
       "slug": "java",
-      "logo": "https://svgl.app/library/java.svg"
+      "logo": "/src/assets/icons/java.svg"
     },
     {
       "name": "JavaScript",
       "slug": "javascript",
-      "logo": "https://svgl.app/library/javascript.svg"
+      "logo": "/src/assets/icons/javascript.svg"
     },
     {
       "name": "Python",
       "slug": "python",
-      "logo": "https://svgl.app/library/python.svg"
+      "logo": "/src/assets/icons/python.svg"
     },
     {
       "name": "C",
       "slug": "c",
-      "logo": "https://svgl.app/library/c.svg"
+      "logo": "/src/assets/icons/c.svg"
     }
   ],
   "codeEditors": [
     {
       "name": "VS Code",
       "slug": "vscode",
-      "logo": "https://svgl.app/library/vscode.svg"
+      "logo": "/src/assets/icons/vscode.svg"
     }
   ],
   "aiTools": [
     {
       "name": "ChatGPT",
       "slug": "chatgpt",
-      "logo": "https://svgl.app/library/openai.svg"
+      "logo": "/src/assets/icons/chatgpt.svg"
     },
     {
       "name": "Gemini",
       "slug": "gemini",
-      "logo": "https://svgl.app/library/gemini.svg"
+      "logo": "/src/assets/icons/gemini.svg"
     },
     {
       "name": "NotebookLM",
       "slug": "notebooklm",
-      "logo": "https://cdn.simpleicons.org/google/4285F4"
+      "logo": "/src/assets/icons/notebooklm.svg"
     },
     {
       "name": "GitHub Copilot",
       "slug": "github-copilot",
-      "logo": "https://svgl.app/library/copilot.svg"
+      "logo": "/src/assets/icons/github-copilot.svg"
     }
   ],
   "frontend": [
     {
       "name": "HTML5",
       "slug": "html5",
-      "logo": "https://svgl.app/library/html5.svg"
+      "logo": "/src/assets/icons/html5.svg"
     },
     {
       "name": "CSS3",
       "slug": "css",
-      "logo": "https://svgl.app/library/css.svg"
+      "logo": "/src/assets/icons/css.svg"
     },
     {
       "name": "React",
       "slug": "react",
-      "logo": "https://skillicons.dev/icons?i=react"
+      "logo": "/src/assets/icons/react.svg"
     },
     {
       "name": "Tailwind CSS",
       "slug": "tailwindcss",
-      "logo": "https://svgl.app/library/tailwindcss.svg"
+      "logo": "/src/assets/icons/tailwindcss.svg"
     },
     {
       "name": "Bootstrap",
       "slug": "bootstrap",
-      "logo": "https://svgl.app/library/bootstrap.svg"
+      "logo": "/src/assets/icons/bootstrap.svg"
     }
   ],
   "backend": [
     {
       "name": "Node.js",
       "slug": "nodejs",
-      "logo": "https://svgl.app/library/nodejs.svg"
+      "logo": "/src/assets/icons/nodejs.svg"
     },
     {
       "name": "Express.js",
       "slug": "expressjs",
-      "logo": "https://svgl.app/library/expressjs.svg"
+      "logo": "/src/assets/icons/expressjs.svg"
     }
   ],
   "databases": [
     {
       "name": "MongoDB",
       "slug": "mongodb",
-      "logo": "https://skillicons.dev/icons?i=mongodb"
+      "logo": "/src/assets/icons/mongodb.svg"
     },
     {
       "name": "PostgreSQL",
       "slug": "postgresql",
-      "logo": "https://svgl.app/library/postgresql.svg"
+      "logo": "/src/assets/icons/postgresql.svg"
     },
     {
       "name": "MySQL",
       "slug": "mysql",
-      "logo": "https://skillicons.dev/icons?i=mysql"
+      "logo": "/src/assets/icons/mysql.svg"
     }
   ],
   "tools": [
     {
       "name": "GitHub",
       "slug": "github",
-      "logo": "https://skillicons.dev/icons?i=github"
+      "logo": "/src/assets/icons/github.svg"
     },
     {
       "name": "Notion",
       "slug": "notion",
-      "logo": "https://svgl.app/library/notion.svg"
+      "logo": "/src/assets/icons/notion.svg"
     },
     {
       "name": "Docker",
       "slug": "docker",
-      "logo": "https://svgl.app/library/docker.svg"
+      "logo": "/src/assets/icons/docker.svg"
     },
     {
       "name": "n8n",
       "slug": "n8n",
-      "logo": "https://svgl.app/library/n8n.svg"
+      "logo": "/src/assets/icons/n8n.svg"
     },
     {
       "name": "Google Colab",
       "slug": "google-colab",
-      "logo": "https://cdn.simpleicons.org/googlecolab/F9AB00"
+      "logo": "/src/assets/icons/google-colab.svg"
     },
     {
       "name": "Microsoft Office",
       "slug": "microsoft-office",
-      "logo": "https://svgl.app/library/microsoft-office.svg"
+      "logo": "/src/assets/icons/microsoft-office.svg"
     },
     {
       "name": "Salesforce",
       "slug": "salesforce",
-      "logo": "https://svgl.app/library/salesforce.svg"
+      "logo": "/src/assets/icons/salesforce.svg"
     },
     {
       "name": "Odoo",
       "slug": "odoo",
-      "logo": "https://cdn.simpleicons.org/odoo/714B67"
+      "logo": "/src/assets/icons/odoo.svg"
     }
   ]
 }

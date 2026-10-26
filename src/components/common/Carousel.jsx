@@ -208,6 +208,8 @@ export const Carousel = (props) => {
                       className={styles.embla__parallax__img}
                       src={project.image || `https://picsum.photos/600/350?v=${index}`}
                       alt={project.name}
+                      width="600"
+                      height="350"
                       loading="lazy"
                       decoding="async"
                     />
