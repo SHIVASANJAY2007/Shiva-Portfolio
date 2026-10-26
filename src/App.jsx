@@ -40,10 +40,18 @@ export default function App() {
     };
 
     gsap.ticker.add(raf);
+    gsap.ticker.lagSmoothing(0);
+
+    if (typeof document !== 'undefined' && document.fonts?.ready) {
+      document.fonts.ready.then(() => {
+        ScrollTrigger.refresh();
+      });
+    }
 
     return () => {
       lenis.destroy();
       gsap.ticker.remove(raf);
+      delete window.lenis;
     };
   }, []);
 
