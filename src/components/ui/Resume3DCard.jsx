@@ -2,15 +2,18 @@ import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import styles from './Resume3DCard.module.css';
 import resumePdf from '../../data/Shiva Sanjay N D Resume.pdf';
+import { getQualityConfig } from '../../utils/quality';
 
 export const Resume3DCard = () => {
   const cardRef = useRef(null);
+  const glareRef = useRef(null);
   const canvasRef = useRef(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-  const [cardTransform, setCardTransform] = useState('perspective(2000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)');
-  const [glarePos, setGlarePos] = useState({ x: 50, y: 50, opacity: 0 });
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const rectRef = useRef(null);
+  const rafRef = useRef(0);
+  const tgtRef = useRef({ x: 0, y: 0 });
 
   // Resume viewer interactive tool state ('select' | 'hand'), zoom level, and pan drag tracking
   const [viewMode, setViewMode] = useState('select');
@@ -82,8 +85,7 @@ export const Resume3DCard = () => {
     dragStartRef.current = { x: e.clientX - panOffset.x, y: e.clientY - panOffset.y };
   };
 
-  // Dynamically load PDF.js to render the resume as a pure HD Canvas image texture,
-  // completely bypassing browser iframes, Chromium grey background margins, and border artifacts.
+  // Dynamically load PDF.js to render the resume as a canvas texture (Phase 02: scale 1.5 + bitmap conversion + cleanup)
   useEffect(() => {
     let isCancelled = false;
 
@@ -108,25 +110,51 @@ export const Resume3DCard = () => {
         const pdf = await loadingTask.promise;
         const page = await pdf.getPage(1);
 
-        if (isCancelled) return;
+        if (isCancelled) {
+          pdf.destroy();
+          return;
+        }
+
+        // Render PDF page once at scale 1.5 (cap by Math.min(devicePixelRatio, 2))
+        const dpr = typeof window !== 'undefined' ? (window.devicePixelRatio || 1) : 1;
+        const scale = Math.min(dpr, 1.5);
+        const viewport = page.getViewport({ scale });
+
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = viewport.width;
+        tempCanvas.height = viewport.height;
+        const tempContext = tempCanvas.getContext('2d');
+
+        await page.render({
+          canvasContext: tempContext,
+          viewport: viewport,
+        }).promise;
+
+        if (isCancelled) {
+          tempCanvas.width = 0;
+          tempCanvas.height = 0;
+          pdf.destroy();
+          return;
+        }
 
         const canvas = canvasRef.current;
-        if (!canvas) return;
+        if (canvas) {
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          const context = canvas.getContext('2d');
+          if (window.createImageBitmap) {
+            const bitmap = await createImageBitmap(tempCanvas);
+            context.drawImage(bitmap, 0, 0);
+            bitmap.close();
+          } else {
+            context.drawImage(tempCanvas, 0, 0);
+          }
+        }
 
-        // Ultra-HD Retina Scale (3.0x resolution) for crisp text and graphics clarity
-        const scale = 3.0;
-        const viewport = page.getViewport({ scale });
-        const context = canvas.getContext('2d');
+        tempCanvas.width = 0;
+        tempCanvas.height = 0;
+        pdf.destroy();
 
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
-
-        const renderContext = {
-          canvasContext: context,
-          viewport: viewport,
-        };
-
-        await page.render(renderContext).promise;
         if (!isCancelled) {
           setIsLoaded(true);
         }
@@ -142,36 +170,77 @@ export const Resume3DCard = () => {
     };
   }, []);
 
-  // Real-time realistic 3D physical document tilt physics
-  const handleMouseMove = (e) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+  // Window resize to update cached rect
+  useEffect(() => {
+    const handleResize = () => {
+      if (cardRef.current && rectRef.current) {
+        rectRef.current = cardRef.current.getBoundingClientRect();
+      }
+    };
+    window.addEventListener('resize', handleResize, { passive: true });
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
+    };
+  }, []);
 
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-
-    // Calculate natural rotation (max tilt: 13 degrees)
-    const rotateY = ((x - centerX) / centerX) * 13;
-    const rotateX = ((y - centerY) / centerY) * -13;
-
-    setCardTransform(`perspective(2000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.03, 1.03, 1.03)`);
-    
-    // Update specular reflection coordinates
-    const glareX = (x / rect.width) * 100;
-    const glareY = (y / rect.height) * 100;
-    setGlarePos({ x: glareX, y: glareY, opacity: 0.25 });
+  // RAF callback writing style.transform and CSS variables for glare directly
+  const applyTilt = () => {
+    rafRef.current = 0;
+    const { x, y } = tgtRef.current;
+    if (cardRef.current) {
+      const rotX = (-y * 13).toFixed(2);
+      const rotY = (x * 13).toFixed(2);
+      cardRef.current.style.transform = `perspective(2000px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.03, 1.03, 1.03)`;
+    }
+    if (glareRef.current) {
+      glareRef.current.style.setProperty('--gx', `${(x * 50 + 50).toFixed(1)}%`);
+      glareRef.current.style.setProperty('--gy', `${(y * 50 + 50).toFixed(1)}%`);
+    }
   };
 
-  const handleMouseEnter = () => {
-    setIsHovered(true);
+  const handlePointerEnter = (e) => {
+    if (e.pointerType === 'touch' || window.matchMedia('(prefers-reduced-motion: reduce)').matches || !getQualityConfig().tilt) {
+      return;
+    }
+    if (cardRef.current) {
+      rectRef.current = cardRef.current.getBoundingClientRect();
+      cardRef.current.style.willChange = 'transform';
+      cardRef.current.style.transition = 'box-shadow 0.3s ease, border-color 0.3s ease';
+    }
+    if (glareRef.current) {
+      glareRef.current.style.setProperty('--glare-opacity', '0.25');
+    }
   };
 
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-    setCardTransform('perspective(2000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)');
-    setGlarePos({ x: 50, y: 50, opacity: 0 });
+  const handlePointerMove = (e) => {
+    if (e.pointerType === 'touch' || !rectRef.current) return;
+    const r = rectRef.current;
+    tgtRef.current = {
+      x: (e.clientX - r.left) / r.width - 0.5,
+      y: (e.clientY - r.top) / r.height - 0.5,
+    };
+    if (!rafRef.current) {
+      rafRef.current = requestAnimationFrame(applyTilt);
+    }
+  };
+
+  const handlePointerLeave = () => {
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = 0;
+    }
+    rectRef.current = null;
+    if (cardRef.current) {
+      cardRef.current.style.willChange = 'auto';
+      cardRef.current.style.transition = 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.4s ease, border-color 0.4s ease';
+      cardRef.current.style.transform = 'perspective(2000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+    }
+    if (glareRef.current) {
+      glareRef.current.style.setProperty('--glare-opacity', '0');
+    }
   };
 
   const handleCardClick = () => {
@@ -363,21 +432,14 @@ export const Resume3DCard = () => {
         <div
           ref={cardRef}
           className={styles.tiltCard}
-          style={{ 
-            transform: cardTransform, 
-            transition: isHovered ? 'box-shadow 0.3s ease, border-color 0.3s ease' : 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.4s ease, border-color 0.4s ease' 
-          }}
-          onMouseMove={handleMouseMove}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
+          onPointerMove={handlePointerMove}
+          onPointerEnter={handlePointerEnter}
+          onPointerLeave={handlePointerLeave}
         >
           {/* Realistic Specular Glare */}
           <div 
+            ref={glareRef}
             className={styles.glare} 
-            style={{ 
-              background: `radial-gradient(circle at ${glarePos.x}% ${glarePos.y}%, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 45%, transparent 75%)`,
-              opacity: glarePos.opacity 
-            }}
           />
 
           {!isLoaded && (

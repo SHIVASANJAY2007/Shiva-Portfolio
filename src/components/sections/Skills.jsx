@@ -26,6 +26,8 @@ const NotebookLM = ({ size = 56, style, ...props }) => (
   </svg>
 );
 
+const iconMap = import.meta.glob('../../assets/icons/*.svg', { eager: true, import: 'default' });
+
 const SkillIcon = React.memo(({ skill, className, size = 56 }) => {
   if (skill.slug === 'notebooklm' || skill.name === 'NotebookLM') {
     return (
@@ -34,7 +36,8 @@ const SkillIcon = React.memo(({ skill, className, size = 56 }) => {
       </span>
     );
   }
-  return <img src={skill.logo} alt={skill.name} className={className} loading="lazy" decoding="async" />;
+  const localIcon = iconMap[`../../assets/icons/${skill.slug}.svg`];
+  return <img src={localIcon || skill.logo} alt={skill.name} className={className} loading="lazy" decoding="async" />;
 });
 SkillIcon.displayName = 'SkillIcon';
 
@@ -142,9 +145,9 @@ export const Skills = () => {
       {/* Infinite running kinetic typography background for the active skill, smoothly fading out as it reaches the left big logo */}
       <div className={styles.velocityBackground}>
         <ScrollVelocity 
-          texts={Array(3).fill(activeSkill.name)} 
-          velocity={50} 
-          numCopies={8} 
+          texts={Array(2).fill(activeSkill.name)} 
+          velocity={40} 
+          numCopies={3} 
         />
       </div>
 
@@ -185,36 +188,30 @@ export const Skills = () => {
 
               {/* Inactive Skills on the Orbit */}
               {inactiveSkills.map((skill) => (
-                <motion.div
+                <div
                   key={skill.name}
-                  layoutId={`skill-${skill.name}`}
                   className={styles.orbitItem}
-                  initial={false}
-                  animate={{ x: skill.x, y: skill.y }}
-                  transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                  style={{
+                    transform: `translate3d(${skill.x}px, ${skill.y}px, 0)`
+                  }}
                   onClick={() => setActiveIndex(skill.originalIndex)}
-                  whileHover={{ scale: 1.2 }}
                   title={skill.name}
                 >
                   <div className="iconWrapper" style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <SkillIcon skill={skill} className={styles.rotatingIcon} size={36} />
                   </div>
-                </motion.div>
+                </div>
               ))}
             </div>
 
             {/* Active Skill in the Center */}
-            <motion.div
+            <div
               key={activeSkill.name}
-              layoutId={`skill-${activeSkill.name}`}
               className={styles.centerSkill}
-              initial={false}
-              animate={{ x: 0, y: 0, scale: 1 }}
-              transition={{ type: "spring", stiffness: 300, damping: 25 }}
             >
               <SkillIcon skill={activeSkill} size={84} />
               <div className={styles.activeLabel}>{activeSkill.name}</div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>

@@ -3,13 +3,12 @@ import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Navigation, Footer, Loader, ClickSpark } from './components/common';
-import useScrollScene from './hooks/useScrollScene';
 import './styles/globals.css';
 import StackScroller from './components/sections/StackScroller';
 
 gsap.registerPlugin(ScrollTrigger);
 
-import Hero from './components/sections/Hero';
+const Hero = lazy(() => import('./components/sections/Hero').then(m => ({ default: m.Hero || m.default })));
 const About = lazy(() => import('./components/sections/About').then(m => ({ default: m.About || m.default })));
 const Skills = lazy(() => import('./components/sections/Skills').then(m => ({ default: m.Skills || m.default })));
 const Projects = lazy(() => import('./components/sections/Projects').then(m => ({ default: m.Projects || m.default })));
@@ -20,7 +19,6 @@ const Contact = lazy(() => import('./components/sections/Contact').then(m => ({ 
 const FALLBACK_STYLE = { height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff' };
 
 export default function App() {
-  useScrollScene();
 
   useEffect(() => {
     // Ultra-smooth, luxury gliding scroll configuration
@@ -40,10 +38,18 @@ export default function App() {
     };
 
     gsap.ticker.add(raf);
+    gsap.ticker.lagSmoothing(0);
+
+    if (typeof document !== 'undefined' && document.fonts?.ready) {
+      document.fonts.ready.then(() => {
+        ScrollTrigger.refresh();
+      });
+    }
 
     return () => {
       lenis.destroy();
       gsap.ticker.remove(raf);
+      delete window.lenis;
     };
   }, []);
 

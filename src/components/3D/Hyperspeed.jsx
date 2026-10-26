@@ -42,9 +42,15 @@ const DEFAULT_EFFECT_OPTIONS = {
   }
 };
 
-const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
+const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS, active = true }) => {
   const hyperspeed = useRef(null);
   const appRef = useRef(null);
+
+  useEffect(() => {
+    if (appRef.current) {
+      appRef.current.setActive(active);
+    }
+  }, [active]);
 
   useEffect(() => {
     if (appRef.current) {
@@ -419,10 +425,20 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
         this.onContextMenu = this.onContextMenu.bind(this);
 
         this.onWindowResize = this.onWindowResize.bind(this);
-        window.addEventListener('resize', this.onWindowResize);
+        this.isActive = options.active !== undefined ? options.active : true;
 
         if (container.offsetWidth > 0 && container.offsetHeight > 0) {
           this.hasValidSize = true;
+        }
+      }
+
+      setActive(active) {
+        this.isActive = active;
+        if (active && !this.disposed) {
+          if (!this.rafId) {
+            this.clock.start();
+            this.tick();
+          }
         }
       }
 
@@ -517,7 +533,16 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
 
         if (this.container) this.container.addEventListener('contextmenu', this.onContextMenu);
 
-        this.tick();
+        // Pre-compile shaders during preloader rather than blocking at toggle time
+        try {
+          this.renderer.compile(this.scene, this.camera);
+        } catch (e) {
+          // ignore
+        }
+
+        if (this.isActive) {
+          this.tick();
+        }
       }
 
       onMouseDown(ev) {
@@ -645,6 +670,12 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
 
       tick() {
         if (this.disposed || !this.container) return;
+
+        // Skip render loops if inactive or document is hidden
+        if (!this.isActive || (typeof document !== 'undefined' && document.hidden)) {
+          this.rafId = 0;
+          return;
+        }
 
         // Pause WebGL rendering loop when the Hero section is out of view to preserve GPU performance
         if (window.scrollY > window.innerHeight * 1.3) {
@@ -1173,7 +1204,8 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
     const options = {
       ...DEFAULT_EFFECT_OPTIONS,
       ...effectOptions,
-      colors: { ...DEFAULT_EFFECT_OPTIONS.colors, ...effectOptions.colors }
+      colors: { ...DEFAULT_EFFECT_OPTIONS.colors, ...effectOptions.colors },
+      active
     };
     options.distortion = distortions[options.distortion];
 

@@ -4,13 +4,18 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './About.module.css';
 import { resumeData } from '../../data/resume';
 import montageNature from '../../assets/videos/montage_nature_opt.mp4';
+import montagePoster from '../../assets/videos/montage_poster.webp';
 import { Resume3DCard } from '../ui/Resume3DCard';
+
+import { getQualityConfig } from '../../utils/quality';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export const About = () => {
   const containerRef = useRef(null);
   const videoRef = useRef(null);
+  const quality = getQualityConfig();
+  const showVideo = quality.video && typeof window !== 'undefined' && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -92,17 +97,22 @@ export const About = () => {
 
   return (
     <section id="about" className={styles.originSection} ref={containerRef}>
-      <video
-        ref={videoRef}
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="metadata"
-        className={styles.bgVideo}
-      >
-        <source src={montageNature} type="video/mp4" />
-      </video>
+      {showVideo ? (
+        <video
+          ref={videoRef}
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster={montagePoster}
+          preload="metadata"
+          className={styles.bgVideo}
+        >
+          <source src={montageNature} type="video/mp4" />
+        </video>
+      ) : (
+        <img src={montagePoster} alt="Nature background" className={styles.bgVideo} />
+      )}
       <div className={styles.overlay}></div>
 
       <div className={styles.content}>

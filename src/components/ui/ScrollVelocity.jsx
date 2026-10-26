@@ -31,7 +31,7 @@ function VelocityText({
   children,
   baseVelocity = 100,
   className = '',
-  numCopies = 8,
+  numCopies = 3,
   parallaxClassName = 'parallax',
   scrollerClassName = 'scroller',
   parallaxStyle,
@@ -40,18 +40,24 @@ function VelocityText({
   const baseX = useMotionValue(0);
   const containerRef = useRef(null);
   const copyRef = useRef(null);
-  const copyWidth = useElementWidth(copyRef, children);
-  const [isInView, setIsInView] = useState(false);
+  const copyWidthRef = useRef(0);
+  const isInViewRef = useRef(false);
 
   useEffect(() => {
     if (!containerRef.current) return;
     const observer = new IntersectionObserver(([entry]) => {
-      setIsInView(entry.isIntersecting);
+      isInViewRef.current = entry.isIntersecting;
     }, { threshold: 0.01 });
 
     observer.observe(containerRef.current);
     return () => observer.disconnect();
   }, []);
+
+  useLayoutEffect(() => {
+    if (copyRef.current) {
+      copyWidthRef.current = copyRef.current.offsetWidth || 300;
+    }
+  }, [children]);
 
   function wrap(min, max, v) {
     const range = max - min;
@@ -60,12 +66,13 @@ function VelocityText({
   }
 
   const x = useTransform(baseX, v => {
-    if (copyWidth === 0) return '0px';
-    return `${wrap(-copyWidth, 0, v)}px`;
+    const w = copyWidthRef.current || 300;
+    return `${wrap(-w, 0, v)}px`;
   });
 
   useAnimationFrame((t, delta) => {
-    if (!isInView) return;
+    if (!isInViewRef.current || typeof document === 'undefined' || document.hidden) return;
+    if (baseVelocity === 0) return;
     const smoothDelta = Math.min(delta, 50);
     const moveBy = baseVelocity * (smoothDelta / 1000);
     baseX.set(baseX.get() + moveBy);
@@ -96,7 +103,7 @@ export const ScrollVelocity = ({
   className = '',
   damping = 50,
   stiffness = 400,
-  numCopies = 6,
+  numCopies = 3,
   velocityMapping = { input: [0, 1000], output: [0, 5] },
   parallaxClassName = 'parallax',
   scrollerClassName = 'scroller',

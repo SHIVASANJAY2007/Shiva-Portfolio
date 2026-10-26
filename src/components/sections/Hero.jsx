@@ -3,12 +3,13 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './Hero.module.css';
 import { Canvas } from '@react-three/fiber';
-import { Environment, PerspectiveCamera, useGLTF } from '@react-three/drei';
+import { Environment, PerspectiveCamera, useGLTF, PerformanceMonitor } from '@react-three/drei';
 import * as THREE from 'three';
 import { HeroLoader } from '../3D/HeroLoader';
 import { scrollToSection } from '../../lib/scrollToSection';
 import { resumeData } from '../../data/resume';
-import Hyperspeed from '../3D/Hyperspeed';
+import { getQuality, getQualityConfig } from '../../utils/quality';
+const Hyperspeed = React.lazy(() => import('../3D/Hyperspeed'));
 
 const KNIGHT_MODEL_URL = '/models/knight-opt.glb';
 
@@ -108,6 +109,10 @@ export const Hero = () => {
   const [roleIndex, setRoleIndex] = useState(0);
   const [showBackground, setShowBackground] = useState(false);
   const [isHeroVisible, setIsHeroVisible] = useState(true);
+  const [documentHidden, setDocumentHidden] = useState(false);
+  const [isPrewarmed, setIsPrewarmed] = useState(false);
+  const [tier, setTier] = useState(() => getQuality());
+  const qualityConfig = getQualityConfig(tier);
 
   // Monitor viewport visibility to pause Three.js GPU cycles when scrolled away
   useEffect(() => {
@@ -118,6 +123,29 @@ export const Hero = () => {
 
     observer.observe(containerRef.current);
     return () => observer.disconnect();
+  }, []);
+
+  // Monitor document visibility to freeze render loop when tab is backgrounded
+  useEffect(() => {
+    const handleVis = () => setDocumentHidden(document.hidden);
+    document.addEventListener('visibilitychange', handleVis);
+    return () => document.removeEventListener('visibilitychange', handleVis);
+  }, []);
+
+  // Pre-warm Hyperspeed bundle during idle time
+  useEffect(() => {
+    const prewarm = () => {
+      import('../3D/Hyperspeed').then(() => {
+        setIsPrewarmed(true);
+      });
+    };
+    if (typeof window !== 'undefined') {
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(prewarm, { timeout: 3000 });
+      } else {
+        setTimeout(prewarm, 1500);
+      }
+    }
   }, []);
 
   // Resume-driven dynamic role catalog
@@ -279,11 +307,22 @@ export const Hero = () => {
       <div className={styles.blobRight} aria-hidden="true" />
 
       {/* Dynamic Magic Background Layer (Hyperspeed) */}
-      <div className={`${styles.bgContainer} ${showBackground ? styles.bgContainerActive : ''}`}>
-        {showBackground && (
-          <WebGLErrorBoundary key="hyperspeed-view">
-            <Hyperspeed effectOptions={HYPERSPEED_PRESET_OPTIONS} />
-          </WebGLErrorBoundary>
+      <div 
+        className={`${styles.bgContainer} ${showBackground ? styles.bgContainerActive : ''}`}
+        style={{
+          visibility: showBackground ? 'visible' : 'hidden',
+          pointerEvents: showBackground ? 'auto' : 'none',
+        }}
+      >
+        {(showBackground || isPrewarmed) && (
+          <Suspense fallback={null}>
+            <WebGLErrorBoundary key="hyperspeed-view">
+              <Hyperspeed 
+                effectOptions={HYPERSPEED_PRESET_OPTIONS} 
+                active={showBackground && isHeroVisible && !documentHidden} 
+              />
+            </WebGLErrorBoundary>
+          </Suspense>
         )}
       </div>
 
@@ -301,58 +340,74 @@ export const Hero = () => {
         </div>
       </div>
 
-      {/* Layer 3: High-Speed 3D Canvas (Conditionally active ONLY when 3D mode is enabled to eliminate VRAM contention and white screens) */}
-      {!showBackground && (
-        <div className={`canvas-container ${styles.modelContainer}`} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 5, pointerEvents: 'none' }}>
-          <WebGLErrorBoundary key="3d-sculpture-view">
-            <Canvas
-              frameloop={isHeroVisible ? "always" : "never"}
-              shadows
-              gl={{
-                alpha: true,
-                antialias: true,
-                powerPreference: 'high-performance',
-                toneMapping: THREE.ACESFilmicToneMapping,
-                toneMappingExposure: 1.1,
-              }}
-              dpr={[1, 1.25]}
-            >
-              <HeroCameraRig />
-              <ambientLight intensity={0.6} />
-              <directionalLight
-                position={[5, 5, 5]}
-                intensity={1.2}
-                castShadow
-                shadow-mapSize={[512, 512]}
-                shadow-bias={-0.0001}
-              />
-              <directionalLight position={[-5, 3, -5]} intensity={0.5} />
-              <Environment files="/models/potsdamer_platz_1k.hdr" resolution={256} />
+      {/* Layer 3: High-Speed 3D Canvas (Kept mounted to preserve WebGL context; paused and hidden when magic background active) */}
+      <div 
+        className={`canvas-container ${styles.modelContainer}`} 
+        style={{ 
+          position: 'absolute', 
+          top: 0, 
+          left: 0, 
+          width: '100%', 
+          height: '100%', 
+          zIndex: 5, 
+          pointerEvents: 'none',
+          visibility: showBackground ? 'hidden' : 'visible'
+        }}
+      >
+        <WebGLErrorBoundary key="3d-sculpture-view">
+          <Canvas
+            frameloop={isHeroVisible && !documentHidden && !showBackground ? "demand" : "never"}
+            shadows={qualityConfig.shadows}
+            gl={{
+              alpha: true,
+              antialias: true,
+              powerPreference: 'high-performance',
+              toneMapping: THREE.ACESFilmicToneMapping,
+              toneMappingExposure: 1.1,
+            }}
+            dpr={qualityConfig.dpr}
+          >
+            <PerformanceMonitor onDecline={() => setTier((prev) => (prev === 'high' ? 'medium' : 'low'))} />
+            <HeroCameraRig />
+            <ambientLight intensity={0.6} />
+            <directionalLight
+              position={[5, 5, 5]}
+              intensity={1.2}
+              castShadow={qualityConfig.shadows}
+              shadow-mapSize={[512, 512]}
+              shadow-bias={-0.0001}
+            />
+            <directionalLight position={[-5, 3, -5]} intensity={0.5} />
+            <Environment files="/models/potsdamer_platz_1k.hdr" resolution={256} />
 
-              <HeroLoader />
-              <Suspense fallback={null}>
-                <group>
-                  <Knight />
-                </group>
-              </Suspense>
-            </Canvas>
-          </WebGLErrorBoundary>
-        </div>
-      )}
+            <HeroLoader />
+            <Suspense fallback={null}>
+              <group>
+                <Knight />
+              </group>
+            </Suspense>
+          </Canvas>
+        </WebGLErrorBoundary>
+      </div>
 
-      {/* Layer 3.5: X-Ray Glass Overlay (Strictly in 3D model mode, keeping text legible over 3D sculpture without altering original metal colors) */}
-      {!showBackground && (
-        <div className={styles.xrayOverlay} ref={overlayTitleRef} aria-hidden="true">
-          <div className={styles.splitTitle}>
-            <h1 className={styles.titleLeft}>SHIVA</h1>
-            <h1 className={styles.titleRight}>SANJAY</h1>
-          </div>
-          <div className={styles.splitSubhead} ref={overlayRoleRef}>
-            <span className={styles.subLeft}>{currentRole.left}</span>
-            <span className={styles.subRight}>{currentRole.right}</span>
-          </div>
+      {/* Layer 3.5: X-Ray Glass Overlay */}
+      <div 
+        className={styles.xrayOverlay} 
+        ref={overlayTitleRef} 
+        aria-hidden="true"
+        style={{
+          visibility: showBackground ? 'hidden' : 'visible'
+        }}
+      >
+        <div className={styles.splitTitle}>
+          <h1 className={styles.titleLeft}>SHIVA</h1>
+          <h1 className={styles.titleRight}>SANJAY</h1>
         </div>
-      )}
+        <div className={styles.splitSubhead} ref={overlayRoleRef}>
+          <span className={styles.subLeft}>{currentRole.left}</span>
+          <span className={styles.subRight}>{currentRole.right}</span>
+        </div>
+      </div>
 
       {/* Layer 4: Foreground Overlay UI (In Front of 3D Model or Above Magic BG) */}
       <div className={`${styles.foregroundUI} ${showBackground ? styles.foregroundUIMagic : styles.foregroundUI3D}`}>

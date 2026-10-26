@@ -37,15 +37,14 @@ const TimelineCarousel = ({ kicker, title, items, direction = 'ltr' }) => {
     };
   }, [emblaApi, onSelect]);
 
-  // Lock (pin) section in viewport during scrolling until all cards have been viewed sequentially
+  // Non-pinned natural scroll range synchronization with Embla carousel
   useEffect(() => {
     if (!emblaApi || !sectionRef.current) return;
     const ctx = gsap.context(() => {
       ScrollTrigger.create({
         trigger: sectionRef.current,
-        start: 'center center',
-        end: () => `+=${items.length * 650}`,
-        pin: true,
+        start: 'top 80%',
+        end: 'bottom 20%',
         scrub: 0.5,
         onUpdate: (self) => {
           if (!emblaApi) return;
