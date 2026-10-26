@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import styles from "./Nav.module.css";
 import { scrollToSection, getActiveSection } from "../../lib/scrollToSection";
 import { resumeData } from "../../data/resume";
 import resumePdf from "../../data/Shiva Sanjay N D Resume.pdf";
+import useLenisScroll from "../../hooks/useLenisScroll";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -41,27 +42,24 @@ export const Nav = () => {
   const [activeTheme, setActiveTheme] = useState("dark");
   const [activeSection, setActiveSection] = useState("hero");
 
-  // Dedicated Lenis JS Library & GSAP ScrollTrigger Color Changing Engine
+  // Dedicated Lenis scroll subscription using shared useLenisScroll hook
+  const checkActiveTheme = useCallback(() => {
+    const currentActive = getActiveSection();
+    setActiveSection(currentActive);
+
+    const isOverLightSection = currentActive === "skills" || currentActive === "experience";
+    setActiveTheme(isOverLightSection && !isMenuOpen ? "light" : "dark");
+  }, [isMenuOpen]);
+
+  useLenisScroll(checkActiveTheme);
+
   useEffect(() => {
-    const checkActiveTheme = () => {
-      const currentActive = getActiveSection();
-      setActiveSection(currentActive);
-
-      const isOverLightSection = currentActive === "skills" || currentActive === "experience";
-      setActiveTheme(isOverLightSection && !isMenuOpen ? "light" : "dark");
-    };
-
-    window.lenis?.on("scroll", checkActiveTheme);
-    window.addEventListener("scroll", checkActiveTheme, { passive: true });
-    window.addEventListener("resize", checkActiveTheme, { passive: true });
     checkActiveTheme();
-
+    window.addEventListener("resize", checkActiveTheme, { passive: true });
     return () => {
-      window.lenis?.off("scroll", checkActiveTheme);
-      window.removeEventListener("scroll", checkActiveTheme);
       window.removeEventListener("resize", checkActiveTheme);
     };
-  }, [isMenuOpen]);
+  }, [checkActiveTheme]);
 
   // High-performance GSAP Open/Close Timeline Architecture for Glassmorphism Drawer
   useEffect(() => {

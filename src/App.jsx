@@ -3,7 +3,6 @@ import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Navigation, Footer, Loader, ClickSpark } from './components/common';
-import useScrollScene from './hooks/useScrollScene';
 import './styles/globals.css';
 import StackScroller from './components/sections/StackScroller';
 
@@ -20,7 +19,6 @@ const Contact = lazy(() => import('./components/sections/Contact').then(m => ({ 
 const FALLBACK_STYLE = { height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff' };
 
 export default function App() {
-  useScrollScene();
 
   useEffect(() => {
     // Ultra-smooth, luxury gliding scroll configuration
