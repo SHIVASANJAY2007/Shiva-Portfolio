@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import styles from './Resume3DCard.module.css';
 import resumePdf from '../../data/Shiva Sanjay N D Resume.pdf';
+import { getQualityConfig } from '../../utils/quality';
 
 export const Resume3DCard = () => {
   const cardRef = useRef(null);
@@ -201,7 +202,7 @@ export const Resume3DCard = () => {
   };
 
   const handlePointerEnter = (e) => {
-    if (e.pointerType === 'touch' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (e.pointerType === 'touch' || window.matchMedia('(prefers-reduced-motion: reduce)').matches || !getQualityConfig().tilt) {
       return;
     }
     if (cardRef.current) {

@@ -7,12 +7,15 @@ import montageNature from '../../assets/videos/montage_nature_opt.mp4';
 import montagePoster from '../../assets/videos/montage_poster.webp';
 import { Resume3DCard } from '../ui/Resume3DCard';
 
+import { getQualityConfig } from '../../utils/quality';
+
 gsap.registerPlugin(ScrollTrigger);
 
 export const About = () => {
   const containerRef = useRef(null);
   const videoRef = useRef(null);
-  const prefersReduced = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const quality = getQualityConfig();
+  const showVideo = quality.video && typeof window !== 'undefined' && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -94,7 +97,7 @@ export const About = () => {
 
   return (
     <section id="about" className={styles.originSection} ref={containerRef}>
-      {!prefersReduced ? (
+      {showVideo ? (
         <video
           ref={videoRef}
           autoPlay

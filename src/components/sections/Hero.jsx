@@ -3,11 +3,12 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './Hero.module.css';
 import { Canvas } from '@react-three/fiber';
-import { Environment, PerspectiveCamera, useGLTF } from '@react-three/drei';
+import { Environment, PerspectiveCamera, useGLTF, PerformanceMonitor } from '@react-three/drei';
 import * as THREE from 'three';
 import { HeroLoader } from '../3D/HeroLoader';
 import { scrollToSection } from '../../lib/scrollToSection';
 import { resumeData } from '../../data/resume';
+import { getQuality, getQualityConfig } from '../../utils/quality';
 const Hyperspeed = React.lazy(() => import('../3D/Hyperspeed'));
 
 const KNIGHT_MODEL_URL = '/models/knight-opt.glb';
@@ -108,6 +109,8 @@ export const Hero = () => {
   const [isHeroVisible, setIsHeroVisible] = useState(true);
   const [documentHidden, setDocumentHidden] = useState(false);
   const [isPrewarmed, setIsPrewarmed] = useState(false);
+  const [tier, setTier] = useState(() => getQuality());
+  const qualityConfig = getQualityConfig(tier);
 
   // Monitor viewport visibility to pause Three.js GPU cycles when scrolled away
   useEffect(() => {
@@ -352,7 +355,7 @@ export const Hero = () => {
         <WebGLErrorBoundary key="3d-sculpture-view">
           <Canvas
             frameloop={isHeroVisible && !documentHidden && !showBackground ? "demand" : "never"}
-            shadows={typeof window !== 'undefined' && (!navigator.maxTouchPoints || navigator.maxTouchPoints === 0)}
+            shadows={qualityConfig.shadows}
             gl={{
               alpha: true,
               antialias: true,
@@ -360,14 +363,15 @@ export const Hero = () => {
               toneMapping: THREE.ACESFilmicToneMapping,
               toneMappingExposure: 1.1,
             }}
-            dpr={[1, 1.5]}
+            dpr={qualityConfig.dpr}
           >
+            <PerformanceMonitor onDecline={() => setTier((prev) => (prev === 'high' ? 'medium' : 'low'))} />
             <HeroCameraRig />
             <ambientLight intensity={0.6} />
             <directionalLight
               position={[5, 5, 5]}
               intensity={1.2}
-              castShadow={typeof window !== 'undefined' && (!navigator.maxTouchPoints || navigator.maxTouchPoints === 0)}
+              castShadow={qualityConfig.shadows}
               shadow-mapSize={[512, 512]}
               shadow-bias={-0.0001}
             />
