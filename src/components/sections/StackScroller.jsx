@@ -1,9 +1,26 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './StackScroller.css';
 
-const StickyCard = React.memo(({ child }) => {
+const StickyCard = React.memo(({ child, index }) => {
   const ref = useRef(null);
   const [top, setTop] = useState(0);
+  const [hasMounted, setHasMounted] = useState(index < 2);
+
+  useEffect(() => {
+    if (hasMounted) return;
+    if (!ref.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setHasMounted(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '600px 0px' }
+    );
+    observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [hasMounted]);
 
   useEffect(() => {
     // We use a ResizeObserver to dynamically calculate the top sticky offset.
@@ -27,7 +44,7 @@ const StickyCard = React.memo(({ child }) => {
       observer.disconnect();
       window.removeEventListener('resize', updateTop);
     };
-  }, []);
+  }, [hasMounted]);
 
   return (
     <section 
@@ -35,7 +52,7 @@ const StickyCard = React.memo(({ child }) => {
       className="card__conceal overlay__conceal"
       style={{ top: `${top}px` }}
     >
-      {child}
+      {hasMounted ? child : <div style={{ minHeight: '100vh' }} />}
     </section>
   );
 });
@@ -71,7 +88,7 @@ export const StackScroller = React.memo(({ children }) => {
     <main className="container__stack" ref={containerRef}>
       <section className="stack__conceal">
         {React.Children.map(children, (child, index) => (
-          <StickyCard key={index} child={child} />
+          <StickyCard key={index} index={index} child={child} />
         ))}
       </section>
     </main>

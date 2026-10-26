@@ -241,7 +241,12 @@
   z-index: 5;
   top: calc(50% - 26px);
   left: calc(50% - 26px);
-  will-change: transform;
+  contain: layout paint;
+  transition: transform 0.2s ease;
+}
+
+.orbitItem:hover {
+  transform: scale(1.15);
 }
 
 .orbitItem img {
