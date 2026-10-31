@@ -25,7 +25,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "three": "^0.185.0",
-    "vgpu": "file:vgpu.tgz",
+    "vgpu": "^0.6.0",
     "zustand": "^4.5.7"
   },
   "devDependencies": {
