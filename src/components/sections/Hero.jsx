@@ -88,12 +88,12 @@ function AeroShardsBackground() {
   const [useFallback, setUseFallback] = useState(false);
 
   if (useFallback) {
-    return <AeroShardsFallback shardColor="#FF2E54" accentColor="#A855F7" count={90} />;
+    return <AeroShardsFallback shardColor="#896ABD" accentColor="#A855F7" count={380} />;
   }
 
   return (
     <AeroShards 
-      shardColor="#FF2E54"
+      shardColor="#896ABD"
       accentColor="#A855F7"
       placement="full"
       material="glass"
@@ -340,7 +340,7 @@ export const Hero = () => {
         }}
       >
         {showBackground && (
-          <Suspense fallback={<AeroShardsFallback shardColor="#FF2E54" accentColor="#A855F7" count={90} />}>
+          <Suspense fallback={<AeroShardsFallback shardColor="#896ABD" accentColor="#A855F7" count={380} />}>
             <AeroShardsBackground />
           </Suspense>
         )}
@@ -411,7 +411,7 @@ export const Hero = () => {
               <ModelErrorBoundary onError={triggerFallback}>
                 <Suspense fallback={null}>
                   <group>
-                    <Knight onRenderSuccess={handleModelRenderSuccess} />
+                    <Knight modelUrl={KNIGHT_MODEL_URL} onRenderSuccess={handleModelRenderSuccess} />
                   </group>
                 </Suspense>
               </ModelErrorBoundary>

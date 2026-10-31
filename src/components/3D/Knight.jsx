@@ -133,9 +133,9 @@ function KnightModel({ scene, invalidate, onRenderSuccess }) {
   );
 }
 
-export function Knight({ onRenderSuccess }) {
+export function Knight({ onRenderSuccess, modelUrl = KNIGHT_MODEL_URL }) {
   const { invalidate } = useThree();
-  const { scene } = useGLTF(KNIGHT_MODEL_URL, false, true);
+  const { scene } = useGLTF(modelUrl, false, true);
 
   return <KnightModel scene={scene} invalidate={invalidate} onRenderSuccess={onRenderSuccess} />;
 }
