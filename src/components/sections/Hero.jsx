@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, Suspense } from 'react';
+import React, { useEffect, useRef, useState, Suspense, useCallback } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './Hero.module.css';
@@ -9,7 +9,10 @@ import { HeroLoader } from '../3D/HeroLoader';
 import { scrollToSection } from '../../lib/scrollToSection';
 import { resumeData } from '../../data/resume';
 import { getQuality, getQualityConfig } from '../../utils/quality';
-const AeroShards = React.lazy(() => import('../3D/AeroShards'));
+import AeroShardsFallback from '../3D/AeroShardsFallback';
+
+const aeroShardsPromise = import('../3D/AeroShards');
+const AeroShards = React.lazy(() => aeroShardsPromise);
 
 const KNIGHT_MODEL_URL = '/models/knight-opt.glb';
 
@@ -58,6 +61,57 @@ class WebGLErrorBoundary extends React.Component {
   }
 }
 
+// Dedicated Error Boundary for inside the Canvas reconciler tree
+class ModelErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  componentDidCatch(error) {
+    console.warn("[Hero] 3D Model failed inside Canvas:", error);
+    if (this.props.onError) {
+      this.props.onError(error);
+    }
+  }
+  render() {
+    if (this.state.hasError) {
+      return null;
+    }
+    return this.props.children;
+  }
+}
+
+function AeroShardsBackground() {
+  const [useFallback, setUseFallback] = useState(false);
+
+  if (useFallback) {
+    return <AeroShardsFallback shardColor="#FF2E54" accentColor="#A855F7" count={90} />;
+  }
+
+  return (
+    <AeroShards 
+      shardColor="#FF2E54"
+      accentColor="#A855F7"
+      placement="full"
+      material="glass"
+      markers="plus"
+      count={1300}
+      depthOfField={0.75}
+      vignette={0.3}
+      mouseInteraction
+      pulseOnClick
+      holdToGather
+      onError={(err) => {
+        console.warn("[Hero] WebGPU AeroShards unavailable, using 2D canvas fallback:", err);
+        setUseFallback(true);
+      }}
+    />
+  );
+}
+
 gsap.registerPlugin(ScrollTrigger);
 
 export const Hero = () => {
@@ -76,21 +130,30 @@ export const Hero = () => {
   const qualityConfig = getQualityConfig(tier);
 
   const modelRenderedRef = useRef(false);
+  const fallbackTriggeredRef = useRef(false);
 
-  const handleModelLoaded = () => {
+  const triggerFallback = useCallback(() => {
+    if (fallbackTriggeredRef.current || modelRenderedRef.current) return;
+    fallbackTriggeredRef.current = true;
+    console.warn("[Hero] 3D Model did not render within 5s or failed. Switching to AeroShards background.");
+    setShowBackground(true);
+  }, []);
+
+  const handleModelRenderSuccess = useCallback(() => {
+    if (fallbackTriggeredRef.current) return;
     modelRenderedRef.current = true;
-  };
+  }, []);
 
-  // Fallback mechanism: if the 3D model isn't rendered under 5 seconds, switch to AeroShards background
+  // Bulletproof 5-second trigger: If the 3D model is not rendered within 5 seconds on deployment/production, switch to AeroShards background
   useEffect(() => {
     const timer = setTimeout(() => {
       if (!modelRenderedRef.current) {
-        setShowBackground(true);
+        triggerFallback();
       }
     }, 5000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [triggerFallback]);
 
   // Monitor viewport visibility to pause Three.js GPU cycles when scrolled away
   useEffect(() => {
@@ -277,22 +340,8 @@ export const Hero = () => {
         }}
       >
         {showBackground && (
-          <Suspense fallback={null}>
-            <WebGLErrorBoundary key="aeroshards-view">
-              <AeroShards 
-                shardColor="#FF2E54"
-                accentColor="#A855F7"
-                placement="full"
-                material="glass"
-                markers="plus"
-                count={1300}
-                depthOfField={0.75}
-                vignette={0.3}
-                mouseInteraction
-                pulseOnClick
-                holdToGather
-              />
-            </WebGLErrorBoundary>
+          <Suspense fallback={<AeroShardsFallback shardColor="#FF2E54" accentColor="#A855F7" count={90} />}>
+            <AeroShardsBackground />
           </Suspense>
         )}
       </div>
@@ -311,9 +360,9 @@ export const Hero = () => {
         </div>
       </div>
 
-      {/* Layer 3: High-Speed 3D Canvas (Kept mounted to preserve WebGL context; paused and hidden when fallback background active) */}
+      {/* Layer 3: High-Speed 3D Canvas (Active until fallback triggers; unmounted/paused upon fallback) */}
       <div 
-        className={`canvas-container ${styles.modelContainer}`} 
+        className={`canvas-container ${styles.modelContainer} ${showBackground ? styles.modelHidden : ''}`} 
         style={{ 
           position: 'absolute', 
           top: 0, 
@@ -322,44 +371,54 @@ export const Hero = () => {
           height: '100%', 
           zIndex: 5, 
           pointerEvents: 'none',
-          visibility: showBackground ? 'hidden' : 'visible'
+          display: showBackground ? 'none' : 'block'
         }}
       >
-        <WebGLErrorBoundary key="3d-sculpture-view" onFail={() => setShowBackground(true)}>
-          <Canvas
-            frameloop={isHeroVisible && !documentHidden && !showBackground ? "demand" : "never"}
-            shadows={qualityConfig.shadows}
-            gl={{
-              alpha: true,
-              antialias: true,
-              powerPreference: 'high-performance',
-              toneMapping: THREE.ACESFilmicToneMapping,
-              toneMappingExposure: 1.1,
-            }}
-            dpr={qualityConfig.dpr}
-          >
-            <PerformanceMonitor onDecline={() => setTier((prev) => (prev === 'high' ? 'medium' : 'low'))} />
-            <HeroCameraRig />
-            <ambientLight intensity={0.6} />
-            <directionalLight
-              position={[5, 5, 5]}
-              intensity={1.2}
-              castShadow={qualityConfig.shadows}
-              shadow-mapSize={[512, 512]}
-              shadow-bias={-0.0001}
-            />
-            <directionalLight position={[-5, 3, -5]} intensity={0.5} />
-            <Environment files="/models/potsdamer_platz_1k.hdr" resolution={256} />
+        {!showBackground && (
+          <WebGLErrorBoundary key="3d-sculpture-view" onFail={triggerFallback}>
+            <Canvas
+              frameloop={isHeroVisible && !documentHidden && !showBackground ? "demand" : "never"}
+              shadows={qualityConfig.shadows}
+              gl={{
+                alpha: true,
+                antialias: true,
+                powerPreference: 'high-performance',
+                toneMapping: THREE.ACESFilmicToneMapping,
+                toneMappingExposure: 1.1,
+              }}
+              dpr={qualityConfig.dpr}
+              onCreated={({ gl }) => {
+                gl.domElement.addEventListener('webglcontextlost', (e) => {
+                  e.preventDefault();
+                  triggerFallback();
+                });
+              }}
+            >
+              <PerformanceMonitor onDecline={() => setTier((prev) => (prev === 'high' ? 'medium' : 'low'))} />
+              <HeroCameraRig />
+              <ambientLight intensity={0.6} />
+              <directionalLight
+                position={[5, 5, 5]}
+                intensity={1.2}
+                castShadow={qualityConfig.shadows}
+                shadow-mapSize={[512, 512]}
+                shadow-bias={-0.0001}
+              />
+              <directionalLight position={[-5, 3, -5]} intensity={0.5} />
+              <Environment files="/models/potsdamer_platz_1k.hdr" resolution={256} />
 
-            <HeroLoader onComplete={handleModelLoaded} />
-            <Suspense fallback={null}>
-              <group>
-                <Knight onReady={handleModelLoaded} />
-              </group>
-            </Suspense>
-            <Preload all />
-          </Canvas>
-        </WebGLErrorBoundary>
+              <HeroLoader />
+              <ModelErrorBoundary onError={triggerFallback}>
+                <Suspense fallback={null}>
+                  <group>
+                    <Knight onRenderSuccess={handleModelRenderSuccess} />
+                  </group>
+                </Suspense>
+              </ModelErrorBoundary>
+              <Preload all />
+            </Canvas>
+          </WebGLErrorBoundary>
+        )}
       </div>
 
       {/* Layer 3.5: X-Ray Glass Overlay */}

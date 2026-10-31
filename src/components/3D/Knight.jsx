@@ -6,8 +6,9 @@ import gsap from 'gsap';
 
 export const KNIGHT_MODEL_URL = '/models/knight-opt.glb';
 
-function KnightModel({ scene, invalidate }) {
+function KnightModel({ scene, invalidate, onRenderSuccess }) {
   const meshRef = useRef();
+  const hasRenderedFirstFrame = useRef(false);
 
   // ── HEAD TRACKING refs ─────────────────────────────────────────────────────
   const headBoneRef = useRef(null);
@@ -67,25 +68,35 @@ function KnightModel({ scene, invalidate }) {
     };
   }, [invalidate]);
 
-  // ── Step 4: Solid Unbreakable Material Visibility ──────────────────────────
+  // ── Step 4: Solid Unbreakable Material Visibility & Initial Render Force ──
   useEffect(() => {
     scene.traverse((child) => {
       if (child.isMesh && child.material) {
-        // Guarantee full visibility without getting trapped in zero-opacity animation states upon mode re-navigation
         child.material.opacity = 1;
         child.material.transparent = false;
         child.material.needsUpdate = true;
       }
     });
+    // Invalidate immediately and in next frame to guarantee first paint
     invalidate();
+    const frame = requestAnimationFrame(() => invalidate());
+    return () => cancelAnimationFrame(frame);
   }, [scene, invalidate]);
 
   // ── Step 5: Per-frame head lerp & idle float ───────────────────────────────
   useFrame((state) => {
+    // Notify parent that the 3D model has rendered its first frame on screen
+    if (!hasRenderedFirstFrame.current) {
+      hasRenderedFirstFrame.current = true;
+      if (onRenderSuccess) {
+        onRenderSuccess();
+      }
+    }
+
     if (!headBoneRef.current) return;
     if (window.scrollY > window.innerHeight) return;
 
-    // Silky smooth two-stage damped tracking: lower lerp = smoother, more cinematic follow
+    // Silky smooth two-stage damped tracking
     smoothedMouse.current.x = THREE.MathUtils.lerp(smoothedMouse.current.x, globalMouse.current.x, 0.12);
     smoothedMouse.current.y = THREE.MathUtils.lerp(smoothedMouse.current.y, globalMouse.current.y, 0.12);
 
@@ -93,7 +104,6 @@ function KnightModel({ scene, invalidate }) {
     let targetPitch = 0;
 
     if (isPointerActive.current) {
-      // Expanded to 22° horizontal and 12° vertical for a noticeably responsive yet natural head follow
       targetYaw = smoothedMouse.current.x * (22 * Math.PI / 180);
       targetPitch = -smoothedMouse.current.y * (12 * Math.PI / 180);
     }
@@ -103,7 +113,6 @@ function KnightModel({ scene, invalidate }) {
     const finalYaw = init.y + targetYaw;
     const finalPitch = init.x + targetPitch;
 
-    // Smooth final bone rotation with a gentle lerp for buttery animation
     head.rotation.y = THREE.MathUtils.lerp(head.rotation.y, finalYaw, 0.14);
     head.rotation.x = THREE.MathUtils.lerp(head.rotation.x, finalPitch, 0.14);
 
@@ -124,15 +133,11 @@ function KnightModel({ scene, invalidate }) {
   );
 }
 
-export function Knight({ onReady }) {
+export function Knight({ onRenderSuccess }) {
   const { invalidate } = useThree();
   const { scene } = useGLTF(KNIGHT_MODEL_URL, false, true);
 
-  useEffect(() => {
-    if (onReady) onReady();
-  }, [onReady]);
-
-  return <KnightModel scene={scene} invalidate={invalidate} />;
+  return <KnightModel scene={scene} invalidate={invalidate} onRenderSuccess={onRenderSuccess} />;
 }
 
 // Preload the model so it begins streaming immediately without waiting for mount
