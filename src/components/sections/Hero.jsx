@@ -104,6 +104,7 @@ function AeroShardsBackground({ isHeroVisible, documentHidden }) {
       glow={0.2}
       dpr={1.5}
       vignette={0.3}
+      speed={2.2}
       mouseInteraction
       pulseOnClick
       holdToGather

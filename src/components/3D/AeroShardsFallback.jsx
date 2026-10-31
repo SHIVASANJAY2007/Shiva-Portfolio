@@ -172,14 +172,14 @@ export const AeroShardsFallback = ({
         shardsByLevel[level].push({
           level,
           s,
-          speed: 0.038 + random() * 0.02,
+          speed: 0.11 + random() * 0.05,
           lane: laneSpread,
           layer,
-          baseSize: 9 + random() * 11,
+          baseSize: 10 + random() * 12,
           shape,
           corners,
-          roll: (random() - 0.5) * 0.3,
-          rollSpeed: (random() - 0.5) * 0.4,
+          roll: (random() - 0.5) * 0.4,
+          rollSpeed: (random() - 0.5) * 0.8,
           tint: random()
         });
       }
@@ -312,20 +312,20 @@ export const AeroShardsFallback = ({
         const slopeDelta = slope[1] - slope[0];
         const depthScale = (CAMERA / depth) * dpr;
 
-        // Colors per depth level: softer alpha on distance eliminates need for expensive CPU blur
-        const fillAlpha = (0.14 + (4 - level) * 0.03) * fade;
-        const strokeAlpha = (0.35 + (4 - level) * 0.12) * fade;
-        const fillStyle = `rgba(137, 106, 189, ${fillAlpha})`;
-        const strokeStyle = `rgba(205, 172, 250, ${strokeAlpha})`;
-        const facetStrokeStyle = `rgba(225, 200, 255, ${strokeAlpha * 0.4})`;
-        const lineWidth = Math.max(0.75, (1.2 - level * 0.12) * dpr);
+        // Colors per depth level: crisp lavender glass facets with vibrant crystalline highlights
+        const fillAlpha = (0.20 + (4 - level) * 0.04) * fade;
+        const strokeAlpha = (0.55 + (4 - level) * 0.1) * fade;
+        const fillStyle = `rgba(155, 120, 215, ${fillAlpha})`;
+        const strokeStyle = `rgba(225, 195, 255, ${strokeAlpha})`;
+        const facetStrokeStyle = `rgba(240, 220, 255, ${strokeAlpha * 0.5})`;
+        const lineWidth = Math.max(0.85, (1.35 - level * 0.12) * dpr);
 
         for (let i = 0; i < levelShards.length; i++) {
           const s = levelShards[i];
 
-          // Advance along ribbon
-          s.s = (s.s + s.speed * dt * 0.85) % 1.0;
-          s.roll += s.rollSpeed * dt;
+          // Advance along ribbon with graceful, noticeable fluid velocity
+          s.s = (s.s + s.speed * dt) % 1.0;
+          s.roll += s.rollSpeed * dt * 2.0;
 
           const progress = s.s;
           const u = -1.32 + 2.64 * progress;
