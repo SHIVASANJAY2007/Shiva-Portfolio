@@ -124,9 +124,13 @@ function KnightModel({ scene, invalidate }) {
   );
 }
 
-export function Knight() {
+export function Knight({ onReady }) {
   const { invalidate } = useThree();
   const { scene } = useGLTF(KNIGHT_MODEL_URL, false, true);
+
+  useEffect(() => {
+    if (onReady) onReady();
+  }, [onReady]);
 
   return <KnightModel scene={scene} invalidate={invalidate} />;
 }

@@ -3,55 +3,18 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './Hero.module.css';
 import { Canvas } from '@react-three/fiber';
-import { Environment, PerspectiveCamera, useGLTF, PerformanceMonitor } from '@react-three/drei';
+import { Environment, PerspectiveCamera, useGLTF, PerformanceMonitor, Preload } from '@react-three/drei';
 import * as THREE from 'three';
 import { HeroLoader } from '../3D/HeroLoader';
 import { scrollToSection } from '../../lib/scrollToSection';
 import { resumeData } from '../../data/resume';
 import { getQuality, getQualityConfig } from '../../utils/quality';
-const Hyperspeed = React.lazy(() => import('../3D/Hyperspeed'));
+const AeroShards = React.lazy(() => import('../3D/AeroShards'));
 
 const KNIGHT_MODEL_URL = '/models/knight-opt.glb';
 
 // High-priority early preload trigger for the 3D model
 useGLTF.preload(KNIGHT_MODEL_URL, false, true);
-
-// Optimized static configuration to prevent unnecessary re-renders and WebGL scene recreations as specified in implementation.md
-const HYPERSPEED_PRESET_OPTIONS = {
-  distortion: 'turbulentDistortion',
-  length: 400,
-  roadWidth: 10,
-  islandWidth: 2,
-  lanesPerRoad: 3,
-  fov: 90,
-  fovSpeedUp: 150,
-  speedUp: 2,
-  carLightsFade: 0.4,
-  totalSideLightSticks: 20,
-  lightPairsPerRoadWay: 30,
-  shoulderLinesWidthPercentage: 0.05,
-  brokenLinesWidthPercentage: 0.1,
-  brokenLinesLengthPercentage: 0.5,
-  lightStickWidth: [0.12, 0.5],
-  lightStickHeight: [1.3, 1.7],
-  movingAwaySpeed: [60, 80],
-  movingCloserSpeed: [-120, -160],
-  carLightsLength: [12, 80],
-  carLightsRadius: [0.05, 0.14],
-  carWidthPercentage: [0.3, 0.5],
-  carShiftX: [-0.8, 0.8],
-  carFloorSeparation: [0, 5],
-  colors: {
-    roadColor: 0x080808,
-    islandColor: 0x0a0a0a,
-    background: 0x000000,
-    shoulderLines: 0xffffff,
-    brokenLines: 0xffffff,
-    leftCars: [0xff2e54, 0xa855f7, 0xec4899], // Custom portfolio palette: Crimson Red, Purple, Neon Pink
-    rightCars: [0x00f5d4, 0x3b82f6, 0x10b981], // Custom portfolio palette: Electric Cyan, Blue, Emerald
-    sticks: 0xff2e54
-  }
-};
 
 const Knight = React.lazy(() => import('../3D/Knight').then(module => ({ default: module.Knight })));
 
@@ -72,7 +35,7 @@ function HeroCameraRig() {
   );
 }
 
-// Ultra-Resilient WebGL Error Boundary to prevent white screen browser exceptions upon high-speed mode switching
+// Ultra-Resilient WebGL Error Boundary with automated fallback trigger
 class WebGLErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
@@ -82,15 +45,14 @@ class WebGLErrorBoundary extends React.Component {
     return { hasError: true };
   }
   componentDidCatch(error) {
-    console.warn("WebGL visual context temporarily interrupted during rapid transition:", error);
+    console.warn("WebGL visual context interrupted:", error);
+    if (this.props.onFail) {
+      this.props.onFail();
+    }
   }
   render() {
     if (this.state.hasError) {
-      return (
-        <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#B0B0C0', fontFamily: 'monospace' }}>
-          <span>Reloading GPU shaders...</span>
-        </div>
-      );
+      return null;
     }
     return this.props.children;
   }
@@ -110,9 +72,25 @@ export const Hero = () => {
   const [showBackground, setShowBackground] = useState(false);
   const [isHeroVisible, setIsHeroVisible] = useState(true);
   const [documentHidden, setDocumentHidden] = useState(false);
-  const [isPrewarmed, setIsPrewarmed] = useState(false);
   const [tier, setTier] = useState(() => getQuality());
   const qualityConfig = getQualityConfig(tier);
+
+  const modelRenderedRef = useRef(false);
+
+  const handleModelLoaded = () => {
+    modelRenderedRef.current = true;
+  };
+
+  // Fallback mechanism: if the 3D model isn't rendered under 5 seconds, switch to AeroShards background
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!modelRenderedRef.current) {
+        setShowBackground(true);
+      }
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Monitor viewport visibility to pause Three.js GPU cycles when scrolled away
   useEffect(() => {
@@ -130,22 +108,6 @@ export const Hero = () => {
     const handleVis = () => setDocumentHidden(document.hidden);
     document.addEventListener('visibilitychange', handleVis);
     return () => document.removeEventListener('visibilitychange', handleVis);
-  }, []);
-
-  // Pre-warm Hyperspeed bundle during idle time
-  useEffect(() => {
-    const prewarm = () => {
-      import('../3D/Hyperspeed').then(() => {
-        setIsPrewarmed(true);
-      });
-    };
-    if (typeof window !== 'undefined') {
-      if ('requestIdleCallback' in window) {
-        window.requestIdleCallback(prewarm, { timeout: 3000 });
-      } else {
-        setTimeout(prewarm, 1500);
-      }
-    }
   }, []);
 
   // Resume-driven dynamic role catalog
@@ -306,7 +268,7 @@ export const Hero = () => {
       <div className={styles.blobLeft} aria-hidden="true" />
       <div className={styles.blobRight} aria-hidden="true" />
 
-      {/* Dynamic Magic Background Layer (Hyperspeed) */}
+      {/* Dynamic Background Layer (AeroShards fallback when 3D model doesn't render in 5s) */}
       <div 
         className={`${styles.bgContainer} ${showBackground ? styles.bgContainerActive : ''}`}
         style={{
@@ -314,12 +276,21 @@ export const Hero = () => {
           pointerEvents: showBackground ? 'auto' : 'none',
         }}
       >
-        {(showBackground || isPrewarmed) && (
+        {showBackground && (
           <Suspense fallback={null}>
-            <WebGLErrorBoundary key="hyperspeed-view">
-              <Hyperspeed 
-                effectOptions={HYPERSPEED_PRESET_OPTIONS} 
-                active={showBackground && isHeroVisible && !documentHidden} 
+            <WebGLErrorBoundary key="aeroshards-view">
+              <AeroShards 
+                shardColor="#FF2E54"
+                accentColor="#A855F7"
+                placement="full"
+                material="glass"
+                markers="plus"
+                count={1300}
+                depthOfField={0.75}
+                vignette={0.3}
+                mouseInteraction
+                pulseOnClick
+                holdToGather
               />
             </WebGLErrorBoundary>
           </Suspense>
@@ -340,7 +311,7 @@ export const Hero = () => {
         </div>
       </div>
 
-      {/* Layer 3: High-Speed 3D Canvas (Kept mounted to preserve WebGL context; paused and hidden when magic background active) */}
+      {/* Layer 3: High-Speed 3D Canvas (Kept mounted to preserve WebGL context; paused and hidden when fallback background active) */}
       <div 
         className={`canvas-container ${styles.modelContainer}`} 
         style={{ 
@@ -354,7 +325,7 @@ export const Hero = () => {
           visibility: showBackground ? 'hidden' : 'visible'
         }}
       >
-        <WebGLErrorBoundary key="3d-sculpture-view">
+        <WebGLErrorBoundary key="3d-sculpture-view" onFail={() => setShowBackground(true)}>
           <Canvas
             frameloop={isHeroVisible && !documentHidden && !showBackground ? "demand" : "never"}
             shadows={qualityConfig.shadows}
@@ -380,12 +351,13 @@ export const Hero = () => {
             <directionalLight position={[-5, 3, -5]} intensity={0.5} />
             <Environment files="/models/potsdamer_platz_1k.hdr" resolution={256} />
 
-            <HeroLoader />
+            <HeroLoader onComplete={handleModelLoaded} />
             <Suspense fallback={null}>
               <group>
-                <Knight />
+                <Knight onReady={handleModelLoaded} />
               </group>
             </Suspense>
+            <Preload all />
           </Canvas>
         </WebGLErrorBoundary>
       </div>
@@ -428,30 +400,6 @@ export const Hero = () => {
             </a>
           </div>
         </div>
-      </div>
-
-      {/* Bottom Right Uiverse Shutter Toggle Button */}
-      <div className={styles.btnWrapper}>
-        <input
-          id="capture-toggle"
-          className={styles.btnCbox}
-          type="checkbox"
-          checked={showBackground}
-          onChange={() => setShowBackground(!showBackground)}
-        />
-        <label htmlFor="capture-toggle" className={styles.btn}>
-          <span className={styles.letter}>CLICK NOW</span>
-          <div className={styles.shutterWrapper}>
-            <span className={`${styles.shutter} ${styles.s1}`}></span>
-            <span className={`${styles.shutter} ${styles.s2}`}></span>
-            <span className={`${styles.shutter} ${styles.s3}`}></span>
-            <span className={`${styles.shutter} ${styles.s4}`}></span>
-            <span className={`${styles.shutter} ${styles.s5}`}></span>
-            <span className={`${styles.shutter} ${styles.s6}`}></span>
-          </div>
-        </label>
-        <div className={styles.flash}></div>
-
       </div>
 
     </section>

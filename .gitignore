@@ -12,3 +12,6 @@ dist
 *.gltf
 !src/components/3D/knight-hd.glb
 !src/components/3D/knight-hd-opt.glb
+!public/models/knight-opt.glb
+*.tgz
+
