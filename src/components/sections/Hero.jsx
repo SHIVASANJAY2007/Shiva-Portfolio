@@ -84,11 +84,12 @@ class ModelErrorBoundary extends React.Component {
   }
 }
 
-function AeroShardsBackground() {
+function AeroShardsBackground({ isHeroVisible, documentHidden }) {
   const [useFallback, setUseFallback] = useState(false);
+  const isPaused = !isHeroVisible || documentHidden;
 
   if (useFallback) {
-    return <AeroShardsFallback shardColor="#896ABD" accentColor="#A855F7" count={380} />;
+    return <AeroShardsFallback shardColor="#896ABD" accentColor="#A855F7" count={240} paused={isPaused} />;
   }
 
   return (
@@ -98,12 +99,15 @@ function AeroShardsBackground() {
       placement="full"
       material="glass"
       markers="plus"
-      count={1300}
-      depthOfField={0.75}
+      count={450}
+      depthOfField={0.4}
+      glow={0.2}
+      dpr={1.5}
       vignette={0.3}
       mouseInteraction
       pulseOnClick
       holdToGather
+      paused={isPaused}
       onError={(err) => {
         console.warn("[Hero] WebGPU AeroShards unavailable, using 2D canvas fallback:", err);
         setUseFallback(true);
@@ -340,8 +344,8 @@ export const Hero = () => {
         }}
       >
         {showBackground && (
-          <Suspense fallback={<AeroShardsFallback shardColor="#896ABD" accentColor="#A855F7" count={380} />}>
-            <AeroShardsBackground />
+          <Suspense fallback={<AeroShardsFallback shardColor="#896ABD" accentColor="#A855F7" count={240} paused={!isHeroVisible || documentHidden} />}>
+            <AeroShardsBackground isHeroVisible={isHeroVisible} documentHidden={documentHidden} />
           </Suspense>
         )}
       </div>
