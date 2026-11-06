@@ -81,9 +81,69 @@ class ModelErrorBoundary extends React.Component {
   }
 }
 
+const AeroShards = React.lazy(() => import('../3D/AeroShards'));
+
 function AeroShardsBackground({ isHeroVisible, documentHidden }) {
+  const [useFallback, setUseFallback] = useState(false);
   const isPaused = !isHeroVisible || documentHidden;
-  return <AeroShardsFallback shardColor="#896ABD" accentColor="#A855F7" count={240} paused={isPaused} />;
+
+  const supportsWebGPU = typeof navigator !== 'undefined' && 'gpu' in navigator && !useFallback;
+
+  if (!supportsWebGPU) {
+    return (
+      <AeroShardsFallback
+        shardColor="#896ABD"
+        accentColor="#A855F7"
+        count={280}
+        paused={isPaused}
+      />
+    );
+  }
+
+  return (
+    <Suspense
+      fallback={
+        <AeroShardsFallback
+          shardColor="#896ABD"
+          accentColor="#A855F7"
+          count={280}
+          paused={isPaused}
+        />
+      }
+    >
+      <AeroShards
+        shardColor="#896ABD"
+        accentColor="#A855F7"
+        backgroundColor="transparent"
+        placement="full"
+        material="glass"
+        markers="plus"
+        count={650}
+        shardSize={1}
+        spread={1}
+        twist={1}
+        billow={1}
+        speed={1.2}
+        scale={1}
+        depthOfField={0.75}
+        glow={0.35}
+        grain={0.06}
+        vignette={0.3}
+        intro={true}
+        mouseInteraction={true}
+        mouseStrength={0.6}
+        parallax={0.5}
+        pulseOnClick={true}
+        holdToGather={true}
+        paused={isPaused}
+        dpr={1.5}
+        onError={(err) => {
+          console.warn("[AeroShards] WebGPU pipeline unavailable, switching to 2D canvas fallback:", err);
+          setUseFallback(true);
+        }}
+      />
+    </Suspense>
+  );
 }
 
 // Resume-driven dynamic role catalog
@@ -152,7 +212,13 @@ export const Hero = () => {
   const overlayRoleRef = useRef(null);
   const ctaRef = useRef(null);
 
-  const [showBackground, setShowBackground] = useState(false);
+  // Model ready: becomes true when 3D Knight model renders its first frame on GPU
+  const [isModelReady, setIsModelReady] = useState(false);
+  // Model failed: becomes true if 3D model encounters WebGL error or exceeds 5s timeout
+  const [modelFailed, setModelFailed] = useState(false);
+  // AeroShards mounted: active while loading and smoothly unmounts after crossfade to preserve GPU
+  const [aeroShardsMounted, setAeroShardsMounted] = useState(true);
+
   const [isHeroVisible, setIsHeroVisible] = useState(true);
   const [documentHidden, setDocumentHidden] = useState(false);
   const [tier, setTier] = useState(() => getQuality());
@@ -164,16 +230,24 @@ export const Hero = () => {
   const triggerFallback = useCallback(() => {
     if (fallbackTriggeredRef.current || modelRenderedRef.current) return;
     fallbackTriggeredRef.current = true;
-    console.warn("[Hero] 3D Model did not render within 5s or failed. Switching to AeroShards background.");
-    setShowBackground(true);
+    console.warn("[Hero] 3D Model did not render within 5s or WebGL failed. Preserving AeroShards background.");
+    setModelFailed(true);
+    setIsModelReady(false);
+    setAeroShardsMounted(true);
   }, []);
 
   const handleModelRenderSuccess = useCallback(() => {
     if (fallbackTriggeredRef.current) return;
     modelRenderedRef.current = true;
+    setIsModelReady(true);
+
+    // After the 0.9s crossfade completes, unmount AeroShards to give 100% GPU power to 3D Knight
+    setTimeout(() => {
+      setAeroShardsMounted(false);
+    }, 1200);
   }, []);
 
-  // Bulletproof 5-second trigger: If the 3D model is not rendered within 5 seconds on deployment/production, switch to AeroShards background
+  // 5-second safety timer: If 3D model is not ready within 5 seconds, keep AeroShards permanently
   useEffect(() => {
     const timer = setTimeout(() => {
       if (!modelRenderedRef.current) {
@@ -269,9 +343,9 @@ export const Hero = () => {
       const titleTargets = [titleRef.current, overlayTitleRef.current].filter(Boolean);
       if (titleTargets.length) {
         gsap.to(titleTargets, {
-          y: !showBackground ? -120 : -100,
+          y: isModelReady ? -120 : -100,
           opacity: 0.35,
-          scale: !showBackground ? 0.96 : 1,
+          scale: isModelReady ? 0.96 : 1,
           ease: "none",
           scrollTrigger: {
             trigger: containerRef.current,
@@ -312,7 +386,7 @@ export const Hero = () => {
     }, containerRef);
 
     return () => ctx.revert();
-  }, [showBackground]);
+  }, [isModelReady]);
 
   const handleCardClick = (e, targetSection) => {
     e.preventDefault();
@@ -325,33 +399,33 @@ export const Hero = () => {
       <div className={styles.blobLeft} aria-hidden="true" />
       <div className={styles.blobRight} aria-hidden="true" />
 
-      {/* Dynamic Background Layer (AeroShards fallback when 3D model doesn't render in 5s) */}
+      {/* Dynamic Background Layer: AeroShards animation active until 3D model is completely loaded, or permanently if model fails */}
       <div 
-        className={`${styles.bgContainer} ${showBackground ? styles.bgContainerActive : ''}`}
+        className={`${styles.bgContainer} ${!isModelReady || modelFailed ? styles.bgContainerActive : ''}`}
         style={{
-          visibility: showBackground ? 'visible' : 'hidden',
-          pointerEvents: showBackground ? 'auto' : 'none',
+          visibility: aeroShardsMounted ? 'visible' : 'hidden',
+          pointerEvents: (!isModelReady || modelFailed) ? 'auto' : 'none',
         }}
       >
-        {showBackground && (
+        {aeroShardsMounted && (
           <AeroShardsBackground isHeroVisible={isHeroVisible} documentHidden={documentHidden} />
         )}
       </div>
 
-      {/* Layer 2: Separated Background Typography (Behind 3D Model or Above Magic BG) */}
-      <div className={`${styles.bgTypography} ${showBackground ? styles.bgTypographyMagic : styles.bgTypography3D}`} ref={titleRef}>
-        <div className={`${styles.splitTitle} ${showBackground ? styles.splitTitleCenter : ''}`}>
+      {/* Layer 2: Separated Background Typography (Behind 3D Model or Above AeroShards) */}
+      <div className={`${styles.bgTypography} ${!isModelReady ? styles.bgTypographyMagic : styles.bgTypography3D}`} ref={titleRef}>
+        <div className={`${styles.splitTitle} ${!isModelReady ? styles.splitTitleCenter : ''}`}>
           <h1 className={styles.titleLeft}>SHIVA</h1>
           <h1 className={styles.titleRight}>SANJAY</h1>
         </div>
 
         {/* Dynamic Rotating Role Switcher */}
-        <DynamicRole isCenter={showBackground} roleRef={roleRef} />
+        <DynamicRole isCenter={!isModelReady} roleRef={roleRef} />
       </div>
 
-      {/* Layer 3: High-Speed 3D Canvas (Active until fallback triggers; unmounted/paused upon fallback) */}
+      {/* Layer 3: High-Speed 3D Canvas (Preloads in background; smoothly fades in once completely loaded) */}
       <div 
-        className={`canvas-container ${styles.modelContainer} ${showBackground ? styles.modelHidden : ''}`} 
+        className={`canvas-container ${styles.modelContainer} ${isModelReady && !modelFailed ? styles.modelVisible : styles.modelHidden}`} 
         style={{ 
           position: 'absolute', 
           top: 0, 
@@ -359,14 +433,14 @@ export const Hero = () => {
           width: '100%', 
           height: '100%', 
           zIndex: 5, 
-          pointerEvents: 'none',
-          display: showBackground ? 'none' : 'block'
+          pointerEvents: isModelReady && !modelFailed ? 'auto' : 'none',
+          display: modelFailed ? 'none' : 'block'
         }}
       >
-        {!showBackground && (
+        {!modelFailed && (
           <WebGLErrorBoundary key="3d-sculpture-view" onFail={triggerFallback}>
             <Canvas
-              frameloop={isHeroVisible && !documentHidden && !showBackground ? "demand" : "never"}
+              frameloop={isHeroVisible && !documentHidden ? (isModelReady ? "demand" : "always") : "never"}
               shadows={qualityConfig.shadows}
               gl={{
                 alpha: true,
@@ -396,7 +470,6 @@ export const Hero = () => {
               <directionalLight position={[-5, 3, -5]} intensity={0.5} />
               <Environment files="/models/potsdamer_platz_1k.hdr" resolution={256} />
 
-              <HeroLoader />
               <ModelErrorBoundary onError={triggerFallback}>
                 <Suspense fallback={null}>
                   <group>
@@ -410,13 +483,15 @@ export const Hero = () => {
         )}
       </div>
 
-      {/* Layer 3.5: X-Ray Glass Overlay */}
+      {/* Layer 3.5: X-Ray Glass Overlay (Active when 3D model is visible) */}
       <div 
         className={styles.xrayOverlay} 
         ref={overlayTitleRef} 
         aria-hidden="true"
         style={{
-          visibility: showBackground ? 'hidden' : 'visible'
+          visibility: isModelReady && !modelFailed ? 'visible' : 'hidden',
+          opacity: isModelReady && !modelFailed ? 1 : 0,
+          transition: 'opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s ease'
         }}
       >
         <div className={styles.splitTitle}>
@@ -427,7 +502,7 @@ export const Hero = () => {
       </div>
 
       {/* Layer 4: Foreground Overlay UI (In Front of 3D Model or Above Magic BG) */}
-      <div className={`${styles.foregroundUI} ${showBackground ? styles.foregroundUIMagic : styles.foregroundUI3D}`}>
+      <div className={`${styles.foregroundUI} ${!isModelReady ? styles.foregroundUIMagic : styles.foregroundUI3D}`}>
         {/* Lower-Left Bio Widget */}
         <div className={styles.bioWidget} ref={bioRef}>
           <div className={styles.statusBadge}>

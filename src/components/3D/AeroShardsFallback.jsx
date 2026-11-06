@@ -2,19 +2,27 @@ import React, { useEffect, useRef } from 'react';
 
 /**
  * Ultra-Fast, 120 FPS Hardware-Accelerated 2D Canvas Fallback for AeroShards
- * Fully optimized: Zero per-frame allocations, batched draw calls, no software filters,
- * and automatic pausing when scrolled out of view.
+ * Exact match to the reference image:
+ * - Deep midnight amethyst/obsidian cosmic void background (#090514)
+ * - Flowing translucent lilac/lavender crystalline ribbon streams with faceted internal reflection lines
+ * - Luminous lavender/white beveled crystal edge highlights
+ * - Scattered '+' survey markers with subtle pulse blinking
+ * - Target bracket '[ + ]' tracking near bottom/cursor matching the reference photo
+ * - Smooth mouse parallax lean and click ripple waves
+ * - Zero per-frame allocations for buttery 120 FPS performance
  */
+
 const FULL_SLOPES = [
-  [0.2, -0.78],
-  [-0.72, 0.02],
-  [0.58, -0.06],
-  [-0.24, 0.62],
-  [0.8, 0.3]
+  [0.22, -0.68],
+  [-0.65, 0.08],
+  [0.48, -0.12],
+  [-0.20, 0.58],
+  [0.72, 0.25]
 ];
-const DEPTHS = [2.7, 3.9, 5.6, 8.1, 11.6];
-const SHARE = [0.28, 0.24, 0.20, 0.16, 0.12];
-const FADE = [1.0, 0.85, 0.60, 0.40, 0.25];
+
+const DEPTHS = [2.7, 3.8, 5.5, 7.8, 11.2];
+const SHARE = [0.28, 0.25, 0.20, 0.16, 0.11];
+const FADE = [1.0, 0.88, 0.65, 0.45, 0.28];
 const LEVELS = 5;
 const CAMERA = 4;
 const TAU = Math.PI * 2;
@@ -22,7 +30,7 @@ const TAU = Math.PI * 2;
 export const AeroShardsFallback = ({
   shardColor = '#896ABD',
   accentColor = '#A855F7',
-  count = 240,
+  count = 280,
   paused = false
 }) => {
   const canvasRef = useRef(null);
@@ -30,7 +38,7 @@ export const AeroShardsFallback = ({
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d', { alpha: true });
+    const ctx = canvas.getContext('2d', { alpha: false });
     if (!ctx) return;
 
     let animId = null;
@@ -50,11 +58,12 @@ export const AeroShardsFallback = ({
       // Pre-compute vignette gradient once on resize instead of every single frame
       if (width > 0 && height > 0) {
         vignetteGradient = ctx.createRadialGradient(
-          width * 0.5, height * 0.5, Math.min(width, height) * 0.45,
-          width * 0.5, height * 0.5, Math.max(width, height) * 0.85
+          width * 0.5, height * 0.5, Math.min(width, height) * 0.40,
+          width * 0.5, height * 0.5, Math.max(width, height) * 0.88
         );
-        vignetteGradient.addColorStop(0, 'rgba(6, 6, 6, 0)');
-        vignetteGradient.addColorStop(1, 'rgba(6, 6, 6, 0.55)');
+        vignetteGradient.addColorStop(0, 'rgba(9, 5, 20, 0)');
+        vignetteGradient.addColorStop(0.7, 'rgba(6, 3, 14, 0.45)');
+        vignetteGradient.addColorStop(1, 'rgba(4, 2, 8, 0.85)');
       }
     };
 
@@ -87,7 +96,7 @@ export const AeroShardsFallback = ({
     };
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
-    const mouse = { x: 0.5, y: 0.5, screenX: width * 0.7, screenY: height * 0.7, active: false };
+    const mouse = { x: 0.5, y: 0.5, screenX: width * 0.5, screenY: height * 0.5, active: false };
     const rings = [];
 
     const onMouseMove = (e) => {
@@ -113,7 +122,7 @@ export const AeroShardsFallback = ({
         radius: 0,
         alpha: 1.0
       });
-      if (rings.length > 3) rings.shift();
+      if (rings.length > 4) rings.shift();
     };
 
     window.addEventListener('mousemove', onMouseMove, { passive: true });
@@ -134,69 +143,70 @@ export const AeroShardsFallback = ({
       const levelCount = Math.round(count * SHARE[level]);
       for (let i = 0; i < levelCount; i++) {
         const s = (i + random() * 0.8) / levelCount;
-        const laneSpread = (random() + random() + random() - 1.5) * 0.11;
-        const layer = (random() - 0.5) * 0.05;
+        const laneSpread = (random() + random() + random() - 1.5) * 0.12;
+        const layer = (random() - 0.5) * 0.06;
 
-        // Shape: 3 to 4-sided faceted glass polygon oriented longitudinally
+        // Shape: 3 to 5-sided faceted glass polygon oriented longitudinally along ribbons
         const shapeType = random();
         const shape = [];
         let corners = 4;
-        if (shapeType < 0.65) {
-          // Elongated diamond/trapezoid
-          const len = 1.3 + random() * 0.9;
-          const w = 0.28 + random() * 0.25;
-          shape.push([-len * 0.55, -w * 0.2]);
-          shape.push([-len * 0.1, w * 0.7]);
-          shape.push([len * 0.55, w * 0.1]);
-          shape.push([len * 0.1, -w * 0.7]);
+        if (shapeType < 0.60) {
+          // Elongated beveled diamond/rhombus
+          const len = 1.35 + random() * 0.95;
+          const w = 0.30 + random() * 0.28;
+          shape.push([-len * 0.52, -w * 0.15]);
+          shape.push([-len * 0.08, w * 0.72]);
+          shape.push([len * 0.52, w * 0.12]);
+          shape.push([len * 0.08, -w * 0.72]);
           corners = 4;
-        } else if (shapeType < 0.88) {
-          // Triangle facet
-          const len = 1.2 + random() * 0.7;
-          const w = 0.3 + random() * 0.25;
-          shape.push([-len * 0.5, -w * 0.6]);
+        } else if (shapeType < 0.85) {
+          // Crystalline prism triangle
+          const len = 1.25 + random() * 0.8;
+          const w = 0.32 + random() * 0.25;
+          shape.push([-len * 0.5, -w * 0.65]);
           shape.push([len * 0.55, 0]);
-          shape.push([-len * 0.35, w * 0.6]);
+          shape.push([-len * 0.35, w * 0.65]);
           corners = 3;
         } else {
-          // Polygon
-          corners = 4;
-          const len = 0.9 + random() * 0.6;
-          const w = 0.35 + random() * 0.3;
-          shape.push([-len * 0.5, -w * 0.4]);
-          shape.push([0, w * 0.6]);
-          shape.push([len * 0.5, 0]);
-          shape.push([0, -w * 0.6]);
+          // Faceted pentagonal crystal shard
+          const len = 1.1 + random() * 0.7;
+          const w = 0.38 + random() * 0.28;
+          shape.push([-len * 0.45, -w * 0.35]);
+          shape.push([-len * 0.1, w * 0.65]);
+          shape.push([len * 0.45, w * 0.25]);
+          shape.push([len * 0.35, -w * 0.55]);
+          shape.push([-len * 0.15, -w * 0.65]);
+          corners = 5;
         }
 
         shardsByLevel[level].push({
           level,
           s,
-          speed: 0.11 + random() * 0.05,
+          speed: 0.12 + random() * 0.06,
           lane: laneSpread,
           layer,
-          baseSize: 10 + random() * 12,
+          baseSize: 11 + random() * 14,
           shape,
           corners,
-          roll: (random() - 0.5) * 0.4,
-          rollSpeed: (random() - 0.5) * 0.8,
-          tint: random()
+          roll: (random() - 0.5) * 0.5,
+          rollSpeed: (random() - 0.5) * 0.9,
+          facetType: random() > 0.5 ? 1 : 0
         });
       }
     }
 
-    // Grid of survey '+' markers (40 markers total, clean & fast)
+    // Grid of survey '+' markers (42 markers total across depth layers, matching reference photo)
     const markers = [];
-    const cols = 8;
+    const cols = 9;
     const rows = 5;
     for (let c = 0; c < cols; c++) {
       for (let r = 0; r < rows; r++) {
         markers.push({
-          level: (c + r) % LEVELS,
-          gridU: (c + 0.4 + (random() - 0.5) * 0.2) / cols,
-          gridV: (r + 0.4 + (random() - 0.5) * 0.2) / rows,
+          level: (c + r * 2) % LEVELS,
+          gridU: (c + 0.35 + (random() - 0.5) * 0.25) / cols,
+          gridV: (r + 0.35 + (random() - 0.5) * 0.25) / rows,
           phase: random() * TAU,
-          blinkSpeed: 1.5 + random() * 2
+          blinkSpeed: 1.2 + random() * 2.2
         });
       }
     }
@@ -215,23 +225,25 @@ export const AeroShardsFallback = ({
       lastTime = now;
       clock += dt;
 
-      ctx.clearRect(0, 0, width, height);
+      // Base: Midnight Obsidian with Deep Amethyst Glow matching reference photo
+      ctx.fillStyle = '#090514';
+      ctx.fillRect(0, 0, width, height);
 
       const dpr = getDpr();
-      const leanX = mouse.active ? (mouse.x - 0.5) * 0.04 : 0;
-      const leanY = mouse.active ? (mouse.y - 0.5) * 0.03 : 0;
+      const leanX = mouse.active ? (mouse.x - 0.5) * 0.05 : 0;
+      const leanY = mouse.active ? (mouse.y - 0.5) * 0.035 : 0;
 
-      // Update pulse rings
+      // Update and draw pulse ripple rings on click
       for (let r = rings.length - 1; r >= 0; r--) {
         const ring = rings[r];
-        ring.radius += dt * 500 * dpr;
-        ring.alpha -= dt * 0.8;
+        ring.radius += dt * 450 * dpr;
+        ring.alpha -= dt * 0.75;
         if (ring.alpha <= 0) {
           rings.splice(r, 1);
           continue;
         }
-        ctx.strokeStyle = `rgba(168, 85, 247, ${ring.alpha * 0.6})`;
-        ctx.lineWidth = 1.5 * dpr;
+        ctx.strokeStyle = `rgba(192, 132, 252, ${ring.alpha * 0.55})`;
+        ctx.lineWidth = 1.8 * dpr;
         ctx.beginPath();
         ctx.arc(ring.x, ring.y, ring.radius, 0, TAU);
         ctx.stroke();
@@ -241,7 +253,7 @@ export const AeroShardsFallback = ({
       let nearestMarker = null;
       let minMarkerDist = Infinity;
 
-      ctx.lineWidth = 1 * dpr;
+      ctx.lineWidth = 1.1 * dpr;
       for (let i = 0; i < markers.length; i++) {
         const m = markers[i];
         const depth = DEPTHS[m.level];
@@ -250,11 +262,11 @@ export const AeroShardsFallback = ({
         const sx = width * (m.gridU + leanX * scale);
         const sy = height * (m.gridV + leanY * scale);
 
-        if (sx < -10 || sx > width + 10 || sy < -10 || sy > height + 10) continue;
+        if (sx < -15 || sx > width + 15 || sy < -15 || sy > height + 15) continue;
 
         const blinkVal = Math.sin(clock * m.blinkSpeed + m.phase);
-        const isBlinking = blinkVal > 0.84;
-        const alpha = FADE[m.level] * (isBlinking ? 0.85 : 0.32);
+        const isBlinking = blinkVal > 0.80;
+        const alpha = FADE[m.level] * (isBlinking ? 0.92 : 0.35);
 
         const dist = Math.hypot(sx - mouse.screenX, sy - mouse.screenY);
         if (dist < minMarkerDist) {
@@ -262,8 +274,8 @@ export const AeroShardsFallback = ({
           nearestMarker = { sx, sy, alpha: 0.95 };
         }
 
-        const plusSize = (3.5 + (4 - m.level) * 0.6) * dpr;
-        ctx.strokeStyle = isBlinking ? `rgba(216, 180, 254, ${alpha})` : `rgba(168, 85, 247, ${alpha})`;
+        const plusSize = (3.8 + (4 - m.level) * 0.55) * dpr;
+        ctx.strokeStyle = isBlinking ? `rgba(243, 232, 255, ${alpha})` : `rgba(192, 132, 252, ${alpha})`;
         ctx.beginPath();
         ctx.moveTo(sx - plusSize, sy);
         ctx.lineTo(sx + plusSize, sy);
@@ -272,38 +284,40 @@ export const AeroShardsFallback = ({
         ctx.stroke();
       }
 
-      // Target Bracket [+]
-      const activeTarget = nearestMarker && minMarkerDist < 160 * dpr
+      // Target Bracket [ + ] (Locks onto nearest marker or rests elegantly around x: 48%, y: 88%)
+      const defaultTargetX = width * 0.48;
+      const defaultTargetY = height * 0.88;
+      const activeTarget = nearestMarker && minMarkerDist < 180 * dpr
         ? nearestMarker
-        : { sx: width * 0.42, sy: height * 0.88, alpha: 0.6 };
+        : { sx: defaultTargetX, sy: defaultTargetY, alpha: 0.75 };
 
       if (activeTarget) {
         const { sx, sy, alpha } = activeTarget;
-        const bSize = 9 * dpr;
-        const cLen = 4 * dpr;
-        ctx.strokeStyle = `rgba(216, 180, 254, ${alpha})`;
-        ctx.lineWidth = 1.2 * dpr;
+        const bSize = 9.5 * dpr;
+        const cLen = 4.2 * dpr;
+        ctx.strokeStyle = `rgba(235, 215, 255, ${alpha})`;
+        ctx.lineWidth = 1.3 * dpr;
         ctx.beginPath();
-        // Corners
+        // Top-left corner
         ctx.moveTo(sx - bSize, sy - bSize + cLen);
         ctx.lineTo(sx - bSize, sy - bSize);
         ctx.lineTo(sx - bSize + cLen, sy - bSize);
-
+        // Top-right corner
         ctx.moveTo(sx + bSize - cLen, sy - bSize);
         ctx.lineTo(sx + bSize, sy - bSize);
         ctx.lineTo(sx + bSize, sy - bSize + cLen);
-
+        // Bottom-left corner
         ctx.moveTo(sx - bSize, sy + bSize - cLen);
         ctx.lineTo(sx - bSize, sy + bSize);
         ctx.lineTo(sx - bSize + cLen, sy + bSize);
-
+        // Bottom-right corner
         ctx.moveTo(sx + bSize - cLen, sy + bSize);
         ctx.lineTo(sx + bSize, sy + bSize);
         ctx.lineTo(sx + bSize, sy + bSize - cLen);
         ctx.stroke();
       }
 
-      // 2. Draw Shard Ribbon Waves (from level 4 down to 0)
+      // 2. Draw Shard Ribbon Waves (from farthest depth level 4 down to foreground level 0)
       for (let level = LEVELS - 1; level >= 0; level--) {
         const levelShards = shardsByLevel[level];
         const depth = DEPTHS[level];
@@ -312,31 +326,32 @@ export const AeroShardsFallback = ({
         const slopeDelta = slope[1] - slope[0];
         const depthScale = (CAMERA / depth) * dpr;
 
-        // Colors per depth level: crisp lavender glass facets with vibrant crystalline highlights
-        const fillAlpha = (0.20 + (4 - level) * 0.04) * fade;
-        const strokeAlpha = (0.55 + (4 - level) * 0.1) * fade;
-        const fillStyle = `rgba(155, 120, 215, ${fillAlpha})`;
-        const strokeStyle = `rgba(225, 195, 255, ${strokeAlpha})`;
-        const facetStrokeStyle = `rgba(240, 220, 255, ${strokeAlpha * 0.5})`;
-        const lineWidth = Math.max(0.85, (1.35 - level * 0.12) * dpr);
+        // Visual match to attached photo: luminous lilac glass with sparkling violet rim light
+        const fillAlpha = (0.18 + (4 - level) * 0.05) * fade;
+        const strokeAlpha = (0.58 + (4 - level) * 0.10) * fade;
+        const fillStyle = `rgba(165, 128, 225, ${fillAlpha})`;
+        const facetFillStyle = `rgba(185, 150, 245, ${fillAlpha * 1.35})`;
+        const strokeStyle = `rgba(235, 215, 255, ${strokeAlpha})`;
+        const facetStrokeStyle = `rgba(248, 235, 255, ${strokeAlpha * 0.55})`;
+        const lineWidth = Math.max(0.9, (1.4 - level * 0.12) * dpr);
 
         for (let i = 0; i < levelShards.length; i++) {
           const s = levelShards[i];
 
-          // Advance along ribbon with graceful, noticeable fluid velocity
+          // Advance along ribbon with graceful fluid velocity
           s.s = (s.s + s.speed * dt) % 1.0;
-          s.roll += s.rollSpeed * dt * 2.0;
+          s.roll += s.rollSpeed * dt * 2.2;
 
           const progress = s.s;
-          const u = -1.32 + 2.64 * progress;
+          const u = -1.35 + 2.7 * progress;
           const v =
             slope[0] +
             slopeDelta * progress +
-            0.12 * Math.sin(progress * TAU * 0.75 + level * 2.3 + clock * 0.1) +
-            0.05 * Math.sin(progress * TAU * 1.9 + level);
+            0.13 * Math.sin(progress * TAU * 0.75 + level * 2.3 + clock * 0.12) +
+            0.06 * Math.sin(progress * TAU * 1.8 + level);
 
-          const du = 2.64;
-          const dv = slopeDelta + 0.12 * Math.cos(progress * TAU * 0.75 + level * 2.3) * TAU * 0.75;
+          const du = 2.7;
+          const dv = slopeDelta + 0.13 * Math.cos(progress * TAU * 0.75 + level * 2.3) * TAU * 0.75;
           const tLen = Math.hypot(du, dv) || 1;
           const normU = -dv / tLen;
           const normV = du / tLen;
@@ -348,16 +363,16 @@ export const AeroShardsFallback = ({
           const sy = height * (0.5 - 0.5 * finalV);
 
           // Skip if offscreen
-          if (sx < -40 || sx > width + 40 || sy < -40 || sy > height + 40) continue;
+          if (sx < -50 || sx > width + 50 || sy < -50 || sy > height + 50) continue;
 
           const shardSize = s.baseSize * depthScale;
           const ribbonAngle = Math.atan2(-dv, du);
 
           ctx.save();
           ctx.translate(sx, sy);
-          ctx.rotate(ribbonAngle + s.roll * 0.3);
+          ctx.rotate(ribbonAngle + s.roll * 0.35);
 
-          // Draw polygon
+          // 1. Draw polygon body
           ctx.beginPath();
           for (let p = 0; p < s.corners; p++) {
             const px = s.shape[p][0] * shardSize;
@@ -370,14 +385,26 @@ export const AeroShardsFallback = ({
           ctx.fillStyle = fillStyle;
           ctx.fill();
 
+          // 2. Dual-tone specular facet reflection (one illuminated prism facet)
+          if (s.corners >= 4 && s.facetType === 1) {
+            ctx.beginPath();
+            ctx.moveTo(s.shape[0][0] * shardSize, s.shape[0][1] * shardSize);
+            ctx.lineTo(s.shape[1][0] * shardSize, s.shape[1][1] * shardSize);
+            ctx.lineTo(s.shape[2][0] * shardSize, s.shape[2][0] * shardSize);
+            ctx.closePath();
+            ctx.fillStyle = facetFillStyle;
+            ctx.fill();
+          }
+
+          // 3. Crisp outer edge stroke
           ctx.strokeStyle = strokeStyle;
           ctx.lineWidth = lineWidth;
           ctx.stroke();
 
-          // Internal geometric facet reflection lines
+          // 4. Internal geometric facet cut lines (matching crystal glass facets in photo)
           if (s.corners >= 3) {
             ctx.strokeStyle = facetStrokeStyle;
-            ctx.lineWidth = 0.55 * dpr;
+            ctx.lineWidth = 0.65 * dpr;
             ctx.beginPath();
             if (s.corners === 4) {
               ctx.moveTo(s.shape[0][0] * shardSize, s.shape[0][1] * shardSize);
@@ -390,6 +417,11 @@ export const AeroShardsFallback = ({
                 (s.shape[1][0] + s.shape[2][0]) * 0.5 * shardSize,
                 (s.shape[1][1] + s.shape[2][1]) * 0.5 * shardSize
               );
+            } else if (s.corners === 5) {
+              ctx.moveTo(s.shape[0][0] * shardSize, s.shape[0][1] * shardSize);
+              ctx.lineTo(s.shape[2][0] * shardSize, s.shape[2][0] * shardSize);
+              ctx.moveTo(s.shape[0][0] * shardSize, s.shape[0][1] * shardSize);
+              ctx.lineTo(s.shape[3][0] * shardSize, s.shape[3][1] * shardSize);
             }
             ctx.stroke();
           }
@@ -398,7 +430,7 @@ export const AeroShardsFallback = ({
         }
       }
 
-      // Vignette using pre-computed gradient (0ms overhead)
+      // Radial Vignette
       if (vignetteGradient) {
         ctx.fillStyle = vignetteGradient;
         ctx.fillRect(0, 0, width, height);

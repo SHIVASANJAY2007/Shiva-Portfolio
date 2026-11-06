@@ -6,7 +6,7 @@
   height: 100vh;
   min-height: 700px;
   width: 100%;
-  background-color: #060606;
+  background-color: #090514;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -21,7 +21,7 @@
   width: 500px;
   height: 500px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 46, 84, 0.12) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.12) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
   animation: floatAmbient 10s ease-in-out infinite alternate;
@@ -34,7 +34,7 @@
   width: 550px;
   height: 550px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 46, 84, 0.08) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(137, 106, 189, 0.08) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
   animation: floatAmbient 12s ease-in-out infinite alternate-reverse;
@@ -55,30 +55,37 @@
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transform: scale(1.05);
+  transform: scale(1.03);
   transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 1.2s ease;
 }
 
 .bgContainerActive {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-  transform: scale(1);
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  transform: scale(1) !important;
 }
 
 .modelContainer {
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
   opacity: 1;
   transform: scale(1);
   z-index: 5 !important; /* Strictly above/in front of title and roles at z-index 2 */
   mix-blend-mode: normal !important; /* Preserve 100% original natural metallic colors without ugly blending */
 }
 
+.modelVisible {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transform: scale(1) !important;
+  z-index: 5 !important;
+}
+
 .modelHidden {
   opacity: 0 !important;
   pointer-events: none !important;
   z-index: -50 !important;
-  transform: scale(0.95);
+  transform: scale(0.96);
   mix-blend-mode: normal !important;
 }
 
