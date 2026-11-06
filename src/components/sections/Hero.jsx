@@ -150,6 +150,7 @@ export const Hero = () => {
   const roleRef = useRef(null);
   const overlayTitleRef = useRef(null);
   const overlayRoleRef = useRef(null);
+  const ctaRef = useRef(null);
 
   const [showBackground, setShowBackground] = useState(false);
   const [isHeroVisible, setIsHeroVisible] = useState(true);
@@ -206,7 +207,6 @@ export const Hero = () => {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReduced || !containerRef.current) return;
 
-
     const ctx = gsap.context(() => {
       const titleLeft = titleRef.current?.querySelector(`.${styles.titleLeft}`) || null;
       const titleRight = titleRef.current?.querySelector(`.${styles.titleRight}`) || null;
@@ -247,6 +247,14 @@ export const Hero = () => {
         duration: 0.85
       }, 0.4);
 
+      if (ctaRef.current) {
+        tl.from(ctaRef.current, {
+          y: 30,
+          opacity: 0,
+          duration: 0.85
+        }, 0.52);
+      }
+
     }, containerRef);
 
     return () => ctx.revert();
@@ -276,6 +284,20 @@ export const Hero = () => {
 
       if (bioRef.current) {
         gsap.to(bioRef.current, {
+          y: -60,
+          opacity: 0.2,
+          ease: "none",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "15% top",
+            end: "70% top",
+            scrub: true,
+          },
+        });
+      }
+
+      if (ctaRef.current) {
+        gsap.to(ctaRef.current, {
           y: -60,
           opacity: 0.2,
           ease: "none",
@@ -416,12 +438,16 @@ export const Hero = () => {
           <p className={styles.bioText}>
             Hey there! I'm an <strong>AI Automation Specialist</strong> and <strong>Full-Stack Developer</strong> building practical, high-impact solutions with modern web stacks, n8n workflows, Odoo, and Salesforce CRM.
           </p>
+        </div>
 
-          <div className={styles.btnRow}>
-            <a href="#projects" onClick={(e) => handleCardClick(e, 'projects')} className={styles.ctaButton}>
-              Explore Projects
-            </a>
-          </div>
+        {/* Lower-Right Explore Projects CTA Action */}
+        <div className={styles.rightActionWidget} ref={ctaRef}>
+          <a href="#projects" onClick={(e) => handleCardClick(e, 'projects')} className={styles.ctaButton}>
+            <span>Explore Projects</span>
+            <svg className={styles.ctaArrow} viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2.5" fill="none">
+              <path d="M7 17L17 7M17 7H7M17 7V17" />
+            </svg>
+          </a>
         </div>
       </div>
 

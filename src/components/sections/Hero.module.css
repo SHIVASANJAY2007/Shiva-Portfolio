@@ -255,13 +255,15 @@
   z-index: 10;
   pointer-events: none;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
   padding: 0 clamp(2rem, 5vw, 4.5rem) 5rem;
   max-width: 1780px;
   margin: 0 auto;
   mix-blend-mode: normal;
 }
+
 
 .foregroundUI3D {
   z-index: 12 !important;
@@ -360,10 +362,13 @@
   font-weight: 800;
 }
 
-.btnRow {
+.rightActionWidget {
+  pointer-events: auto;
   display: flex;
-  align-items: center;
-  gap: 1.2rem;
+  align-items: flex-end;
+  justify-content: flex-end;
+  z-index: 15;
+  padding-bottom: 0.4rem;
 }
 
 .ctaButton {
@@ -377,8 +382,11 @@
   text-decoration: none;
   box-shadow: 0 6px 25px rgba(255, 255, 255, 0.25);
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .ctaButton:hover {
@@ -387,6 +395,15 @@
   box-shadow: 0 8px 35px rgba(255, 46, 84, 0.65);
   transform: translateY(-3px) scale(1.03);
 }
+
+.ctaArrow {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ctaButton:hover .ctaArrow {
+  transform: translate(3px, -3px);
+}
+
 
 .resumeButton {
   background: rgba(255, 255, 255, 0.08);
@@ -493,9 +510,17 @@
   }
   .foregroundUI {
     position: relative;
+    flex-direction: column;
     justify-content: flex-end;
+    align-items: center;
+    gap: 1.5rem;
     padding: 0 1.5rem 6.5rem;
     height: 100vh;
+  }
+  .rightActionWidget {
+    justify-content: center;
+    width: 100%;
+    padding-bottom: 0;
   }
   .bioWidget {
     max-width: 100%;
