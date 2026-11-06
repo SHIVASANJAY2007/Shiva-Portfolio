@@ -114,9 +114,10 @@ body {
   background-color: #050505;
   color: var(--color-text);
   line-height: var(--line-height-normal);
-  overflow-x: hidden;
+  overflow-x: clip;
   margin: 0;
 }
+
 
 #root {
   min-height: 100vh;

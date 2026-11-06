@@ -117,10 +117,10 @@ function KnightModel({ scene, invalidate, onRenderSuccess }) {
     head.rotation.x = THREE.MathUtils.lerp(head.rotation.x, finalPitch, 0.14);
 
     if (
-      Math.abs(head.rotation.y - finalYaw) > 0.0001 ||
-      Math.abs(head.rotation.x - finalPitch) > 0.0001 ||
-      Math.abs(smoothedMouse.current.x - globalMouse.current.x) > 0.0001 ||
-      Math.abs(smoothedMouse.current.y - globalMouse.current.y) > 0.0001
+      Math.abs(head.rotation.y - finalYaw) > 0.0008 ||
+      Math.abs(head.rotation.x - finalPitch) > 0.0008 ||
+      Math.abs(smoothedMouse.current.x - globalMouse.current.x) > 0.0008 ||
+      Math.abs(smoothedMouse.current.y - globalMouse.current.y) > 0.0008
     ) {
       invalidate();
     }

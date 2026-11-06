@@ -11,9 +11,6 @@ import { resumeData } from '../../data/resume';
 import { getQuality, getQualityConfig } from '../../utils/quality';
 import AeroShardsFallback from '../3D/AeroShardsFallback';
 
-const aeroShardsPromise = import('../3D/AeroShards');
-const AeroShards = React.lazy(() => aeroShardsPromise);
-
 const KNIGHT_MODEL_URL = '/models/knight-opt.glb';
 
 // High-priority early preload trigger for the 3D model
@@ -85,37 +82,64 @@ class ModelErrorBoundary extends React.Component {
 }
 
 function AeroShardsBackground({ isHeroVisible, documentHidden }) {
-  const [useFallback, setUseFallback] = useState(false);
   const isPaused = !isHeroVisible || documentHidden;
+  return <AeroShardsFallback shardColor="#896ABD" accentColor="#A855F7" count={240} paused={isPaused} />;
+}
 
-  if (useFallback) {
-    return <AeroShardsFallback shardColor="#896ABD" accentColor="#A855F7" count={240} paused={isPaused} />;
-  }
+// Resume-driven dynamic role catalog
+const ROTATING_ROLES = [
+  { left: "WEB", right: "DEVELOPER" },
+  { left: "AI AUTOMATION", right: "SPECIALIST" },
+  { left: "TRAINER", right: "& MENTOR" },
+  { left: "SPORTSMAN", right: "KHO KHO CAPTAIN" },
+  { left: "FULL-STACK", right: "ENGINEER" },
+  { left: "N8N WORKFLOW", right: "ARCHITECT" },
+  { left: "ODOO & SALESFORCE", right: "INTERESTED" },
+  { left: "UI/UX & REACT", right: "DESIGNER" },
+  { left: "ENTERPRISE CRM", right: "INTEGRATOR" },
+  { left: "PYTHON & AI", right: "SOLUTIONS" }
+];
+
+const DynamicRole = React.memo(({ isCenter, roleRef }) => {
+  const [index, setIndex] = useState(0);
+  const localRef = useRef(null);
+  const targetRef = roleRef || localRef;
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const targets = targetRef.current?.children;
+      if (!targets || !targets.length) return;
+
+      gsap.to(targets, {
+        y: -18,
+        opacity: 0,
+        duration: 0.35,
+        ease: "power2.in",
+        onComplete: () => {
+          setIndex((prev) => (prev + 1) % ROTATING_ROLES.length);
+          gsap.fromTo(targets,
+            { y: 18, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.45, ease: "power3.out" }
+          );
+        }
+      });
+    }, 2800);
+
+    return () => clearInterval(interval);
+  }, [targetRef]);
+
+  const currentRole = ROTATING_ROLES[index];
 
   return (
-    <AeroShards 
-      shardColor="#896ABD"
-      accentColor="#A855F7"
-      placement="full"
-      material="glass"
-      markers="plus"
-      count={450}
-      depthOfField={0.4}
-      glow={0.2}
-      dpr={1.5}
-      vignette={0.3}
-      speed={2.2}
-      mouseInteraction
-      pulseOnClick
-      holdToGather
-      paused={isPaused}
-      onError={(err) => {
-        console.warn("[Hero] WebGPU AeroShards unavailable, using 2D canvas fallback:", err);
-        setUseFallback(true);
-      }}
-    />
+    <div 
+      className={`${styles.splitSubhead} ${isCenter ? styles.splitSubheadCenter : ''}`} 
+      ref={targetRef}
+    >
+      <span className={styles.subLeft}>{currentRole.left}</span>
+      <span className={styles.subRight}>{currentRole.right}</span>
+    </div>
   );
-}
+});
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -127,7 +151,6 @@ export const Hero = () => {
   const overlayTitleRef = useRef(null);
   const overlayRoleRef = useRef(null);
 
-  const [roleIndex, setRoleIndex] = useState(0);
   const [showBackground, setShowBackground] = useState(false);
   const [isHeroVisible, setIsHeroVisible] = useState(true);
   const [documentHidden, setDocumentHidden] = useState(false);
@@ -178,51 +201,11 @@ export const Hero = () => {
     return () => document.removeEventListener('visibilitychange', handleVis);
   }, []);
 
-  // Resume-driven dynamic role catalog
-  const rotatingRoles = [
-    { left: "WEB", right: "DEVELOPER" },
-    { left: "AI AUTOMATION", right: "SPECIALIST" },
-    { left: "TRAINER", right: "& MENTOR" },
-    { left: "SPORTSMAN", right: "KHO KHO CAPTAIN" },
-    { left: "FULL-STACK", right: "ENGINEER" },
-    { left: "N8N WORKFLOW", right: "ARCHITECT" },
-    { left: "ODOO & SALESFORCE", right: "INTERESTED" },
-    { left: "UI/UX & REACT", right: "DESIGNER" },
-    { left: "ENTERPRISE CRM", right: "INTEGRATOR" },
-    { left: "PYTHON & AI", right: "SOLUTIONS" }
-  ];
-
-  // High-performance Dynamic Role Rotator Interval & Animation
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const targets = [
-        ...(roleRef.current?.children || []),
-        ...(overlayRoleRef.current?.children || [])
-      ];
-      if (!targets.length) return;
-
-      gsap.to(targets, {
-        y: -18,
-        opacity: 0,
-        duration: 0.35,
-        ease: "power2.in",
-        onComplete: () => {
-          setRoleIndex((prev) => (prev + 1) % rotatingRoles.length);
-          gsap.fromTo(targets,
-            { y: 18, opacity: 0 },
-            { y: 0, opacity: 1, duration: 0.45, ease: "power3.out" }
-          );
-        }
-      });
-    }, 2800);
-
-    return () => clearInterval(interval);
-  }, [rotatingRoles.length]);
-
   // Ultra-Fast 60 FPS GSAP Entrance & Hardware-Accelerated Parallax Engine
   useEffect(() => {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReduced || !containerRef.current) return;
+
 
     const ctx = gsap.context(() => {
       const titleLeft = titleRef.current?.querySelector(`.${styles.titleLeft}`) || null;
@@ -278,9 +261,9 @@ export const Hero = () => {
       const titleTargets = [titleRef.current, overlayTitleRef.current].filter(Boolean);
       if (titleTargets.length) {
         gsap.to(titleTargets, {
-          y: !showBackground ? -170 : -150,
+          y: !showBackground ? -120 : -100,
           opacity: 0.35,
-          scale: !showBackground ? 0.94 : 1,
+          scale: !showBackground ? 0.96 : 1,
           ease: "none",
           scrollTrigger: {
             trigger: containerRef.current,
@@ -293,27 +276,13 @@ export const Hero = () => {
 
       if (bioRef.current) {
         gsap.to(bioRef.current, {
-          y: !showBackground ? -90 : -80,
-          opacity: 0.15,
+          y: -60,
+          opacity: 0.2,
           ease: "none",
           scrollTrigger: {
             trigger: containerRef.current,
             start: "15% top",
             end: "70% top",
-            scrub: true,
-          },
-        });
-      }
-
-      const canvasContainer = containerRef.current.querySelector('.canvas-container');
-      if (canvasContainer && !showBackground) {
-        gsap.to(canvasContainer, {
-          y: 180,
-          ease: "none",
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top top",
-            end: "bottom top",
             scrub: true,
           },
         });
@@ -327,8 +296,6 @@ export const Hero = () => {
     e.preventDefault();
     scrollToSection(targetSection);
   };
-
-  const currentRole = rotatingRoles[roleIndex];
 
   return (
     <section id="hero" className={styles.heroSection} ref={containerRef}>
@@ -345,9 +312,7 @@ export const Hero = () => {
         }}
       >
         {showBackground && (
-          <Suspense fallback={<AeroShardsFallback shardColor="#896ABD" accentColor="#A855F7" count={240} paused={!isHeroVisible || documentHidden} />}>
-            <AeroShardsBackground isHeroVisible={isHeroVisible} documentHidden={documentHidden} />
-          </Suspense>
+          <AeroShardsBackground isHeroVisible={isHeroVisible} documentHidden={documentHidden} />
         )}
       </div>
 
@@ -359,10 +324,7 @@ export const Hero = () => {
         </div>
 
         {/* Dynamic Rotating Role Switcher */}
-        <div className={`${styles.splitSubhead} ${showBackground ? styles.splitSubheadCenter : ''}`} ref={roleRef}>
-          <span className={styles.subLeft}>{currentRole.left}</span>
-          <span className={styles.subRight}>{currentRole.right}</span>
-        </div>
+        <DynamicRole isCenter={showBackground} roleRef={roleRef} />
       </div>
 
       {/* Layer 3: High-Speed 3D Canvas (Active until fallback triggers; unmounted/paused upon fallback) */}
@@ -439,10 +401,7 @@ export const Hero = () => {
           <h1 className={styles.titleLeft}>SHIVA</h1>
           <h1 className={styles.titleRight}>SANJAY</h1>
         </div>
-        <div className={styles.splitSubhead} ref={overlayRoleRef}>
-          <span className={styles.subLeft}>{currentRole.left}</span>
-          <span className={styles.subRight}>{currentRole.right}</span>
-        </div>
+        <DynamicRole isCenter={false} roleRef={overlayRoleRef} />
       </div>
 
       {/* Layer 4: Foreground Overlay UI (In Front of 3D Model or Above Magic BG) */}

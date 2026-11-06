@@ -1,16 +1,22 @@
 /* Containers */
-.stack__conceal {
-  /* No specific styles in MD file, but it's a container */
+.container__stack {
+  width: 100%;
+  position: relative;
 }
 
-/* Cards */
+.stack__conceal {
+  width: 100%;
+  position: relative;
+}
+
+/* Cards: Native Sticky Pinning */
 .card__conceal {
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
   width: 100%;
   min-height: 100vh;
-  /* Removed flex center and background so the section components handle their own layout */
-  z-index: -1;
+  will-change: transform;
 }
 
 /* Stacking order: conceal */
@@ -22,20 +28,30 @@
 .card__conceal:nth-child(6) { z-index: 10; }
 .card__conceal:nth-child(7) { z-index: 11; }
 
-/* Sibling overlay: invisible on load */
+/* Sibling overlay: dims previous card as this card slides over it */
 .overlay__conceal::before,
 .overlay__conceal--visible::before {
-  inset: 0;
-  opacity: 0;
   content: "";
   display: block;
   position: absolute;
-  background: black;
-  transition: opacity 1s cubic-bezier(0.165, 0.84, 0.44, 1);
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  bottom: 100%; /* Anchored above this card to cover the card underneath */
+  background: #000000;
+  opacity: 0;
+  transition: opacity 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
   pointer-events: none;
+  z-index: 2;
 }
 
-/* Sibling overlay: visibile when JS executes */
+/* Sibling overlay: visible when this card enters viewport */
 .overlay__conceal--visible::before {
-  opacity: 0.7;
+  opacity: 0.65;
 }
+
+/* First card (Hero) has no preceding card to dim */
+.card__conceal:first-child::before {
+  display: none !important;
+}
+

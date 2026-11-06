@@ -4,34 +4,20 @@ import './StackScroller.css';
 const StickyCard = React.memo(({ child, index }) => {
   const ref = useRef(null);
   const [top, setTop] = useState(0);
-  const [hasMounted, setHasMounted] = useState(index < 2);
 
   useEffect(() => {
-    if (hasMounted) return;
-    if (!ref.current) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setHasMounted(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: '600px 0px' }
-    );
-    observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [hasMounted]);
-
-  useEffect(() => {
-    // We use a ResizeObserver to dynamically calculate the top sticky offset.
-    // If a card is taller than the viewport (like Experience or About), we set top to a negative value
-    // so it only sticks after the user has scrolled all the way to the bottom of the card!
     const updateTop = () => {
       if (!ref.current) return;
-      const height = ref.current.getBoundingClientRect().height;
+      const height = ref.current.offsetHeight || ref.current.getBoundingClientRect().height;
       const viewportHeight = window.innerHeight;
-      setTop(height > viewportHeight ? viewportHeight - height : 0);
+      // If a card is taller than the viewport, set top to viewportHeight - height
+      // so it sticks once the user has scrolled to the bottom of the card.
+      // If card is <= viewportHeight (like Hero), top is 0 so it locks at top: 0 immediately.
+      const calculatedTop = height > viewportHeight ? viewportHeight - height : 0;
+      setTop(calculatedTop);
     };
+
+    updateTop();
 
     const observer = new ResizeObserver(updateTop);
     if (ref.current) {
@@ -40,11 +26,16 @@ const StickyCard = React.memo(({ child, index }) => {
 
     window.addEventListener('resize', updateTop, { passive: true });
 
+    // Also recalculate after fonts and assets are loaded
+    if (typeof document !== 'undefined' && document.fonts?.ready) {
+      document.fonts.ready.then(updateTop);
+    }
+
     return () => {
       observer.disconnect();
       window.removeEventListener('resize', updateTop);
     };
-  }, [hasMounted]);
+  }, []);
 
   return (
     <section 
@@ -52,7 +43,7 @@ const StickyCard = React.memo(({ child, index }) => {
       className="card__conceal overlay__conceal"
       style={{ top: `${top}px` }}
     >
-      {hasMounted ? child : <div style={{ minHeight: '100vh' }} />}
+      {child}
     </section>
   );
 });
@@ -77,22 +68,24 @@ export const StackScroller = React.memo(({ children }) => {
       });
     }
 
+    if (!containerRef.current) return;
     const fadeInElms = containerRef.current.querySelectorAll(".card__conceal");
     const observer = new IntersectionObserver(observerCallback, observerOptions);
     fadeInElms.forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
-  }, [children]); // Re-run if children change
+  }, [children]);
 
   return (
-    <main className="container__stack" ref={containerRef}>
-      <section className="stack__conceal">
+    <div className="container__stack" ref={containerRef}>
+      <div className="stack__conceal">
         {React.Children.map(children, (child, index) => (
           <StickyCard key={index} index={index} child={child} />
         ))}
-      </section>
-    </main>
+      </div>
+    </div>
   );
 });
 
 export default StackScroller;
+
