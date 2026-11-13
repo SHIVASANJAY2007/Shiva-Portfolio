@@ -82,18 +82,15 @@ class ModelErrorBoundary extends React.Component {
 
 // Resume-driven dynamic role catalog
 const ROTATING_ROLES = [
-  { left: "WEB", right: "DEVELOPER" },
+  { left: "FULL STACK", right: "DEVELOPER" },
   { left: "BUSINESS", right: "ANALYST" },
-  { left: "AI AUTOMATION", right: "SPECIALIST" },
-  { left: "TRAINER", right: "& MENTOR" },
-  { left: "HR", right: "MANAGEMENT" },
+  { left: "AI AUTOMATION", right: "SPECIALIST(N8N)" },
+  { left: "TRAINING", right: "& MENTOR" },
+  { left: "HUMAN RESOURCE", right: "MANAGEMENT" },
   { left: "SPORTSMAN", right: "KHO KHO CAPTAIN" },
-  { left: "FULL-STACK", right: "ENGINEER" },
-  { left: "N8N WORKFLOW", right: "ARCHITECT" },
   { left: "ODOO & SALESFORCE", right: "INTERESTED" },
   { left: "UI/UX & REACT", right: "DESIGNER" },
-  { left: "ENTERPRISE CRM", right: "INTEGRATOR" },
-  { left: "PYTHON & AI", right: "SOLUTIONS" }
+  { left: "PYTHON & C", right: "SOLUTIONS" }
 ];
 
 const DynamicRole = React.memo(({ isCenter, roleRef }) => {
@@ -127,8 +124,8 @@ const DynamicRole = React.memo(({ isCenter, roleRef }) => {
   const currentRole = ROTATING_ROLES[index];
 
   return (
-    <div 
-      className={`${styles.splitSubhead} ${isCenter ? styles.splitSubheadCenter : ''}`} 
+    <div
+      className={`${styles.splitSubhead} ${isCenter ? styles.splitSubheadCenter : ''}`}
       ref={targetRef}
     >
       <span className={styles.subLeft}>{currentRole.left}</span>
@@ -339,15 +336,15 @@ export const Hero = () => {
       </div>
 
       {/* Layer 3: High-Speed 3D Canvas (Preloads in background; smoothly fades in once completely loaded) */}
-      <div 
-        className={`canvas-container ${styles.modelContainer} ${isModelReady && !modelFailed ? styles.modelVisible : styles.modelHidden}`} 
-        style={{ 
-          position: 'absolute', 
-          top: 0, 
-          left: 0, 
-          width: '100%', 
-          height: '100%', 
-          zIndex: 5, 
+      <div
+        className={`canvas-container ${styles.modelContainer} ${isModelReady && !modelFailed ? styles.modelVisible : styles.modelHidden}`}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: 5,
           pointerEvents: isModelReady && !modelFailed ? 'auto' : 'none',
           display: modelFailed ? 'none' : 'block'
         }}
@@ -399,9 +396,9 @@ export const Hero = () => {
       </div>
 
       {/* Layer 3.5: X-Ray Glass Overlay (Active when 3D model is visible) */}
-      <div 
-        className={styles.xrayOverlay} 
-        ref={overlayTitleRef} 
+      <div
+        className={styles.xrayOverlay}
+        ref={overlayTitleRef}
         aria-hidden="true"
         style={{
           visibility: isModelReady && !modelFailed ? 'visible' : 'hidden',
