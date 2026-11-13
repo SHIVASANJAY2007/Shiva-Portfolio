@@ -8,11 +8,15 @@ const StickyCard = React.memo(({ child, index }) => {
   useEffect(() => {
     const updateTop = () => {
       if (!ref.current) return;
+      // Hero section (index 0) must ALWAYS sit flush at top: 0
+      if (index === 0) {
+        setTop(0);
+        return;
+      }
       const height = ref.current.offsetHeight || ref.current.getBoundingClientRect().height;
       const viewportHeight = window.innerHeight;
       // If a card is taller than the viewport, set top to viewportHeight - height
       // so it sticks once the user has scrolled to the bottom of the card.
-      // If card is <= viewportHeight (like Hero), top is 0 so it locks at top: 0 immediately.
       const calculatedTop = height > viewportHeight ? viewportHeight - height : 0;
       setTop(calculatedTop);
     };

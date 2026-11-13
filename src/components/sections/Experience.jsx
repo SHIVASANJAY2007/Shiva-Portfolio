@@ -101,6 +101,16 @@ const TimelineCarousel = ({ kicker, title, items, direction = 'ltr' }) => {
                 <div
                   className={`${styles.card} ${idx === selectedIndex ? styles.cardActive : styles.cardInactive}`}
                   style={{ direction: 'ltr' }}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`View ${item.title}`}
+                  onClick={() => emblaApi && emblaApi.scrollTo(idx)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      emblaApi && emblaApi.scrollTo(idx);
+                    }
+                  }}
                 >
                   <div className={styles.cardTop}>
                     <h3 className={styles.cardTitle}>{item.title}</h3>

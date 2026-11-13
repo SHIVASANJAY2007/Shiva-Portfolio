@@ -58,6 +58,18 @@ export const Loader = () => {
     }
   }, [isLoaded]);
 
+  // Lock scroll while preloader is active to prevent page from being scrolled before hero renders
+  useEffect(() => {
+    if (show && typeof document !== 'undefined') {
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = '';
+      };
+    } else if (typeof document !== 'undefined') {
+      document.body.style.overflow = '';
+    }
+  }, [show]);
+
   const boundedProgress = Math.min(100, Math.max(0, displayProgress));
   // Exact alignment between energy bar width and floating counter
   const badgePosition = Math.min(94, Math.max(5, boundedProgress));

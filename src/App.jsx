@@ -21,6 +21,14 @@ const FALLBACK_STYLE = { height: '100vh', display: 'flex', alignItems: 'center',
 export default function App() {
 
   useEffect(() => {
+    // Prevent browser from restoring dirty scroll positions on reload
+    if (typeof window !== 'undefined') {
+      if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+      }
+      window.scrollTo(0, 0);
+    }
+
     // Ultra-smooth, luxury gliding scroll configuration
     const lenis = new Lenis({
       duration: 1.1,
@@ -31,6 +39,7 @@ export default function App() {
     });
 
     window.lenis = lenis; // Expose Lenis globally for real-time navigation color changing events
+    lenis.scrollTo(0, { immediate: true });
     lenis.on('scroll', ScrollTrigger.update);
 
     const raf = (time) => {

@@ -16,7 +16,13 @@
   top: 0;
   width: 100%;
   min-height: 100vh;
+  min-height: 100dvh;
   will-change: transform;
+}
+
+/* First card (Hero) must always sit flush at top: 0 */
+.card__conceal:first-child {
+  top: 0 !important;
 }
 
 /* Stacking order: conceal */
