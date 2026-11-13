@@ -9,7 +9,6 @@ import { HeroLoader } from '../3D/HeroLoader';
 import { scrollToSection } from '../../lib/scrollToSection';
 import { resumeData } from '../../data/resume';
 import { getQuality, getQualityConfig } from '../../utils/quality';
-import AeroShardsFallback from '../3D/AeroShardsFallback';
 
 const KNIGHT_MODEL_URL = '/models/knight-opt.glb';
 
@@ -81,77 +80,13 @@ class ModelErrorBoundary extends React.Component {
   }
 }
 
-const AeroShards = React.lazy(() => import('../3D/AeroShards'));
-
-function AeroShardsBackground({ isHeroVisible, documentHidden }) {
-  const [useFallback, setUseFallback] = useState(false);
-  const isPaused = !isHeroVisible || documentHidden;
-
-  const supportsWebGPU = typeof navigator !== 'undefined' && 'gpu' in navigator && !useFallback;
-
-  if (!supportsWebGPU) {
-    return (
-      <AeroShardsFallback
-        shardColor="#896ABD"
-        accentColor="#A855F7"
-        count={280}
-        paused={isPaused}
-      />
-    );
-  }
-
-  return (
-    <Suspense
-      fallback={
-        <AeroShardsFallback
-          shardColor="#896ABD"
-          accentColor="#A855F7"
-          count={280}
-          paused={isPaused}
-        />
-      }
-    >
-      <AeroShards
-        shardColor="#896ABD"
-        accentColor="#A855F7"
-        backgroundColor="transparent"
-        placement="full"
-        material="glass"
-        markers="plus"
-        count={650}
-        shardSize={1}
-        spread={1}
-        twist={1}
-        billow={1}
-        speed={1.2}
-        scale={1}
-        depthOfField={0.75}
-        glow={0.35}
-        grain={0.06}
-        vignette={0.3}
-        intro={true}
-        mouseInteraction={true}
-        mouseStrength={0.6}
-        parallax={0.5}
-        pulseOnClick={true}
-        holdToGather={true}
-        paused={isPaused}
-        dpr={1.5}
-        onError={(err) => {
-          console.warn("[AeroShards] WebGPU pipeline unavailable, switching to 2D canvas fallback:", err);
-          setUseFallback(true);
-        }}
-      />
-    </Suspense>
-  );
-}
-
 // Resume-driven dynamic role catalog
 const ROTATING_ROLES = [
   { left: "WEB", right: "DEVELOPER" },
   { left: "BUSINESS", right: "ANALYST" },
   { left: "AI AUTOMATION", right: "SPECIALIST" },
   { left: "TRAINER", right: "& MENTOR" },
+  { left: "HR", right: "MANAGEMENT" },
   { left: "SPORTSMAN", right: "KHO KHO CAPTAIN" },
   { left: "FULL-STACK", right: "ENGINEER" },
   { left: "N8N WORKFLOW", right: "ARCHITECT" },
@@ -217,8 +152,6 @@ export const Hero = () => {
   const [isModelReady, setIsModelReady] = useState(false);
   // Model failed: becomes true if 3D model encounters WebGL error or exceeds 5s timeout
   const [modelFailed, setModelFailed] = useState(false);
-  // AeroShards mounted: active while loading and smoothly unmounts after crossfade to preserve GPU
-  const [aeroShardsMounted, setAeroShardsMounted] = useState(true);
 
   const [isHeroVisible, setIsHeroVisible] = useState(true);
   const [documentHidden, setDocumentHidden] = useState(false);
@@ -231,24 +164,18 @@ export const Hero = () => {
   const triggerFallback = useCallback(() => {
     if (fallbackTriggeredRef.current || modelRenderedRef.current) return;
     fallbackTriggeredRef.current = true;
-    console.warn("[Hero] 3D Model did not render within 5s or WebGL failed. Preserving AeroShards background.");
+    console.warn("[Hero] 3D Model did not render within 5s or WebGL failed. Falling back to a static hero background.");
     setModelFailed(true);
     setIsModelReady(false);
-    setAeroShardsMounted(true);
   }, []);
 
   const handleModelRenderSuccess = useCallback(() => {
     if (fallbackTriggeredRef.current) return;
     modelRenderedRef.current = true;
     setIsModelReady(true);
-
-    // After the 0.9s crossfade completes, unmount AeroShards to give 100% GPU power to 3D Knight
-    setTimeout(() => {
-      setAeroShardsMounted(false);
-    }, 1200);
   }, []);
 
-  // 5-second safety timer: If 3D model is not ready within 5 seconds, keep AeroShards permanently
+  // 5-second safety timer: If 3D model is not ready within 5 seconds, fall back to the static hero background
   useEffect(() => {
     const timer = setTimeout(() => {
       if (!modelRenderedRef.current) {
@@ -400,20 +327,7 @@ export const Hero = () => {
       <div className={styles.blobLeft} aria-hidden="true" />
       <div className={styles.blobRight} aria-hidden="true" />
 
-      {/* Dynamic Background Layer: AeroShards animation active until 3D model is completely loaded, or permanently if model fails */}
-      <div 
-        className={`${styles.bgContainer} ${!isModelReady || modelFailed ? styles.bgContainerActive : ''}`}
-        style={{
-          visibility: aeroShardsMounted ? 'visible' : 'hidden',
-          pointerEvents: (!isModelReady || modelFailed) ? 'auto' : 'none',
-        }}
-      >
-        {aeroShardsMounted && (
-          <AeroShardsBackground isHeroVisible={isHeroVisible} documentHidden={documentHidden} />
-        )}
-      </div>
-
-      {/* Layer 2: Separated Background Typography (Behind 3D Model or Above AeroShards) */}
+      {/* Layer 2: Separated Background Typography (Behind 3D Model) */}
       <div className={`${styles.bgTypography} ${!isModelReady ? styles.bgTypographyMagic : styles.bgTypography3D}`} ref={titleRef}>
         <div className={`${styles.splitTitle} ${!isModelReady ? styles.splitTitleCenter : ''}`}>
           <h1 className={styles.titleLeft}>SHIVA</h1>
