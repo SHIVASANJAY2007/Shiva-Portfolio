@@ -14,7 +14,7 @@
   },
   "basics": {
     "name": "Shiva Sanjay N D",
-    "headline": "Fresher, AI & Web Developer",
+    "headline": "Fresher, AI & Web Developer, Mentor & Training, Business Analyst",
     "email": "shivasanjay9255@gmail.com",
     "phone": "7373382999",
     "location": "Perundurai, Tamilnadu, India",
@@ -32,7 +32,7 @@
     "showHeading": true,
     "keepTogether": false,
     "startOnNewPage": false,
-    "content": "<p>What drives me is building solutions that work in the real world. I have a strong foundation in programming and web development, with knowledge of Odoo, Salesforce (CRM), n8n workflows, and Cybersecurity. I enjoy exploring emerging technologies to build practical, user-focused solutions. Beyond development, I stay consistent with fitness and Kho Kho, where I actively lead a team, strengthening leadership, discipline, and teamwork.</p>"
+    "content": "<p data-resume-whitespace=\"preserve\">What drives me is building solutions that work in the real world. I have a strong foundation in programming and web development, with knowledge of Odoo, Cybersecurity, n8n workflows, and Business Analysis. I enjoy exploring emerging technologies to build practical, user-focused solutions. Beyond development, I stay consistent with fitness and Kho Kho, where I actively lead a team, strengthening leadership, discipline, and teamwork.</p>"
   },
   "sections": {
     "profiles": {
@@ -279,16 +279,6 @@
       "startOnNewPage": false,
       "items": [
         {
-          "id": "019fa247-e8f7-72ee-bda8-512173b0528a",
-          "hidden": false,
-          "icon": "campfire",
-          "iconColor": "rgba(231, 0, 11, 1)",
-          "name": "Java",
-          "proficiency": "",
-          "level": 4,
-          "keywords": []
-        },
-        {
           "id": "019fa249-e2fe-7780-a62f-52f2bde90243",
           "hidden": false,
           "icon": "copyright",
@@ -296,6 +286,16 @@
           "name": "C",
           "proficiency": "",
           "level": 3,
+          "keywords": []
+        },
+        {
+          "id": "019fa247-e8f7-72ee-bda8-512173b0528a",
+          "hidden": false,
+          "icon": "campfire",
+          "iconColor": "rgba(231, 0, 11, 1)",
+          "name": "Java",
+          "proficiency": "",
+          "level": 4,
           "keywords": []
         },
         {
@@ -319,6 +319,26 @@
           "keywords": []
         },
         {
+          "id": "01a1a72d-6d8f-74ea-9e9a-097907e18bd7",
+          "hidden": false,
+          "icon": "suitcase",
+          "iconColor": "",
+          "name": "MS Office",
+          "proficiency": "",
+          "level": 3,
+          "keywords": []
+        },
+        {
+          "id": "01a0e1ab-c3a0-7311-a9ab-3cfbf57a25f3",
+          "hidden": false,
+          "icon": "acorn",
+          "iconColor": "",
+          "name": "Oratory",
+          "proficiency": "",
+          "level": 4,
+          "keywords": []
+        },
+        {
           "id": "019fa24c-b18f-76bd-a5bc-9e8fc8c14279",
           "hidden": false,
           "icon": "chat",
@@ -329,13 +349,13 @@
           "keywords": []
         },
         {
-          "id": "01a0e1ab-c3a0-7311-a9ab-3cfbf57a25f3",
+          "id": "01a1a72d-b377-7520-996e-b4fe32ffe71a",
           "hidden": false,
-          "icon": "acorn",
+          "icon": "database",
           "iconColor": "",
-          "name": "Oratory",
+          "name": "SQL",
           "proficiency": "",
-          "level": 3,
+          "level": 4,
           "keywords": []
         }
       ],
@@ -532,10 +552,28 @@
           "id": "019fa265-de14-7518-a2d5-63ae945c9c43",
           "hidden": false,
           "title": "Java Certified Foundations Associate",
-          "issuer": "Oracle",
-          "date": "2026",
+          "issuer": "Oracle - 2026",
+          "date": "",
           "dates": {
-            "start": "2026",
+            "start": null,
+            "end": null,
+            "present": false
+          },
+          "website": {
+            "url": "",
+            "label": "",
+            "inlineLink": false
+          },
+          "description": ""
+        },
+        {
+          "id": "01a1a730-4c47-7427-abbd-aa0f1bfd674f",
+          "hidden": false,
+          "title": "Odoo ERP & CRM",
+          "issuer": "KEC - 2026",
+          "date": "",
+          "dates": {
+            "start": null,
             "end": null,
             "present": false
           },
