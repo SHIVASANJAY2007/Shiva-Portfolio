@@ -88,7 +88,7 @@ const ROTATING_ROLES = [
   { left: "TRAINING", right: "& MENTOR" },
   { left: "HUMAN RESOURCE", right: "MANAGEMENT" },
   { left: "SPORTSMAN", right: "KHO KHO CAPTAIN" },
-  { left: "EXPLORING ODOO", right: "& SALESFORCE" },
+  { left: "LEARNING ODOO", right: "& SALESFORCE" },
   { left: "UI/UX & REACT", right: "DESIGNER" },
   { left: "PYTHON & C", right: "SOLUTIONS" }
 ];
