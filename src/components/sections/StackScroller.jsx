@@ -3,16 +3,15 @@ import './StackScroller.css';
 
 const StickyCard = React.memo(({ child, index }) => {
   const ref = useRef(null);
-  const [top, setTop] = useState(0);
+  // null means "let CSS handle it" (used for hero at index 0)
+  const [top, setTop] = useState(index === 0 ? null : 0);
 
   useEffect(() => {
+    // Hero (index 0) is locked by CSS: top: 0 !important — no JS needed
+    if (index === 0) return;
+
     const updateTop = () => {
       if (!ref.current) return;
-      // Hero section (index 0) must ALWAYS sit flush at top: 0
-      if (index === 0) {
-        setTop(0);
-        return;
-      }
       const height = ref.current.offsetHeight || ref.current.getBoundingClientRect().height;
       const viewportHeight = window.innerHeight;
       // If a card is taller than the viewport, set top to viewportHeight - height
@@ -39,13 +38,13 @@ const StickyCard = React.memo(({ child, index }) => {
       observer.disconnect();
       window.removeEventListener('resize', updateTop);
     };
-  }, []);
+  }, [index]);
 
   return (
-    <section 
+    <section
       ref={ref}
       className="card__conceal overlay__conceal"
-      style={{ top: `${top}px` }}
+      style={top !== null ? { top: `${top}px` } : undefined}
     >
       {child}
     </section>

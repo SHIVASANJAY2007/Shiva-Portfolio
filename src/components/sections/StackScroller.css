@@ -20,9 +20,11 @@
   will-change: transform;
 }
 
-/* First card (Hero) must always sit flush at top: 0 */
+/* First card (Hero): locked flush at top:0, background matches Hero so
+   any height delta between 100vh and 100dvh never shows body background */
 .card__conceal:first-child {
   top: 0 !important;
+  background-color: #090514;
 }
 
 /* Stacking order: conceal */

@@ -1,31 +1,11 @@
 import React, { useRef, useLayoutEffect, useState, useEffect } from 'react';
 import {
   motion,
-  useScroll,
-  useSpring,
   useTransform,
   useMotionValue,
-  useVelocity,
   useAnimationFrame
 } from 'framer-motion';
 import './ScrollVelocity.css';
-
-function useElementWidth(ref, content) {
-  const [width, setWidth] = useState(0);
-
-  useLayoutEffect(() => {
-    function updateWidth() {
-      if (ref.current) {
-        setWidth(ref.current.offsetWidth);
-      }
-    }
-    updateWidth();
-    window.addEventListener('resize', updateWidth);
-    return () => window.removeEventListener('resize', updateWidth);
-  }, [ref, content]);
-
-  return width;
-}
 
 function VelocityText({
   children,
@@ -40,8 +20,10 @@ function VelocityText({
   const baseX = useMotionValue(0);
   const containerRef = useRef(null);
   const copyRef = useRef(null);
-  const copyWidthRef = useRef(0);
+  const periodRef = useRef(0);
+  const rowWidthRef = useRef(0);
   const isInViewRef = useRef(false);
+  const [copyCount, setCopyCount] = useState(numCopies);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -54,10 +36,30 @@ function VelocityText({
   }, []);
 
   useLayoutEffect(() => {
-    if (copyRef.current) {
-      copyWidthRef.current = copyRef.current.offsetWidth || 300;
-    }
-  }, [children]);
+    const firstCopy = copyRef.current;
+    const container = containerRef.current;
+    if (!firstCopy || !container) return;
+
+    // Each repeated copy is "text + trailing gap"; measure the real repeat
+    // period so the wrap cycle is seamless (includes the 3rem gap) and the
+    // scroller always stays covered.
+    const nextCopy = firstCopy.nextElementSibling;
+    let period = nextCopy
+      ? nextCopy.offsetLeft - firstCopy.offsetLeft
+      : firstCopy.offsetWidth;
+    if (period <= 0) period = firstCopy.offsetWidth || 300;
+    periodRef.current = period;
+
+    // The scroller slides within [-period, 0]; with N copies the content
+    // always reaches (N - 1) * period. For short labels like "JAVA" a fixed
+    // count of 3 copies could slide entirely into the masked-off left region,
+    // leaving the visible right side empty. Render just enough copies so the
+    // row is always covered on any viewport width.
+    rowWidthRef.current = container.offsetWidth;
+    const needed = Math.ceil(rowWidthRef.current / period) + 1;
+    const target = Math.max(numCopies, needed);
+    setCopyCount((prev) => (prev === target ? prev : target));
+  }, [children, numCopies]);
 
   function wrap(min, max, v) {
     const range = max - min;
@@ -66,8 +68,8 @@ function VelocityText({
   }
 
   const x = useTransform(baseX, v => {
-    const w = copyWidthRef.current || 300;
-    return `${wrap(-w, 0, v)}px`;
+    const period = periodRef.current || 300;
+    return `${wrap(-period, 0, v)}px`;
   });
 
   useAnimationFrame((t, delta) => {
@@ -79,7 +81,7 @@ function VelocityText({
   });
 
   const spans = [];
-  for (let i = 0; i < numCopies; i++) {
+  for (let i = 0; i < copyCount; i++) {
     spans.push(
       <span className={className} key={i} ref={i === 0 ? copyRef : null}>
         {children}&nbsp;

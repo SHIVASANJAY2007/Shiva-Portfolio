@@ -9,33 +9,9 @@ import ScrollVelocity from '../ui/ScrollVelocity';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Direct vector adaptation of NotebookLM from @lobehub/icons to eliminate Vite optimizer timeouts (504 Outdated Optimize Dep)
-const NotebookLM = ({ size = 56, style, ...props }) => (
-  <svg
-    fill="currentColor"
-    fillRule="evenodd"
-    height={size}
-    width={size}
-    viewBox="0 0 24 24"
-    style={{ flex: 'none', lineHeight: 1, ...style }}
-    xmlns="http://www.w3.org/2000/svg"
-    {...props}
-  >
-    <title>NotebookLM</title>
-    <path d="M11.999 3.14C5.372 3.14 0 8.588 0 15.312v5.828h2.212v-.58c0-2.728 2.178-4.938 4.866-4.938 2.688 0 4.866 2.21 4.866 4.937v.581h2.212v-.58c0-3.967-3.17-7.18-7.078-7.18a6.966 6.966 0 00-4.086 1.318C4.2 12.262 6.687 10.59 9.56 10.59c4.057 0 7.347 3.338 7.347 7.453v3.097h2.212v-3.097c0-5.355-4.28-9.698-9.56-9.698a9.438 9.438 0 00-6.217 2.332C4.984 7.528 8.244 5.383 12 5.383c5.406 0 9.788 4.446 9.788 9.93v5.827H24v-5.828C23.999 8.588 18.627 3.14 11.999 3.14z" />
-  </svg>
-);
-
 const iconMap = import.meta.glob('../../assets/icons/*.svg', { eager: true, import: 'default' });
 
 const SkillIcon = React.memo(({ skill, className, size = 56 }) => {
-  if (skill.slug === 'notebooklm' || skill.name === 'NotebookLM') {
-    return (
-      <span className={className} style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
-        <NotebookLM size={size} />
-      </span>
-    );
-  }
   const localIcon = iconMap[`../../assets/icons/${skill.slug}.svg`];
   return <img src={localIcon || skill.logo} alt={skill.name} className={className} loading="lazy" decoding="async" />;
 });
@@ -145,7 +121,7 @@ export const Skills = () => {
       {/* Infinite running kinetic typography background for the active skill, smoothly fading out as it reaches the left big logo */}
       <div className={styles.velocityBackground}>
         <ScrollVelocity 
-          texts={Array(2).fill(activeSkill.name)} 
+          texts={Array(5).fill(activeSkill.name)} 
           velocity={40} 
           numCopies={3} 
         />
@@ -198,7 +174,7 @@ export const Skills = () => {
                   title={skill.name}
                 >
                   <div className="iconWrapper" style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <SkillIcon skill={skill} className={styles.rotatingIcon} size={36} />
+                    <SkillIcon skill={skill} className={styles.rotatingIcon} size={46} />
                   </div>
                 </div>
               ))}
@@ -209,7 +185,7 @@ export const Skills = () => {
               key={activeSkill.name}
               className={styles.centerSkill}
             >
-              <SkillIcon skill={activeSkill} size={84} />
+              <SkillIcon skill={activeSkill} size={100} />
               <div className={styles.activeLabel}>{activeSkill.name}</div>
             </div>
           </div>

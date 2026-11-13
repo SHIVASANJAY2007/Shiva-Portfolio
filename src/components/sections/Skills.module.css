@@ -201,8 +201,8 @@
 
 .centerSkill {
   position: absolute;
-  width: 120px;
-  height: 120px;
+  width: 140px;
+  height: 140px;
   z-index: 10;
   display: flex;
   flex-direction: column;
@@ -231,16 +231,16 @@
 
 .orbitItem {
   position: absolute;
-  width: 52px;
-  height: 52px;
+  width: 64px;
+  height: 64px;
   background: transparent;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   z-index: 5;
-  top: calc(50% - 26px);
-  left: calc(50% - 26px);
+  top: calc(50% - 32px);
+  left: calc(50% - 32px);
   contain: layout paint;
   transition: transform 0.2s ease;
 }
@@ -279,8 +279,15 @@
   }
   
   .centerSkill {
-    width: 90px;
-    height: 90px;
+    width: 110px;
+    height: 110px;
+  }
+
+  .orbitItem {
+    width: 52px;
+    height: 52px;
+    top: calc(50% - 26px);
+    left: calc(50% - 26px);
   }
 
   .velocityBackground {

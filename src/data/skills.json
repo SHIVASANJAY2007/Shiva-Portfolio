@@ -40,11 +40,6 @@
       "logo": "/src/assets/icons/gemini.svg"
     },
     {
-      "name": "NotebookLM",
-      "slug": "notebooklm",
-      "logo": "/src/assets/icons/notebooklm.svg"
-    },
-    {
       "name": "GitHub Copilot",
       "slug": "github-copilot",
       "logo": "/src/assets/icons/github-copilot.svg"
