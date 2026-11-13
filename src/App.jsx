@@ -45,17 +45,63 @@ export default function App() {
     const raf = (time) => {
       lenis.raf(time * 1000);
     };
-
     gsap.ticker.add(raf);
     gsap.ticker.lagSmoothing(500, 33);
+
+    /**
+     * Re-measures the document height after async content (lazy sections,
+     * 3D canvas, fonts) settles so the very FIRST paint matches the real
+     * scroll height. Without this, Lenis + ScrollTrigger compute a stale
+     * scroll limit up front, producing a black gap below the Hero that only
+     * "repairs" once the user scrolls. This keeps the correction instant on load.
+     */
+    const recalibrate = () => {
+      if (!window.lenis) return;
+      requestAnimationFrame(() => {
+        ScrollTrigger.refresh();
+        window.lenis.resize();
+        ScrollTrigger.refresh();
+      });
+    };
 
     if (typeof document !== 'undefined' && document.fonts?.ready) {
       document.fonts.ready.then(() => {
         ScrollTrigger.refresh();
+        recalibrate();
       });
     }
 
+    // Re-measure once all assets (3D model, lazy section chunks, images) finish loading
+    if (typeof window !== 'undefined') {
+      if (document.readyState === 'complete') {
+        recalibrate();
+      } else {
+        window.addEventListener('load', recalibrate, { once: true });
+      }
+    }
+
+    // Late safety pass to capture anything (e.g. 3D environment map) that
+    // loads after `load` fires. Runs until the layout has fully stabilized.
+    const settlePass = () => {
+      recalibrate();
+      if (window.requestAnimationFrame) {
+        window.requestAnimationFrame(() => {
+          recalibrate();
+          // Only re-align to the very top while still on the Hero (user hasn't
+          // scrolled yet), so a slow asset load never yanks the reader downward.
+          if ((window.scrollY ?? 0) < 5 && (window.lenis?.scroll ?? 0) < 5) {
+            window.lenis?.scrollTo(0, { immediate: true });
+          }
+        });
+      }
+    };
+    const settleTimer = setTimeout(settlePass, 900);
+
     return () => {
+      clearTimeout(settleTimer);
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('load', recalibrate);
+      }
       lenis.destroy();
       gsap.ticker.remove(raf);
       delete window.lenis;

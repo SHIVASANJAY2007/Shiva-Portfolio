@@ -107,6 +107,9 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  /* Match theme background so any sub-viewport gap during first paint or
+     iOS overscroll renders seamless dark instead of a light band. */
+  background-color: #050505;
 }
 
 body {

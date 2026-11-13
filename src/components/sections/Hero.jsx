@@ -149,6 +149,7 @@ function AeroShardsBackground({ isHeroVisible, documentHidden }) {
 // Resume-driven dynamic role catalog
 const ROTATING_ROLES = [
   { left: "WEB", right: "DEVELOPER" },
+  { left: "BUSINESS", right: "ANALYST" },
   { left: "AI AUTOMATION", right: "SPECIALIST" },
   { left: "TRAINER", right: "& MENTOR" },
   { left: "SPORTSMAN", right: "KHO KHO CAPTAIN" },
